@@ -1,0 +1,47 @@
+{
+  "name": "react-crud-table",
+  "version": "0.0.1",
+  "description": "A table that includes all the CRUD operations.",
+  "main": "build/index.js",
+  "scripts": {
+    "dev": "watch 'npm run build' src",
+    "build": "babel src -d build",
+    "test": "jest --env=jsdom --no-watchman",
+    "test-watch": "npm test -- --watch",
+    "prepublish": "npm run build",
+    "release": "np"
+  },
+  "babel": {
+    "presets": [
+      "latest",
+      "react"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xvicmanx/react-crud-table"
+  },
+  "keywords": [
+    "CRUD",
+    "react"
+  ],
+  "author": "Victor Trejo",
+  "license": "MIT",
+  "dependencies": {
+    "bem-react-component-creator": "^1.2.0",
+    "formik": "0.11.11",
+    "react": "16.3.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "jest": "^21.2.1",
+    "np": "^2.18.2",
+    "react-dom": "^16.2.0",
+    "react-test-renderer": "^16.2.0",
+    "watch": "^1.0.2"
+  }
+}

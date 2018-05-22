@@ -1,0 +1,113 @@
+.crud-modal-wrapper {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.crud-modal-wrapper__background {
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.crud-modal-wrapper__modal {
+  background-color: white;
+  border-radius: 5px;
+  z-index: 1001;
+  position: relative;
+  padding: 1rem;
+  margin: auto;
+  top: 1rem;
+  display: inline-block;
+}
+  
+.crud-modal-form {
+  padding: 1rem;
+}
+
+.crud-modal-form__field-error {
+  color: #f51010;
+}
+
+.crud-modal-form__message {
+  padding: 1rem 0;
+}
+
+.crud-modal-form input {
+  border-radius: 5px;
+  height: 30px;
+  border: 1px solid #ccc;
+  min-width: 250px;
+  margin-bottom: 1rem;
+  margin-top: .5rem;
+  padding-left: .6rem;
+}
+
+.crud-modal-form__label {
+  color: #000;
+  display: block;
+  text-align: left;
+}
+
+.crud-button {
+  background-color: #000;
+  min-height: 1rem;
+  color: #fff;
+  border-radius: 3px;
+  padding: .5rem 1rem;
+  border: none;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.crud-button--primary {
+  background-color: #2185d0;
+}
+
+
+
+.crud-button--positive {
+  background-color: #21d05b;
+}
+
+.crud-button--negative {
+  background-color: #f51010;
+}
+
+
+.crud-table {
+  background-color: transparent;
+  border: 1px solid rgba(34,36,38,.15);
+  cell-padding: 0;
+  border-collapse: collapse;
+}
+.crud-table__row {}
+.crud-table__header-cell {
+  cursor: pointer;
+  background-color: #f9fafb;
+  padding: .5rem;
+  color: rgba(0, 0, 0, 0.85);
+  border-left: 1px solid rgba(34, 36, 38, .1);
+  border-bottom: 1px solid rgba(34, 36, 38, .1);
+}
+
+.crud-table__header {}
+
+.crud-table__body {}
+
+.crud-table__cell {
+  background-color: white;
+  padding: .5rem;
+  border-left: 1px solid rgba(34, 36, 38, .1);
+  border-bottom: 1px solid rgba(34, 36, 38, .1);
+}
+.crud-table__caption {
+  background-color: white;
+  padding: .5rem;
+  text-align: left;
+}
