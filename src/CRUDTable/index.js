@@ -77,7 +77,7 @@ class SmartTable extends React.Component {
 
   handleOnDeleteSubmission(values) {
     this.props.config.forms
-      .update.onSubmit(values)
+      .delete.onSubmit(values)
       .then(() => {
         this.update(this.state.sort);
       });
