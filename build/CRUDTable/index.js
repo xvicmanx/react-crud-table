@@ -118,7 +118,7 @@ var SmartTable = function (_React$Component) {
     value: function handleOnDeleteSubmission(values) {
       var _this5 = this;
 
-      this.props.config.forms.update.onSubmit(values).then(function () {
+      this.props.config.forms.delete.onSubmit(values).then(function () {
         _this5.update(_this5.state.sort);
       });
     }
