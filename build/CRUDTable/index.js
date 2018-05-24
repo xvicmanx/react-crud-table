@@ -65,24 +65,30 @@ var SmartTable = function (_React$Component) {
   _createClass(SmartTable, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.update(this.state.sort);
+      this.update(this.state.sort, false);
     }
   }, {
     key: "update",
     value: function update(sort) {
       var _this2 = this;
 
-      if (this.props.config.readValues) {
-        this.props.config.readValues({ sort: sort }).then(function (items) {
+      var reportChange = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (this.props.config.fetchItems) {
+        this.props.config.fetchItems({ sort: sort }).then(function (items) {
           _this2.setState({ items: items });
         });
+      }
+
+      if (reportChange) {
+        this.props.onChange({ sort: sort });
       }
     }
   }, {
     key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.values !== this.props.values) {
-        this.setState({ items: nextProps.values });
+      if (nextProps.items !== this.props.items) {
+        this.setState({ items: nextProps.items });
       }
     }
   }, {
@@ -137,17 +143,18 @@ var SmartTable = function (_React$Component) {
       return _react2.default.createElement(
         "div",
         null,
+        forms && forms.create && _react2.default.createElement(_FormModal2.default, {
+          trigger: forms.create.trigger,
+          data: forms.create,
+          onSubmit: this.handleOnCreateSubmission
+        }),
         _react2.default.createElement(
           _wrappers.Table,
           null,
           _react2.default.createElement(
             _wrappers.Table.Caption,
             null,
-            _react2.default.createElement(_FormModal2.default, {
-              trigger: forms.create.trigger,
-              data: forms.create,
-              onSubmit: this.handleOnCreateSubmission
-            })
+            this.props.caption
           ),
           _react2.default.createElement(_Header2.default, {
             fields: fields,
@@ -169,7 +176,7 @@ var SmartTable = function (_React$Component) {
             }
           })
         ),
-        _react2.default.createElement(_FormModal2.default, {
+        forms && forms.update && _react2.default.createElement(_FormModal2.default, {
           initialValues: this.state.updateItem,
           data: forms.update,
           onSubmit: this.handleOnUpdateSubmission,
@@ -177,7 +184,7 @@ var SmartTable = function (_React$Component) {
             _this6.updateModalController = controller;
           }
         }),
-        _react2.default.createElement(_FormModal2.default, {
+        forms && forms.delete && _react2.default.createElement(_FormModal2.default, {
           initialValues: this.state.deleteItem,
           data: forms.delete,
           onSubmit: this.handleOnDeleteSubmission,
@@ -191,5 +198,9 @@ var SmartTable = function (_React$Component) {
 
   return SmartTable;
 }(_react2.default.Component);
+
+SmartTable.defaultProps = {
+  onChange: function onChange() {}
+};
 
 exports.default = SmartTable;

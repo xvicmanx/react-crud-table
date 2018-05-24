@@ -20,6 +20,10 @@ var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var DEFAULT_VALIDATE = function DEFAULT_VALIDATE() {
+  return {};
+};
+
 var BasicForm = function BasicForm(_ref) {
   var data = _ref.data,
       onSubmit = _ref.onSubmit,
@@ -30,7 +34,7 @@ var BasicForm = function BasicForm(_ref) {
     _react2.default.createElement(_formik.Formik, {
       enableReinitialize: true,
       initialValues: initialValues,
-      validate: data.validate,
+      validate: data.validate || DEFAULT_VALIDATE,
       onSubmit: onSubmit,
       render: function render(_ref2) {
         var errors = _ref2.errors,
@@ -81,8 +85,12 @@ var BasicForm = function BasicForm(_ref) {
 };
 
 BasicForm.defaultProps = {
-  initialValues: {}
-
+  initialValues: {},
+  data: {
+    message: null,
+    fields: [],
+    submitText: null
+  }
 };
 
 exports.default = BasicForm;

@@ -27,22 +27,26 @@ class SmartTable extends React.Component {
   }
 
   componentDidMount() {
-    this.update(this.state.sort);
+    this.update(this.state.sort, false);
   }
 
-  update(sort) {
-    if (this.props.config.readValues) {
+  update(sort, reportChange = true) {
+    if (this.props.config.fetchItems) {
       this.props.config
-      .readValues({ sort })
+      .fetchItems({ sort })
       .then(items => {
         this.setState({ items });
       });
     }
+
+    if (reportChange) {
+      this.props.onChange({ sort });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.values !== this.props.values) {
-      this.setState({ items: nextProps.values });
+    if (nextProps.items !== this.props.items) {
+      this.setState({ items: nextProps.items });
     }
   }
   
@@ -88,14 +92,15 @@ class SmartTable extends React.Component {
     const { items, sort } = this.state;
     return (
       <div>
+        {forms && forms.create && (
+          <FormModal
+            trigger={forms.create.trigger}
+            data={forms.create}
+            onSubmit={this.handleOnCreateSubmission}
+          />
+        )}
         <Table>
-          <Table.Caption>
-            <FormModal
-              trigger={forms.create.trigger}
-              data={forms.create}
-              onSubmit={this.handleOnCreateSubmission}
-            />
-          </Table.Caption>
+          <Table.Caption>{this.props.caption}</Table.Caption>
           <Header
             fields={fields}
             sort={sort}
@@ -116,25 +121,33 @@ class SmartTable extends React.Component {
             }}
           />
         </Table>
-        <FormModal
-          initialValues={this.state.updateItem}
-          data={forms.update}
-          onSubmit={this.handleOnUpdateSubmission}
-          onInit={(controller) => {
-            this.updateModalController = controller;
-          }}
-        />
-        <FormModal
-          initialValues={this.state.deleteItem}
-          data={forms.delete}
-          onSubmit={this.handleOnDeleteSubmission}
-          onInit={(controller) => {
-            this.deleteModalController = controller;
-          }}
-        />
+        {forms && forms.update && (
+          <FormModal
+            initialValues={this.state.updateItem}
+            data={forms.update}
+            onSubmit={this.handleOnUpdateSubmission}
+            onInit={(controller) => {
+              this.updateModalController = controller;
+            }}
+          />
+        )}
+        {forms && forms.delete && (
+          <FormModal
+            initialValues={this.state.deleteItem}
+            data={forms.delete}
+            onSubmit={this.handleOnDeleteSubmission}
+            onInit={(controller) => {
+              this.deleteModalController = controller;
+            }}
+          />
+        )}
       </div>
     );
   }
 }
+
+SmartTable.defaultProps = {
+  onChange: () => {},
+};
 
 export default SmartTable;

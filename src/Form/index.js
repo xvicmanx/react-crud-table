@@ -3,6 +3,8 @@ import { Formik, Field } from "formik";
 import { Form } from "./wrappers";
 import Button from '../Button';
 
+const DEFAULT_VALIDATE = () => ({});
+
 const BasicForm = ({
   data,
   onSubmit,
@@ -12,7 +14,7 @@ const BasicForm = ({
     <Formik
       enableReinitialize
       initialValues={initialValues}
-      validate={data.validate}
+      validate={data.validate || DEFAULT_VALIDATE}
       onSubmit={onSubmit}
       render={({ errors, touched }) => (
         <Form>
@@ -56,7 +58,11 @@ const BasicForm = ({
 
 BasicForm.defaultProps = {
   initialValues: {},
-
+  data: {
+    message: null,
+    fields: [],
+    submitText: null,
+  },
 };
 
 export default BasicForm;
