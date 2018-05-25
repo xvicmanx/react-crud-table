@@ -1,6 +1,7 @@
 .crud-modal-wrapper {
   position: absolute;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   text-align: center;
@@ -21,7 +22,7 @@
   z-index: 1001;
   position: relative;
   padding: 1rem;
-  margin: auto;
+  margin: 3rem auto 0 auto;
   top: 1rem;
   display: inline-block;
 }
@@ -38,7 +39,8 @@
   padding: 1rem 0;
 }
 
-.crud-modal-form input {
+.crud-modal-form input,
+.crud-modal-form select {
   border-radius: 5px;
   height: 30px;
   border: 1px solid #ccc;
@@ -52,6 +54,7 @@
   color: #000;
   display: block;
   text-align: left;
+  font-weight: 600;
 }
 
 .crud-button {
@@ -59,9 +62,9 @@
   min-height: 1rem;
   color: #fff;
   border-radius: 3px;
-  padding: .5rem 1rem;
+  padding: .6rem 1rem;
   border: none;
-  font-size: .8rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 
@@ -69,28 +72,42 @@
   background-color: #2185d0;
 }
 
+.crud-button--primary:hover {
+  background-color: #1a6fb1;
+  transition: all 1s;
+}
 
 
 .crud-button--positive {
   background-color: #21d05b;
 }
 
+.crud-button--positive:hover {
+  background-color: #1da54a;
+  transition: all 1s;
+}
+
 .crud-button--negative {
   background-color: #f51010;
+}
+
+.crud-button--negative:hover {
+  background-color: #b80f0f;
+  transition: all 1s;
 }
 
 
 .crud-table {
   background-color: transparent;
-  border: 1px solid rgba(34,36,38,.15);
-  cell-padding: 0;
-  border-collapse: collapse;
+  border: 1px solid rgba(52, 145, 238, 0.15);
+  border-collapse: collapse;  
+  box-shadow: 2px 2px 5px 0 #c7c7c7;
 }
 .crud-table__row {}
 .crud-table__header-cell {
   cursor: pointer;
   background-color: #f9fafb;
-  padding: .5rem;
+  padding: .5rem 1rem;
   color: rgba(0, 0, 0, 0.85);
   border-left: 1px solid rgba(34, 36, 38, .1);
   border-bottom: 1px solid rgba(34, 36, 38, .1);
@@ -98,16 +115,22 @@
 
 .crud-table__header {}
 
-.crud-table__body {}
+.crud-table__body {
+  background-color: #fff;
+}
 
 .crud-table__cell {
   background-color: white;
-  padding: .5rem;
+  padding: .5rem 1rem;
   border-left: 1px solid rgba(34, 36, 38, .1);
   border-bottom: 1px solid rgba(34, 36, 38, .1);
 }
 .crud-table__caption {
   background-color: white;
-  padding: .5rem;
-  text-align: left;
+  padding: .8rem;
+  margin: 1rem 0;
+  box-shadow: 2px 2px 10px 0 #c7c7c7;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: 600;
 }

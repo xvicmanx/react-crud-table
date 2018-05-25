@@ -2,7 +2,7 @@
   "name": "react-crud-table",
   "version": "0.0.1",
   "description": "A table that includes all the CRUD operations.",
-  "main": "build/index.js",
+  "main": "build/CRUDTable/index.js",
   "scripts": {
     "dev": "watch 'npm run build' src",
     "build": "babel src -d build",
@@ -30,6 +30,7 @@
   "dependencies": {
     "bem-react-component-creator": "^1.2.0",
     "formik": "0.11.11",
+    "prop-types": "^15.6.1",
     "react": "16.3.2"
   },
   "devDependencies": {

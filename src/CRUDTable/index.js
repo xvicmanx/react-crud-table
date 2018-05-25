@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { Table } from "./wrappers";
 import Header from "./Header";
 import Body from "./Body";
@@ -6,7 +7,50 @@ import { SORT_DIRECTIONS, ID_FIELD } from './constants';
 import { toggleDirection } from "./helpers";
 import FormModal from '../FormModal';
 
-class SmartTable extends React.Component {
+
+const FIELDS_COMPONENT_TYPE = 'CRUDTable_Fields';
+const FIELD_COMPONENT_TYPE = 'CRUDTable_Field';
+const CREATE_FORM_COMPONENT_TYPE = 'CRUDTable_CreateForm';
+const DELETE_FORM_COMPONENT_TYPE = 'CRUDTable_DeleteForm';
+const UPDATE_FORM_COMPONENT_TYPE = 'CRUDTable_UpdateForm';
+
+const FILTER_BY_TYPE = t => item => item.type && item.type.displayName === t;
+
+const extractFields = (items) => {
+  const container = items.find(FILTER_BY_TYPE(FIELDS_COMPONENT_TYPE));
+  const children = container ? 
+    React.Children.toArray(container.props.children): [];
+  return children
+    .filter(FILTER_BY_TYPE(FIELD_COMPONENT_TYPE))
+    .map(c => c.props);
+};
+
+const getProps = (comp, fields = []) => {
+  const props = comp ? comp.props : null;
+  if (!props) return props;
+  return Object.assign(
+    {},
+    props,
+    {
+      fields,
+    }
+  );
+};
+
+const extractForms = (items, fields) => ({
+  create: getProps(
+    items.find(FILTER_BY_TYPE(CREATE_FORM_COMPONENT_TYPE)),
+    fields.filter(f => !f.hideInCreateForm),
+  ),
+  update: getProps(
+    items.find(FILTER_BY_TYPE(UPDATE_FORM_COMPONENT_TYPE)),
+    fields.filter(f => !f.hideInUpdateForm),
+  ),
+  delete: getProps(items.find(FILTER_BY_TYPE(DELETE_FORM_COMPONENT_TYPE))),
+});
+
+
+class CRUDTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +68,10 @@ class SmartTable extends React.Component {
     this.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
     this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
+
+    const items = React.Children.toArray(props.children);
+    this.fields = extractFields(items);
+    this.forms = extractForms(items, this.fields);
   }
 
   componentDidMount() {
@@ -31,8 +79,8 @@ class SmartTable extends React.Component {
   }
 
   update(sort, reportChange = true) {
-    if (this.props.config.fetchItems) {
-      this.props.config
+    if (this.props.fetchItems) {
+      this.props
       .fetchItems({ sort })
       .then(items => {
         this.setState({ items });
@@ -64,53 +112,50 @@ class SmartTable extends React.Component {
   }
 
   handleOnCreateSubmission(values) {
-    this.props.config.forms
-      .create.onSubmit(values)
+    this.forms.create.onSubmit(values)
       .then(() => {
         this.update(this.state.sort);
       });
   }
 
   handleOnUpdateSubmission(values) {
-    this.props.config.forms
-      .update.onSubmit(values)
+    this.forms.update.onSubmit(values)
       .then(() => {
         this.update(this.state.sort);
       });
   }
 
   handleOnDeleteSubmission(values) {
-    this.props.config.forms
-      .delete.onSubmit(values)
+    this.forms.delete.onSubmit(values)
       .then(() => {
         this.update(this.state.sort);
       });
   }
 
   render() {
-    const { fields, forms } = this.props.config;
     const { items, sort } = this.state;
     return (
       <div>
-        {forms && forms.create && (
+        {this.forms.create && (
           <FormModal
-            trigger={forms.create.trigger}
-            data={forms.create}
+            trigger={this.forms.create.trigger}
+            data={this.forms.create}
             onSubmit={this.handleOnCreateSubmission}
           />
         )}
         <Table>
           <Table.Caption>{this.props.caption}</Table.Caption>
           <Header
-            fields={fields}
+            fields={this.fields}
             sort={sort}
             onClick={this.handleHeaderClick}
-            forms={forms}
+            forms={this.forms}
+            actionsLabel={this.props.actionsLabel}
           />
           <Body
-            fields={fields}
+            fields={this.fields}
             items={items}
-            forms={forms}
+            forms={this.forms}
             onDeleteClick={(deleteItem) => {
               this.setState({ deleteItem });
               this.deleteModalController.show();
@@ -121,20 +166,20 @@ class SmartTable extends React.Component {
             }}
           />
         </Table>
-        {forms && forms.update && (
+        {this.forms.update && (
           <FormModal
             initialValues={this.state.updateItem}
-            data={forms.update}
+            data={this.forms.update}
             onSubmit={this.handleOnUpdateSubmission}
             onInit={(controller) => {
               this.updateModalController = controller;
             }}
           />
         )}
-        {forms && forms.delete && (
+        {this.forms.delete && (
           <FormModal
             initialValues={this.state.deleteItem}
-            data={forms.delete}
+            data={this.forms.delete}
             onSubmit={this.handleOnDeleteSubmission}
             onInit={(controller) => {
               this.deleteModalController = controller;
@@ -146,8 +191,37 @@ class SmartTable extends React.Component {
   }
 }
 
-SmartTable.defaultProps = {
+CRUDTable.defaultProps = {
   onChange: () => {},
+  actionsLabel: 'Actions',
 };
 
-export default SmartTable;
+export const Fields = () => <div />;
+Fields.displayName = FIELDS_COMPONENT_TYPE;
+
+export const Field = ({
+  name,
+  label,
+  tableValueResolver,
+  hideInCreateForm,
+  hideInUpdateForm,
+}) => <div {...props} />;
+Field.displayName = FIELD_COMPONENT_TYPE;
+Field.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  tableValueResolver: PropTypes.any,
+  hideInCreateForm: PropTypes.bool,
+  hideInUpdateForm: PropTypes.bool,
+};
+
+export const CreateForm = () => <div />;
+CreateForm.displayName = CREATE_FORM_COMPONENT_TYPE;
+
+export const UpdateForm = () => <div />;
+UpdateForm.displayName = UPDATE_FORM_COMPONENT_TYPE;
+
+export const DeleteForm = () => <div />;
+DeleteForm.displayName = DELETE_FORM_COMPONENT_TYPE;
+
+export default CRUDTable;

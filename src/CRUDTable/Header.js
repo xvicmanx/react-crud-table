@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "./wrappers";
 import { chevron } from './helpers';
 
-const Header = ({ fields, sort, onClick, forms }) => {
+const Header = ({ fields, sort, onClick, forms, actionsLabel }) => {
   return (
     <Table.Header>
       <Table.Row>
@@ -13,14 +13,13 @@ const Header = ({ fields, sort, onClick, forms }) => {
                 onClick(field.name, sort.direction);
               }}
             >
-              {sort.field === field.name && chevron(sort.direction)}
-              {field.label}
+             {field.label} {sort.field === field.name && chevron(sort.direction)}
             </Table.HeaderCell>
           );
         })}
         {(forms.delete || forms.update) && (
           <Table.HeaderCell>
-            Actions
+            {actionsLabel}
           </Table.HeaderCell>
         )}
       </Table.Row>

@@ -18,7 +18,8 @@ var Header = function Header(_ref) {
   var fields = _ref.fields,
       sort = _ref.sort,
       _onClick = _ref.onClick,
-      forms = _ref.forms;
+      forms = _ref.forms,
+      actionsLabel = _ref.actionsLabel;
 
   return _react2.default.createElement(
     _wrappers.Table.Header,
@@ -34,14 +35,15 @@ var Header = function Header(_ref) {
               _onClick(field.name, sort.direction);
             }
           },
-          sort.field === field.name && (0, _helpers.chevron)(sort.direction),
-          field.label
+          field.label,
+          " ",
+          sort.field === field.name && (0, _helpers.chevron)(sort.direction)
         );
       }),
       (forms.delete || forms.update) && _react2.default.createElement(
         _wrappers.Table.HeaderCell,
         null,
-        "Actions"
+        actionsLabel
       )
     )
   );
