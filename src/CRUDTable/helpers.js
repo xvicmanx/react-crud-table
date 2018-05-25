@@ -1,5 +1,12 @@
 import React from "react";
-import { SORT_DIRECTIONS } from "./constants";
+import {
+  SORT_DIRECTIONS,
+  FIELDS_COMPONENT_TYPE,
+  FIELD_COMPONENT_TYPE,
+  CREATE_FORM_COMPONENT_TYPE,
+  DELETE_FORM_COMPONENT_TYPE,
+  UPDATE_FORM_COMPONENT_TYPE,
+} from './constants';
 
 export const chevron = direction => {
   return direction === SORT_DIRECTIONS.ASCENDING ? (
@@ -28,8 +35,47 @@ export const queryValue = (source, query = '', defaultValue = null) => {
   return value || defaultValue;
 };
 
+export const FILTER_BY_TYPE = t => item => item.type && item.type.displayName === t;
+
+export const extractFields = (items) => {
+  const container = items.find(FILTER_BY_TYPE(FIELDS_COMPONENT_TYPE));
+  const children = container ? 
+    React.Children.toArray(container.props.children): [];
+  return children
+    .filter(FILTER_BY_TYPE(FIELD_COMPONENT_TYPE))
+    .map(c => c.props);
+};
+
+export const getProps = (comp, fields = []) => {
+  const props = comp ? comp.props : null;
+  if (!props) return props;
+  return Object.assign(
+    {},
+    props,
+    {
+      fields,
+    }
+  );
+};
+
+export const extractForms = (items, fields) => ({
+  create: getProps(
+    items.find(FILTER_BY_TYPE(CREATE_FORM_COMPONENT_TYPE)),
+    fields.filter(f => !f.hideInCreateForm),
+  ),
+  update: getProps(
+    items.find(FILTER_BY_TYPE(UPDATE_FORM_COMPONENT_TYPE)),
+    fields.filter(f => !f.hideInUpdateForm),
+  ),
+  delete: getProps(items.find(FILTER_BY_TYPE(DELETE_FORM_COMPONENT_TYPE))),
+});
+
 export default {
   chevron,
   toggleDirection,
-  queryValue
+  queryValue,
+  FILTER_BY_TYPE,
+  extractFields,
+  getProps,
+  extractForms,
 };

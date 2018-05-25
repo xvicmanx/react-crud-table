@@ -41,48 +41,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var FIELDS_COMPONENT_TYPE = 'CRUDTable_Fields';
-var FIELD_COMPONENT_TYPE = 'CRUDTable_Field';
-var CREATE_FORM_COMPONENT_TYPE = 'CRUDTable_CreateForm';
-var DELETE_FORM_COMPONENT_TYPE = 'CRUDTable_DeleteForm';
-var UPDATE_FORM_COMPONENT_TYPE = 'CRUDTable_UpdateForm';
-
-var FILTER_BY_TYPE = function FILTER_BY_TYPE(t) {
-  return function (item) {
-    return item.type && item.type.displayName === t;
-  };
-};
-
-var extractFields = function extractFields(items) {
-  var container = items.find(FILTER_BY_TYPE(FIELDS_COMPONENT_TYPE));
-  var children = container ? _react2.default.Children.toArray(container.props.children) : [];
-  return children.filter(FILTER_BY_TYPE(FIELD_COMPONENT_TYPE)).map(function (c) {
-    return c.props;
-  });
-};
-
-var getProps = function getProps(comp) {
-  var fields = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-  var props = comp ? comp.props : null;
-  if (!props) return props;
-  return Object.assign({}, props, {
-    fields: fields
-  });
-};
-
-var extractForms = function extractForms(items, fields) {
-  return {
-    create: getProps(items.find(FILTER_BY_TYPE(CREATE_FORM_COMPONENT_TYPE)), fields.filter(function (f) {
-      return !f.hideInCreateForm;
-    })),
-    update: getProps(items.find(FILTER_BY_TYPE(UPDATE_FORM_COMPONENT_TYPE)), fields.filter(function (f) {
-      return !f.hideInUpdateForm;
-    })),
-    delete: getProps(items.find(FILTER_BY_TYPE(DELETE_FORM_COMPONENT_TYPE)))
-  };
-};
-
 var CRUDTable = function (_React$Component) {
   _inherits(CRUDTable, _React$Component);
 
@@ -108,8 +66,8 @@ var CRUDTable = function (_React$Component) {
     _this.handleHeaderClick = _this.handleHeaderClick.bind(_this);
 
     var items = _react2.default.Children.toArray(props.children);
-    _this.fields = extractFields(items);
-    _this.forms = extractForms(items, _this.fields);
+    _this.fields = (0, _helpers.extractFields)(items);
+    _this.forms = (0, _helpers.extractForms)(items, _this.fields);
     return _this;
   }
 
@@ -256,7 +214,7 @@ CRUDTable.defaultProps = {
 var Fields = exports.Fields = function Fields() {
   return _react2.default.createElement("div", null);
 };
-Fields.displayName = FIELDS_COMPONENT_TYPE;
+Fields.displayName = _constants.FIELDS_COMPONENT_TYPE;
 
 var Field = exports.Field = function Field(_ref) {
   var name = _ref.name,
@@ -266,7 +224,7 @@ var Field = exports.Field = function Field(_ref) {
       hideInUpdateForm = _ref.hideInUpdateForm;
   return _react2.default.createElement("div", props);
 };
-Field.displayName = FIELD_COMPONENT_TYPE;
+Field.displayName = _constants.FIELD_COMPONENT_TYPE;
 Field.propTypes = {
   name: _propTypes2.default.string.isRequired,
   label: _propTypes2.default.string.isRequired,
@@ -278,16 +236,16 @@ Field.propTypes = {
 var CreateForm = exports.CreateForm = function CreateForm() {
   return _react2.default.createElement("div", null);
 };
-CreateForm.displayName = CREATE_FORM_COMPONENT_TYPE;
+CreateForm.displayName = _constants.CREATE_FORM_COMPONENT_TYPE;
 
 var UpdateForm = exports.UpdateForm = function UpdateForm() {
   return _react2.default.createElement("div", null);
 };
-UpdateForm.displayName = UPDATE_FORM_COMPONENT_TYPE;
+UpdateForm.displayName = _constants.UPDATE_FORM_COMPONENT_TYPE;
 
 var DeleteForm = exports.DeleteForm = function DeleteForm() {
   return _react2.default.createElement("div", null);
 };
-DeleteForm.displayName = DELETE_FORM_COMPONENT_TYPE;
+DeleteForm.displayName = _constants.DELETE_FORM_COMPONENT_TYPE;
 
 exports.default = CRUDTable;

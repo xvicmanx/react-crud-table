@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.queryValue = exports.toggleDirection = exports.chevron = undefined;
+exports.extractForms = exports.getProps = exports.extractFields = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = undefined;
 
 var _react = require("react");
 
@@ -47,8 +47,48 @@ var queryValue = exports.queryValue = function queryValue(source) {
   return value || defaultValue;
 };
 
+var FILTER_BY_TYPE = exports.FILTER_BY_TYPE = function FILTER_BY_TYPE(t) {
+  return function (item) {
+    return item.type && item.type.displayName === t;
+  };
+};
+
+var extractFields = exports.extractFields = function extractFields(items) {
+  var container = items.find(FILTER_BY_TYPE(_constants.FIELDS_COMPONENT_TYPE));
+  var children = container ? _react2.default.Children.toArray(container.props.children) : [];
+  return children.filter(FILTER_BY_TYPE(_constants.FIELD_COMPONENT_TYPE)).map(function (c) {
+    return c.props;
+  });
+};
+
+var getProps = exports.getProps = function getProps(comp) {
+  var fields = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+  var props = comp ? comp.props : null;
+  if (!props) return props;
+  return Object.assign({}, props, {
+    fields: fields
+  });
+};
+
+var extractForms = exports.extractForms = function extractForms(items, fields) {
+  return {
+    create: getProps(items.find(FILTER_BY_TYPE(_constants.CREATE_FORM_COMPONENT_TYPE)), fields.filter(function (f) {
+      return !f.hideInCreateForm;
+    })),
+    update: getProps(items.find(FILTER_BY_TYPE(_constants.UPDATE_FORM_COMPONENT_TYPE)), fields.filter(function (f) {
+      return !f.hideInUpdateForm;
+    })),
+    delete: getProps(items.find(FILTER_BY_TYPE(_constants.DELETE_FORM_COMPONENT_TYPE)))
+  };
+};
+
 exports.default = {
   chevron: chevron,
   toggleDirection: toggleDirection,
-  queryValue: queryValue
+  queryValue: queryValue,
+  FILTER_BY_TYPE: FILTER_BY_TYPE,
+  extractFields: extractFields,
+  getProps: getProps,
+  extractForms: extractForms
 };
