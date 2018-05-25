@@ -84,6 +84,11 @@ var Modal = function (_React$Component) {
           _react2.default.createElement(
             _wrappers.Container.Modal,
             null,
+            this.props.title && _react2.default.createElement(
+              _wrappers.Container.Title,
+              null,
+              this.props.title
+            ),
             this.props.children
           )
         )
@@ -95,7 +100,8 @@ var Modal = function (_React$Component) {
 }(_react2.default.Component);
 
 Modal.defaultProps = {
-  onInit: function onInit() {}
+  onInit: function onInit() {},
+  title: ''
 };
 
 exports.default = Modal;

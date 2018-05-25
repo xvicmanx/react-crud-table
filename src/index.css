@@ -26,17 +26,50 @@
   top: 1rem;
   display: inline-block;
 }
+
+.crud-modal-wrapper__title {
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: .8rem;
+  font-size: 1.3rem;
+}
   
 .crud-modal-form {
   padding: 1rem;
 }
 
 .crud-modal-form__field-error {
-  color: #f51010;
+  color: #fff;
+  background-color: #e81b1b;
+  border-radius: 3px;
+  padding: .3rem .8rem;
+  text-align: left;
+  margin-bottom: .5rem;
+  position: relative;
+  margin-top: -0.6rem;
+}
+
+.crud-modal-form__field-error:before {
+  content: "";
+  background-color: transparent;
+  display: block;
+  position: absolute;
+  top: -.3rem;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #e81b1b;
 }
 
 .crud-modal-form__message {
-  padding: 1rem 0;
+  padding: 0 0 1.2rem 0;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+.crud-modal-form button {
+  margin-top: .5rem;
+  min-width: 250px;
 }
 
 .crud-modal-form input,

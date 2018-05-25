@@ -46,6 +46,11 @@ class Modal extends React.Component {
             onClick={this.hideModal}
           />
           <Container.Modal>
+            {this.props.title && (
+              <Container.Title>
+                {this.props.title}
+              </Container.Title>
+            )}
             {this.props.children}
           </Container.Modal>
         </Container>
@@ -56,6 +61,7 @@ class Modal extends React.Component {
 
 Modal.defaultProps = {
   onInit: () => {},
+  title: '',
 };
 
 export default Modal;

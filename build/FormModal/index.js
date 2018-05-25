@@ -59,7 +59,8 @@ var FormModal = function (_React$Component) {
         _Modal2.default,
         {
           trigger: trigger,
-          onInit: this.setController
+          onInit: this.setController,
+          title: data.title
         },
         _react2.default.createElement(_Form2.default, {
           data: data,

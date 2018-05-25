@@ -24,6 +24,7 @@ class FormModal extends React.Component {
       <Modal
         trigger={trigger}
         onInit={this.setController}
+        title={data.title}
       >
         <Form
           data={data}
