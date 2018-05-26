@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.extractForms = exports.getProps = exports.extractFields = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = undefined;
+exports.extractForms = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = undefined;
 
 var _react = require("react");
 
@@ -53,14 +53,6 @@ var FILTER_BY_TYPE = exports.FILTER_BY_TYPE = function FILTER_BY_TYPE(t) {
   };
 };
 
-var extractFields = exports.extractFields = function extractFields(items) {
-  var container = items.find(FILTER_BY_TYPE(_constants.FIELDS_COMPONENT_TYPE));
-  var children = container ? _react2.default.Children.toArray(container.props.children) : [];
-  return children.filter(FILTER_BY_TYPE(_constants.FIELD_COMPONENT_TYPE)).map(function (c) {
-    return c.props;
-  });
-};
-
 var getProps = exports.getProps = function getProps(comp) {
   var fields = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
@@ -69,6 +61,19 @@ var getProps = exports.getProps = function getProps(comp) {
   return Object.assign({}, props, {
     fields: fields
   });
+};
+
+var extractFields = exports.extractFields = function extractFields(items) {
+  var container = items.find(FILTER_BY_TYPE(_constants.FIELDS_COMPONENT_TYPE));
+  var children = container ? _react2.default.Children.toArray(container.props.children) : [];
+  return children.filter(FILTER_BY_TYPE(_constants.FIELD_COMPONENT_TYPE)).map(function (c) {
+    return c.props;
+  });
+};
+
+var extractPagination = exports.extractPagination = function extractPagination(items) {
+  var container = items.find(FILTER_BY_TYPE(_constants.PAGINATION_COMPONENT_TYPE));
+  return getProps(container);
 };
 
 var extractForms = exports.extractForms = function extractForms(items, fields) {
@@ -90,5 +95,6 @@ exports.default = {
   FILTER_BY_TYPE: FILTER_BY_TYPE,
   extractFields: extractFields,
   getProps: getProps,
-  extractForms: extractForms
+  extractForms: extractForms,
+  extractPagination: extractPagination
 };

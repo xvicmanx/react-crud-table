@@ -6,6 +6,7 @@ import {
   CREATE_FORM_COMPONENT_TYPE,
   DELETE_FORM_COMPONENT_TYPE,
   UPDATE_FORM_COMPONENT_TYPE,
+  PAGINATION_COMPONENT_TYPE,
 } from './constants';
 
 export const chevron = direction => {
@@ -37,15 +38,6 @@ export const queryValue = (source, query = '', defaultValue = null) => {
 
 export const FILTER_BY_TYPE = t => item => item.type && item.type.displayName === t;
 
-export const extractFields = (items) => {
-  const container = items.find(FILTER_BY_TYPE(FIELDS_COMPONENT_TYPE));
-  const children = container ? 
-    React.Children.toArray(container.props.children): [];
-  return children
-    .filter(FILTER_BY_TYPE(FIELD_COMPONENT_TYPE))
-    .map(c => c.props);
-};
-
 export const getProps = (comp, fields = []) => {
   const props = comp ? comp.props : null;
   if (!props) return props;
@@ -57,6 +49,22 @@ export const getProps = (comp, fields = []) => {
     }
   );
 };
+
+export const extractFields = (items) => {
+  const container = items.find(FILTER_BY_TYPE(FIELDS_COMPONENT_TYPE));
+  const children = container ? 
+    React.Children.toArray(container.props.children): [];
+  return children
+    .filter(FILTER_BY_TYPE(FIELD_COMPONENT_TYPE))
+    .map(c => c.props);
+};
+
+export const extractPagination = (items) => {
+  const container = items.find(FILTER_BY_TYPE(PAGINATION_COMPONENT_TYPE));
+  return getProps(container);
+};
+
+
 
 export const extractForms = (items, fields) => ({
   create: getProps(
@@ -78,4 +86,5 @@ export default {
   extractFields,
   getProps,
   extractForms,
+  extractPagination,
 };

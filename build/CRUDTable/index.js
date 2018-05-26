@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DeleteForm = exports.UpdateForm = exports.CreateForm = exports.Field = exports.Fields = undefined;
+exports.Pagination = exports.DeleteForm = exports.UpdateForm = exports.CreateForm = exports.Field = exports.Fields = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -24,6 +24,10 @@ var _Header2 = _interopRequireDefault(_Header);
 var _Body = require("./Body");
 
 var _Body2 = _interopRequireDefault(_Body);
+
+var _Pagination = require("../Pagination");
+
+var _Pagination2 = _interopRequireDefault(_Pagination);
 
 var _constants = require("./constants");
 
@@ -49,6 +53,19 @@ var CRUDTable = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (CRUDTable.__proto__ || Object.getPrototypeOf(CRUDTable)).call(this, props));
 
+    _this.updateModalController = null;
+    _this.deleteModalController = null;
+    _this.handleOnCreateSubmission = _this.handleOnCreateSubmission.bind(_this);
+    _this.handleOnDeleteSubmission = _this.handleOnDeleteSubmission.bind(_this);
+    _this.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_this);
+    _this.handleHeaderClick = _this.handleHeaderClick.bind(_this);
+    _this.handlePaginationChange = _this.handlePaginationChange.bind(_this);
+
+    var items = _react2.default.Children.toArray(props.children);
+    _this.fields = (0, _helpers.extractFields)(items);
+    _this.forms = (0, _helpers.extractForms)(items, _this.fields);
+    _this.pagination = (0, _helpers.extractPagination)(items);
+
     _this.state = {
       items: props.values || [],
       sort: {
@@ -56,18 +73,9 @@ var CRUDTable = function (_React$Component) {
         direction: _constants.SORT_DIRECTIONS.DESCENDING
       },
       updateItem: {},
-      deleteItem: {}
+      deleteItem: {},
+      pagination: _this.pagination
     };
-    _this.updateModalController = null;
-    _this.deleteModalController = null;
-    _this.handleOnCreateSubmission = _this.handleOnCreateSubmission.bind(_this);
-    _this.handleOnDeleteSubmission = _this.handleOnDeleteSubmission.bind(_this);
-    _this.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_this);
-    _this.handleHeaderClick = _this.handleHeaderClick.bind(_this);
-
-    var items = _react2.default.Children.toArray(props.children);
-    _this.fields = (0, _helpers.extractFields)(items);
-    _this.forms = (0, _helpers.extractForms)(items, _this.fields);
     return _this;
   }
 
@@ -78,19 +86,19 @@ var CRUDTable = function (_React$Component) {
     }
   }, {
     key: "update",
-    value: function update(sort) {
+    value: function update(payload) {
       var _this2 = this;
 
       var reportChange = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
       if (this.props.fetchItems) {
-        this.props.fetchItems({ sort: sort }).then(function (items) {
+        this.props.fetchItems(payload).then(function (items) {
           _this2.setState({ items: items });
         });
       }
 
       if (reportChange) {
-        this.props.onChange({ sort: sort });
+        this.props.onChange(payload);
       }
     }
   }, {
@@ -108,7 +116,19 @@ var CRUDTable = function (_React$Component) {
         direction: (0, _helpers.toggleDirection)(direction, field === this.state.sort.field)
       };
       this.setState({ sort: sort });
-      this.update(sort);
+      this.update({
+        sort: sort,
+        pagination: this.state.pagination
+      });
+    }
+  }, {
+    key: "handlePaginationChange",
+    value: function handlePaginationChange(pagination) {
+      this.setState({ pagination: pagination });
+      this.update({
+        pagination: pagination,
+        sort: this.state.sort
+      });
     }
   }, {
     key: "handleOnCreateSubmission",
@@ -116,7 +136,10 @@ var CRUDTable = function (_React$Component) {
       var _this3 = this;
 
       this.forms.create.onSubmit(values).then(function () {
-        _this3.update(_this3.state.sort);
+        _this3.update({
+          pagination: _this3.state.pagination,
+          sort: _this3.state.sort
+        });
       });
     }
   }, {
@@ -125,7 +148,10 @@ var CRUDTable = function (_React$Component) {
       var _this4 = this;
 
       this.forms.update.onSubmit(values).then(function () {
-        _this4.update(_this4.state.sort);
+        _this4.update({
+          pagination: _this4.state.pagination,
+          sort: _this4.state.sort
+        });
       });
     }
   }, {
@@ -134,7 +160,10 @@ var CRUDTable = function (_React$Component) {
       var _this5 = this;
 
       this.forms.delete.onSubmit(values).then(function () {
-        _this5.update(_this5.state.sort);
+        _this5.update({
+          pagination: _this5.state.pagination,
+          sort: _this5.state.sort
+        });
       });
     }
   }, {
@@ -144,7 +173,8 @@ var CRUDTable = function (_React$Component) {
 
       var _state = this.state,
           items = _state.items,
-          sort = _state.sort;
+          sort = _state.sort,
+          pagination = _state.pagination;
 
       return _react2.default.createElement(
         "div",
@@ -184,6 +214,11 @@ var CRUDTable = function (_React$Component) {
             }
           })
         ),
+        pagination && pagination.numberOfPages && _react2.default.createElement(_Pagination2.default, {
+          numberOfPages: pagination.numberOfPages,
+          defaultActivePage: pagination.defaultActivePage,
+          onChange: this.handlePaginationChange
+        }),
         this.forms.update && _react2.default.createElement(_FormModal2.default, {
           initialValues: this.state.updateItem,
           data: this.forms.update,
@@ -248,5 +283,10 @@ var DeleteForm = exports.DeleteForm = function DeleteForm() {
   return _react2.default.createElement("div", null);
 };
 DeleteForm.displayName = _constants.DELETE_FORM_COMPONENT_TYPE;
+
+var Pagination = exports.Pagination = function Pagination() {
+  return _react2.default.createElement("div", null);
+};
+Pagination.displayName = _constants.PAGINATION_COMPONENT_TYPE;
 
 exports.default = CRUDTable;

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Table } from "./wrappers";
 import Header from "./Header";
 import Body from "./Body";
+import PaginationCpt from '../Pagination';
 import {
   SORT_DIRECTIONS,
   ID_FIELD,
@@ -11,11 +12,13 @@ import {
   CREATE_FORM_COMPONENT_TYPE,
   DELETE_FORM_COMPONENT_TYPE,
   UPDATE_FORM_COMPONENT_TYPE,
+  PAGINATION_COMPONENT_TYPE,
 } from './constants';
 import {
   toggleDirection,
   FILTER_BY_TYPE,
   extractFields,
+  extractPagination,
   getProps,
   extractForms,
 } from "./helpers";
@@ -25,6 +28,19 @@ import FormModal from '../FormModal';
 class CRUDTable extends React.Component {
   constructor(props) {
     super(props);
+    this.updateModalController = null;
+    this.deleteModalController = null;
+    this.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
+    this.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
+    this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
+    this.handleHeaderClick = this.handleHeaderClick.bind(this);
+    this.handlePaginationChange = this.handlePaginationChange.bind(this);
+
+    const items = React.Children.toArray(props.children);
+    this.fields = extractFields(items);
+    this.forms = extractForms(items, this.fields);
+    this.pagination = extractPagination(items);
+
     this.state = {
       items: props.values || [],
       sort: {
@@ -33,34 +49,25 @@ class CRUDTable extends React.Component {
       },
       updateItem: {},
       deleteItem: {},
+      pagination: this.pagination,
     };
-    this.updateModalController = null;
-    this.deleteModalController = null;
-    this.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
-    this.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
-    this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
-    this.handleHeaderClick = this.handleHeaderClick.bind(this);
-
-    const items = React.Children.toArray(props.children);
-    this.fields = extractFields(items);
-    this.forms = extractForms(items, this.fields);
   }
 
   componentDidMount() {
     this.update(this.state.sort, false);
   }
 
-  update(sort, reportChange = true) {
+  update(payload, reportChange = true) {
     if (this.props.fetchItems) {
       this.props
-      .fetchItems({ sort })
+      .fetchItems(payload)
       .then(items => {
         this.setState({ items });
       });
     }
 
     if (reportChange) {
-      this.props.onChange({ sort });
+      this.props.onChange(payload);
     }
   }
 
@@ -80,32 +87,52 @@ class CRUDTable extends React.Component {
       ),
     };
     this.setState({ sort });
-    this.update(sort);
+    this.update({
+      sort,
+      pagination: this.state.pagination,
+    });
+  }
+
+  handlePaginationChange(pagination) {
+    this.setState({ pagination });
+    this.update({
+      pagination,
+      sort: this.state.sort,
+    });
   }
 
   handleOnCreateSubmission(values) {
     this.forms.create.onSubmit(values)
       .then(() => {
-        this.update(this.state.sort);
+        this.update({
+          pagination: this.state.pagination,
+          sort: this.state.sort,
+        });
       });
   }
 
   handleOnUpdateSubmission(values) {
     this.forms.update.onSubmit(values)
       .then(() => {
-        this.update(this.state.sort);
+        this.update({
+          pagination: this.state.pagination,
+          sort: this.state.sort,
+        });
       });
   }
 
   handleOnDeleteSubmission(values) {
     this.forms.delete.onSubmit(values)
       .then(() => {
-        this.update(this.state.sort);
+        this.update({
+          pagination: this.state.pagination,
+          sort: this.state.sort,
+        });
       });
   }
 
   render() {
-    const { items, sort } = this.state;
+    const { items, sort, pagination } = this.state;
     return (
       <div>
         {this.forms.create && (
@@ -139,6 +166,16 @@ class CRUDTable extends React.Component {
             }}
           />
         </Table>
+        {pagination &&
+          pagination.numberOfPages &&
+          (
+            <PaginationCpt
+              numberOfPages={pagination.numberOfPages}
+              defaultActivePage={pagination.defaultActivePage}
+              onChange={this.handlePaginationChange}
+            />
+        )}
+        
         {this.forms.update && (
           <FormModal
             initialValues={this.state.updateItem}
@@ -196,5 +233,8 @@ UpdateForm.displayName = UPDATE_FORM_COMPONENT_TYPE;
 
 export const DeleteForm = () => <div />;
 DeleteForm.displayName = DELETE_FORM_COMPONENT_TYPE;
+
+export const Pagination = () => <div />;
+Pagination.displayName = PAGINATION_COMPONENT_TYPE;
 
 export default CRUDTable;

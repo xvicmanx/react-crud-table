@@ -10,6 +10,7 @@ export const FIELD_COMPONENT_TYPE = 'CRUDTable_Field';
 export const CREATE_FORM_COMPONENT_TYPE = 'CRUDTable_CreateForm';
 export const DELETE_FORM_COMPONENT_TYPE = 'CRUDTable_DeleteForm';
 export const UPDATE_FORM_COMPONENT_TYPE = 'CRUDTable_UpdateForm';
+export const PAGINATION_COMPONENT_TYPE = 'CRUDTable_Pagination'
 
 export default {
   SORT_DIRECTIONS,
@@ -19,4 +20,5 @@ export default {
   CREATE_FORM_COMPONENT_TYPE,
   DELETE_FORM_COMPONENT_TYPE,
   UPDATE_FORM_COMPONENT_TYPE,
+  PAGINATION_COMPONENT_TYPE,
 };
