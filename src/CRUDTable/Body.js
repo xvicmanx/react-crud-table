@@ -22,17 +22,20 @@ const Body = ({
   forms,
   onDeleteClick,
   onUpdateClick,
+  actionsLabel
 }) => (
   <Table.Body>
     {items.map(item => (
       <Table.Row>
         {fields.map(field => (
           <Table.Cell>
+            <Table.CellLabel>{field.label}</Table.CellLabel>
             {getValue(field, item)}
           </Table.Cell>
         ))}
         {(forms.delete || forms.update) && (
           <Table.Cell>
+            <Table.CellLabel>{actionsLabel}</Table.CellLabel>
             {forms.update && (
               <Button
                 modifiers="primary"

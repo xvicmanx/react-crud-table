@@ -173,6 +173,7 @@ var CRUDTable = function (_React$Component) {
             fields: this.fields,
             items: items,
             forms: this.forms,
+            actionsLabel: this.props.actionsLabel,
             onDeleteClick: function onDeleteClick(deleteItem) {
               _this6.setState({ deleteItem: deleteItem });
               _this6.deleteModalController.show();

@@ -35,7 +35,8 @@ var Body = function Body(_ref) {
       items = _ref.items,
       forms = _ref.forms,
       onDeleteClick = _ref.onDeleteClick,
-      onUpdateClick = _ref.onUpdateClick;
+      onUpdateClick = _ref.onUpdateClick,
+      actionsLabel = _ref.actionsLabel;
   return _react2.default.createElement(
     _wrappers.Table.Body,
     null,
@@ -47,12 +48,22 @@ var Body = function Body(_ref) {
           return _react2.default.createElement(
             _wrappers.Table.Cell,
             null,
+            _react2.default.createElement(
+              _wrappers.Table.CellLabel,
+              null,
+              field.label
+            ),
             getValue(field, item)
           );
         }),
         (forms.delete || forms.update) && _react2.default.createElement(
           _wrappers.Table.Cell,
           null,
+          _react2.default.createElement(
+            _wrappers.Table.CellLabel,
+            null,
+            actionsLabel
+          ),
           forms.update && _react2.default.createElement(
             _Button2.default,
             {

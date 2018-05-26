@@ -158,6 +158,11 @@
   border-left: 1px solid rgba(34, 36, 38, .1);
   border-bottom: 1px solid rgba(34, 36, 38, .1);
 }
+
+.crud-table__cell-label {
+  display: none;
+}
+
 .crud-table__caption {
   background-color: white;
   padding: .8rem;
@@ -166,4 +171,48 @@
   font-size: 1.5rem;
   text-align: center;
   font-weight: 600;
+}
+
+@media screen and (max-width: 600px) {
+  .crud-table {
+    display: block;
+    min-width: 85vw;
+  }
+
+  .crud-table__row,
+  .crud-table__caption,
+  .crud-table__header,
+  .crud-table__body,
+  .crud-table__cell {
+    display: block;
+    width: 100%;
+  }
+
+  .crud-table__caption {
+    margin: 0;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .crud-table__header,
+  .crud-table__header-cell {
+    display: none;
+  }
+
+  .crud-table__cell {
+    border-bottom: 0;
+  }
+
+  .crud-table__row {
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 2rem;
+  }
+
+  .crud-table__cell-label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px dashed #e6e6e6;
+    padding-bottom: .5rem;
+    margin-bottom: .5rem;
+  }
 }

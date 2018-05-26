@@ -128,6 +128,7 @@ class CRUDTable extends React.Component {
             fields={this.fields}
             items={items}
             forms={this.forms}
+            actionsLabel={this.props.actionsLabel}
             onDeleteClick={(deleteItem) => {
               this.setState({ deleteItem });
               this.deleteModalController.show();
