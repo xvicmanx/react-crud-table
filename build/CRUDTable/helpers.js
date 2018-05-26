@@ -55,9 +55,10 @@ var FILTER_BY_TYPE = exports.FILTER_BY_TYPE = function FILTER_BY_TYPE(t) {
 
 var getProps = exports.getProps = function getProps(comp) {
   var fields = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
   var props = comp ? comp.props : null;
-  if (!props) return props;
+  if (!props) return defaultValue;
   return Object.assign({}, props, {
     fields: fields
   });
@@ -73,7 +74,7 @@ var extractFields = exports.extractFields = function extractFields(items) {
 
 var extractPagination = exports.extractPagination = function extractPagination(items) {
   var container = items.find(FILTER_BY_TYPE(_constants.PAGINATION_COMPONENT_TYPE));
-  return getProps(container);
+  return getProps(container, [], {});
 };
 
 var extractForms = exports.extractForms = function extractForms(items, fields) {

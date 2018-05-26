@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Pagination = exports.DeleteForm = exports.UpdateForm = exports.CreateForm = exports.Field = exports.Fields = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require("react");
@@ -74,7 +76,8 @@ var CRUDTable = function (_React$Component) {
       },
       updateItem: {},
       deleteItem: {},
-      pagination: _this.pagination
+      pagination: _this.pagination,
+      totalOfItems: _this.pagination.totalOfItems || 0
     };
     return _this;
   }
@@ -97,6 +100,12 @@ var CRUDTable = function (_React$Component) {
         });
       }
 
+      if (this.pagination.fetchTotalOfItems) {
+        this.pagination.fetchTotalOfItems(payload).then(function (totalOfItems) {
+          _this2.setState({ totalOfItems: totalOfItems });
+        });
+      }
+
       if (reportChange) {
         this.props.onChange(payload);
       }
@@ -106,6 +115,10 @@ var CRUDTable = function (_React$Component) {
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.items !== this.props.items) {
         this.setState({ items: nextProps.items });
+      }
+
+      if (nextProps.totalOfItems !== this.props.totalOfItems) {
+        this.setState({ totalOfItems: nextProps.totalOfItems });
       }
     }
   }, {
@@ -214,11 +227,10 @@ var CRUDTable = function (_React$Component) {
             }
           })
         ),
-        pagination && pagination.numberOfPages && _react2.default.createElement(_Pagination2.default, {
-          numberOfPages: pagination.numberOfPages,
-          defaultActivePage: pagination.defaultActivePage,
+        !!pagination && !!this.state.totalOfItems && _react2.default.createElement(_Pagination2.default, _extends({}, pagination, {
+          totalOfItems: this.state.totalOfItems,
           onChange: this.handlePaginationChange
-        }),
+        })),
         this.forms.update && _react2.default.createElement(_FormModal2.default, {
           initialValues: this.state.updateItem,
           data: this.forms.update,

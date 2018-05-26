@@ -15,18 +15,34 @@ class Pagination extends Component {
     super(props);
     this.state = {
       activePage: props.defaultActivePage,
+      totalOfItems: props.totalOfItems,
     };
     this.handleNextClick = this.handleNextClick.bind(this);
     this.handlePreviousClick = this.handlePreviousClick.bind(this);
     this.handleLinkClick = this.handleLinkClick.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.totalOfItems !== this.props.totalOfItems) {
+      this.setState({
+        totalOfItems: nextProps.totalOfItems,
+      });
+    }
+  }
+  
+  
+
   update(activePage) {
     this.setState({ activePage });
     this.props.onChange({
       activePage,
-      numberOfPages: this.props.numberOfPages,
+      totalOfItems: this.props.totalOfItems,
+      itemsPerPage: this.props.itemsPerPage,
     });
+  }
+
+  calculateNumberOfPages() {
+    return Math.ceil(this.props.totalOfItems/this.props.itemsPerPage);
   }
 
   handlePreviousClick() {
@@ -36,7 +52,8 @@ class Pagination extends Component {
   }
 
   handleNextClick() {
-    if (this.state.activePage < this.props.numberOfPages) {
+    const numberOfPages = this.calculateNumberOfPages();
+    if (this.state.activePage < numberOfPages) {
       this.update(this.state.activePage + 1);
     }
   }
@@ -46,7 +63,8 @@ class Pagination extends Component {
   }
   
   render() {
-    const numbers = numbersTo(this.props.numberOfPages);
+    const numberOfPages = this.calculateNumberOfPages();
+    const numbers = numbersTo(numberOfPages);
     return (
       <Container>
         <Container.Prev onClick={this.handlePreviousClick}>
@@ -70,13 +88,15 @@ class Pagination extends Component {
 
 Pagination.propTypes = {
   defaultActivePage: PropTypes.number,
-  numberOfPages: PropTypes.number,
+  itemsPerPage: PropTypes.number,
+  totalOfItems: PropTypes.number,
   onChange: PropTypes.func,
 };
 
 Pagination.defaultProps = {
   defaultActivePage: 1,
-  numberOfPages: 0,
+  totalOfItems: 0,
+  itemsPerPage: 10,
   onChange: () => {},
 };
 

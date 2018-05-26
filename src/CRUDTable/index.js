@@ -50,6 +50,7 @@ class CRUDTable extends React.Component {
       updateItem: {},
       deleteItem: {},
       pagination: this.pagination,
+      totalOfItems: this.pagination.totalOfItems || 0,
     };
   }
 
@@ -66,6 +67,13 @@ class CRUDTable extends React.Component {
       });
     }
 
+    if (this.pagination.fetchTotalOfItems) {
+      this.pagination.fetchTotalOfItems(payload)
+      .then(totalOfItems => {
+        this.setState({ totalOfItems });
+      });
+    }
+
     if (reportChange) {
       this.props.onChange(payload);
     }
@@ -74,6 +82,10 @@ class CRUDTable extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.items !== this.props.items) {
       this.setState({ items: nextProps.items });
+    }
+
+    if (nextProps.totalOfItems !== this.props.totalOfItems) {
+      this.setState({ totalOfItems: nextProps.totalOfItems });
     }
   }
   
@@ -166,12 +178,12 @@ class CRUDTable extends React.Component {
             }}
           />
         </Table>
-        {pagination &&
-          pagination.numberOfPages &&
+        {!!pagination &&
+          (!!this.state.totalOfItems) &&
           (
             <PaginationCpt
-              numberOfPages={pagination.numberOfPages}
-              defaultActivePage={pagination.defaultActivePage}
+              {...pagination}
+              totalOfItems={this.state.totalOfItems}
               onChange={this.handlePaginationChange}
             />
         )}

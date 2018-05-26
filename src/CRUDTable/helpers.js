@@ -38,9 +38,9 @@ export const queryValue = (source, query = '', defaultValue = null) => {
 
 export const FILTER_BY_TYPE = t => item => item.type && item.type.displayName === t;
 
-export const getProps = (comp, fields = []) => {
+export const getProps = (comp, fields = [], defaultValue = null) => {
   const props = comp ? comp.props : null;
-  if (!props) return props;
+  if (!props) return defaultValue;
   return Object.assign(
     {},
     props,
@@ -61,7 +61,7 @@ export const extractFields = (items) => {
 
 export const extractPagination = (items) => {
   const container = items.find(FILTER_BY_TYPE(PAGINATION_COMPONENT_TYPE));
-  return getProps(container);
+  return getProps(container, [], {});
 };
 
 

@@ -41,7 +41,8 @@ var Pagination = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Pagination.__proto__ || Object.getPrototypeOf(Pagination)).call(this, props));
 
     _this.state = {
-      activePage: props.defaultActivePage
+      activePage: props.defaultActivePage,
+      totalOfItems: props.totalOfItems
     };
     _this.handleNextClick = _this.handleNextClick.bind(_this);
     _this.handlePreviousClick = _this.handlePreviousClick.bind(_this);
@@ -50,13 +51,28 @@ var Pagination = function (_Component) {
   }
 
   _createClass(Pagination, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.totalOfItems !== this.props.totalOfItems) {
+        this.setState({
+          totalOfItems: nextProps.totalOfItems
+        });
+      }
+    }
+  }, {
     key: 'update',
     value: function update(activePage) {
       this.setState({ activePage: activePage });
       this.props.onChange({
         activePage: activePage,
-        numberOfPages: this.props.numberOfPages
+        totalOfItems: this.props.totalOfItems,
+        itemsPerPage: this.props.itemsPerPage
       });
+    }
+  }, {
+    key: 'calculateNumberOfPages',
+    value: function calculateNumberOfPages() {
+      return Math.ceil(this.props.totalOfItems / this.props.itemsPerPage);
     }
   }, {
     key: 'handlePreviousClick',
@@ -68,7 +84,8 @@ var Pagination = function (_Component) {
   }, {
     key: 'handleNextClick',
     value: function handleNextClick() {
-      if (this.state.activePage < this.props.numberOfPages) {
+      var numberOfPages = this.calculateNumberOfPages();
+      if (this.state.activePage < numberOfPages) {
         this.update(this.state.activePage + 1);
       }
     }
@@ -82,7 +99,8 @@ var Pagination = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var numbers = numbersTo(this.props.numberOfPages);
+      var numberOfPages = this.calculateNumberOfPages();
+      var numbers = numbersTo(numberOfPages);
       return _react2.default.createElement(
         _wrappers.Pagination,
         null,
@@ -115,13 +133,15 @@ var Pagination = function (_Component) {
 
 Pagination.propTypes = {
   defaultActivePage: _propTypes2.default.number,
-  numberOfPages: _propTypes2.default.number,
+  itemsPerPage: _propTypes2.default.number,
+  totalOfItems: _propTypes2.default.number,
   onChange: _propTypes2.default.func
 };
 
 Pagination.defaultProps = {
   defaultActivePage: 1,
-  numberOfPages: 0,
+  totalOfItems: 0,
+  itemsPerPage: 10,
   onChange: function onChange() {}
 };
 
