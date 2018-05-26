@@ -31,7 +31,7 @@ let tasks = [
   },
 ];
 
-let count = 0;
+let count = tasks.length;
 const service = {
   fetchItems: () => Promise.resolve(tasks),
   create: (task) => {
@@ -83,6 +83,7 @@ const Example = () => (
         />
       </Fields>
       <CreateForm
+        title="Task Creation"
         message="Create a new task!"
         trigger="Create Task"
         onSubmit={task => service.create(task)}
@@ -102,6 +103,7 @@ const Example = () => (
       />
 
       <UpdateForm
+        title="Task Update Process"
         message="Update task"
         trigger="Update"
         onSubmit={task => service.update(task)}
@@ -126,6 +128,7 @@ const Example = () => (
       />
 
       <DeleteForm
+        title="Task Delete Process"
         message="Are you sure you want to delete the task?"
         trigger="Delete"
         onSubmit={task => service.delete(task)}

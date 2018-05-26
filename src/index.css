@@ -73,7 +73,8 @@
 }
 
 .crud-modal-form input,
-.crud-modal-form select {
+.crud-modal-form select,
+.crud-modal-form textarea {
   border-radius: 5px;
   height: 30px;
   border: 1px solid #ccc;
@@ -81,6 +82,11 @@
   margin-bottom: 1rem;
   margin-top: .5rem;
   padding-left: .6rem;
+}
+
+.crud-modal-form textarea {
+  min-height: 70px;
+  height: auto;
 }
 
 .crud-modal-form__label {
