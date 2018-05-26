@@ -31,9 +31,36 @@ let tasks = [
   },
 ];
 
+const SORTERS = {
+  NUMBER_ASCENDING: mapper => (a, b) => mapper(a) - mapper(b),
+  NUMBER_DESCENDING: mapper => (a, b) => mapper(b) - mapper(a),
+  STRING_ASCENDING: mapper => (a, b) => mapper(a).localeCompare(mapper(b)),
+  STRING_DESCENDING: mapper => (a, b) => mapper(b).localeCompare(mapper(a)),
+};
+
+const getSorter = (data) => {
+  const mapper = x => x[data.field];
+  let sorter = SORTERS.STRING_ASCENDING(mapper);
+
+  if (data.field === 'id') {
+    sorter = data.direction === 'ascending' ?
+      SORTERS.NUMBER_ASCENDING(mapper) : SORTERS.NUMBER_DESCENDING(mapper);
+  } else {
+    sorter = data.direction === 'ascending' ?
+      SORTERS.STRING_ASCENDING(mapper) : SORTERS.STRING_DESCENDING(mapper);
+  }
+
+  return sorter;
+};
+
+
 let count = tasks.length;
 const service = {
-  fetchItems: () => Promise.resolve(tasks),
+  fetchItems: (payload) => {
+    let result = Array.from(tasks);
+    result = result.sort(getSorter(payload.sort));
+    return Promise.resolve(result);
+  },
   create: (task) => {
     count += 1;
     tasks.push({
@@ -63,7 +90,7 @@ const Example = () => (
   <div style={styles.container}>
     <CRUDTable
       caption="Tasks"
-      fetchItems={() => service.fetchItems()}
+      fetchItems={payload => service.fetchItems(payload)}
     >
       <Fields>
         <Field
@@ -148,7 +175,6 @@ const Example = () => (
 Example.propTypes = {};
 
 export default Example;
-
 ```
 
 ## Comments

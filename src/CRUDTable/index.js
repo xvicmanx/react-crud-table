@@ -55,7 +55,10 @@ class CRUDTable extends React.Component {
   }
 
   componentDidMount() {
-    this.update(this.state.sort, false);
+    this.update({
+      sort: this.state.sort,
+      pagination: this.state.pagination,
+    }, false);
   }
 
   update(payload, reportChange = true) {

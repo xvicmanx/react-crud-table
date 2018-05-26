@@ -85,7 +85,10 @@ var CRUDTable = function (_React$Component) {
   _createClass(CRUDTable, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.update(this.state.sort, false);
+      this.update({
+        sort: this.state.sort,
+        pagination: this.state.pagination
+      }, false);
     }
   }, {
     key: "update",
