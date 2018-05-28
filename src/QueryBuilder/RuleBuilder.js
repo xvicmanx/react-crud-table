@@ -12,17 +12,23 @@ import {
 import Button from '../Button';
 import Select from './Select';
 import { RuleBuilder as Container } from './wrappers';
+import {
+  mapFieldsToOptions,
+  isBoolean,
+  isRuleComplete,
+} from './helpers';
+import { queryValue } from '../CRUDTable/helpers';
 
 
 export default class RuleBuilder extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
+    this.handleFieldSelectChange = this.handleFieldSelectChange.bind(this);
   }
 
   save() {
-    const { condition, value, field } = this.state; 
-    if (condition != "" && value !== '' && field !== '') {
+    if (isRuleComplete(this.state)) {
       this.props.onSave(this.state);
       this.setState(DEFAULT_STATE);
     }
@@ -34,28 +40,62 @@ export default class RuleBuilder extends React.Component {
   }
 
   getType(field) {
-    const match = this.find(field);
-    return match ? match.type : '';
+    return queryValue(
+      this.find(field),
+      'type',
+      ''
+    );
   }
 
   getCollection(field) {
-    const match = this.find(field);
-    return match ? match.collection : '';
+    return queryValue(
+      this.find(field),
+      'collection',
+      ''
+    );
   }
 
   getDefaultCondition(field) {
-    const match = this.find(field);
     const defaultconditionForType = getDefaultConditionForType(
       this.getType(field),
     );
 
-    return match && match.defaultCondition ?
-      match.defaultCondition : defaultconditionForType;
+    return queryValue(
+      this.find(field),
+      'defaultCondition',
+      defaultconditionForType
+    );
   }
 
   getLabel(field) {
-    const match = this.find(field);
-    return match ? match.label : '';
+    return queryValue(
+      this.find(field),
+      'label',
+      ''
+    );
+  }
+
+  handleFieldSelectChange(evt, data) {
+    const { value } = data;
+    const update = {
+      field: value,
+      type: this.getType(value),
+      label: this.getLabel(value),
+      collection: this.getCollection(value),
+    };
+
+    const defaultCondition = this.getDefaultCondition(value);
+
+    if (defaultCondition) {
+      update.condition = defaultCondition;
+    }
+
+    if (isBoolean(update.type)) {
+      update.condition = CONDITIONS.IS;
+      update.value = false;
+    }
+
+    this.setState(update);
   }
 
   render() {
@@ -71,43 +111,17 @@ export default class RuleBuilder extends React.Component {
     return (
       <Container>
         <Select
-          placeholder="Seleccione campo"
-          options={this.props.fields.map((x) => {
-            return {
-              text: x.label,
-              value: x.value,
-              key: x.value,
-            }
-          })}
+          placeholder={this.props.fieldsSelectPlaceholder}
+          options={mapFieldsToOptions(this.props.fields)}
           value={field}
-          onChange={(evt, data) => {
-            const { value } = data;
-            const update = {
-              field: value,
-              type: this.getType(value),
-              label: this.getLabel(value),
-              collection: this.getCollection(value),
-            };
-            
-            const defaultCondition = this.getDefaultCondition(value);
-
-            if (defaultCondition) {
-              update.condition = defaultCondition;
-            }
-
-            if (update.type === 'boolean') {
-              update.condition = CONDITIONS.IS;
-              update.value = false;
-            }
-
-            this.setState(update);
-          }}
+          onChange={this.handleFieldSelectChange}
         />
         &nbsp;&nbsp;
-        {type !== 'boolean' && (
+
+        {!isBoolean(type) && (
           <span>
             <Select
-              placeholder="Seleccione condición"
+              placeholder={this.props.conditionsSelectPlaceholder}
               options={conditionsForType(type)}
               value={condition}
               onChange={(evt, data) => {
@@ -120,6 +134,7 @@ export default class RuleBuilder extends React.Component {
 
         {input}
         &nbsp;&nbsp;
+
         <Button
           modifiers="positive,add"
           onClick={this.save.bind(this)}
@@ -133,4 +148,6 @@ export default class RuleBuilder extends React.Component {
 
 RuleBuilder.defaultProps = {
   fields: [],
+  fieldsSelectPlaceholder: 'Select field',
+  conditionsSelectPlaceholder: 'Select condition',
 };

@@ -24,6 +24,8 @@ var _Select2 = _interopRequireDefault(_Select);
 
 var _wrappers = require('./wrappers');
 
+var _helpers2 = require('../CRUDTable/helpers');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,18 +43,14 @@ var RuleBuilder = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (RuleBuilder.__proto__ || Object.getPrototypeOf(RuleBuilder)).call(this, props));
 
     _this.state = _constants.DEFAULT_STATE;
+    _this.handleFieldSelectChange = _this.handleFieldSelectChange.bind(_this);
     return _this;
   }
 
   _createClass(RuleBuilder, [{
     key: 'save',
     value: function save() {
-      var _state = this.state,
-          condition = _state.condition,
-          value = _state.value,
-          field = _state.field;
-
-      if (condition != "" && value !== '' && field !== '') {
+      if ((0, _helpers.isRuleComplete)(this.state)) {
         this.props.onSave(this.state);
         this.setState(_constants.DEFAULT_STATE);
       }
@@ -67,38 +65,59 @@ var RuleBuilder = function (_React$Component) {
   }, {
     key: 'getType',
     value: function getType(field) {
-      var match = this.find(field);
-      return match ? match.type : '';
+      return (0, _helpers2.queryValue)(this.find(field), 'type', '');
     }
   }, {
     key: 'getCollection',
     value: function getCollection(field) {
-      var match = this.find(field);
-      return match ? match.collection : '';
+      return (0, _helpers2.queryValue)(this.find(field), 'collection', '');
     }
   }, {
     key: 'getDefaultCondition',
     value: function getDefaultCondition(field) {
-      var match = this.find(field);
       var defaultconditionForType = (0, _helpers.getDefaultConditionForType)(this.getType(field));
 
-      return match && match.defaultCondition ? match.defaultCondition : defaultconditionForType;
+      return (0, _helpers2.queryValue)(this.find(field), 'defaultCondition', defaultconditionForType);
     }
   }, {
     key: 'getLabel',
     value: function getLabel(field) {
-      var match = this.find(field);
-      return match ? match.label : '';
+      return (0, _helpers2.queryValue)(this.find(field), 'label', '');
+    }
+  }, {
+    key: 'handleFieldSelectChange',
+    value: function handleFieldSelectChange(evt, data) {
+      var value = data.value;
+
+      var update = {
+        field: value,
+        type: this.getType(value),
+        label: this.getLabel(value),
+        collection: this.getCollection(value)
+      };
+
+      var defaultCondition = this.getDefaultCondition(value);
+
+      if (defaultCondition) {
+        update.condition = defaultCondition;
+      }
+
+      if ((0, _helpers.isBoolean)(update.type)) {
+        update.condition = _constants.CONDITIONS.IS;
+        update.value = false;
+      }
+
+      this.setState(update);
     }
   }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var _state2 = this.state,
-          field = _state2.field,
-          value = _state2.value,
-          condition = _state2.condition;
+      var _state = this.state,
+          field = _state.field,
+          value = _state.value,
+          condition = _state.condition;
 
       var type = this.getType(field);
       var input = (0, _helpers.inputForType)(type, {
@@ -112,45 +131,17 @@ var RuleBuilder = function (_React$Component) {
         _wrappers.RuleBuilder,
         null,
         _react2.default.createElement(_Select2.default, {
-          placeholder: 'Seleccione campo',
-          options: this.props.fields.map(function (x) {
-            return {
-              text: x.label,
-              value: x.value,
-              key: x.value
-            };
-          }),
+          placeholder: this.props.fieldsSelectPlaceholder,
+          options: (0, _helpers.mapFieldsToOptions)(this.props.fields),
           value: field,
-          onChange: function onChange(evt, data) {
-            var value = data.value;
-
-            var update = {
-              field: value,
-              type: _this2.getType(value),
-              label: _this2.getLabel(value),
-              collection: _this2.getCollection(value)
-            };
-
-            var defaultCondition = _this2.getDefaultCondition(value);
-
-            if (defaultCondition) {
-              update.condition = defaultCondition;
-            }
-
-            if (update.type === 'boolean') {
-              update.condition = _constants.CONDITIONS.IS;
-              update.value = false;
-            }
-
-            _this2.setState(update);
-          }
+          onChange: this.handleFieldSelectChange
         }),
         '\xA0\xA0',
-        type !== 'boolean' && _react2.default.createElement(
+        !(0, _helpers.isBoolean)(type) && _react2.default.createElement(
           'span',
           null,
           _react2.default.createElement(_Select2.default, {
-            placeholder: 'Seleccione condici\xF3n',
+            placeholder: this.props.conditionsSelectPlaceholder,
             options: (0, _helpers.conditionsForType)(type),
             value: condition,
             onChange: function onChange(evt, data) {
@@ -180,5 +171,7 @@ exports.default = RuleBuilder;
 
 
 RuleBuilder.defaultProps = {
-  fields: []
+  fields: [],
+  fieldsSelectPlaceholder: 'Select field',
+  conditionsSelectPlaceholder: 'Select condition'
 };

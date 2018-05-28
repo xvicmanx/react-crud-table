@@ -5,10 +5,26 @@ import { CONDITIONS_LABEL, CONDITIONS } from './constants';
 
 // import '../../css/DateTimePicker.css';
 
+let styles;
+
 const Input = props => <input {...props} />;
 
-const isBoolean = type => type === 'boolean';
-let styles;
+export const isRuleComplete = (rule) => {
+  const { condition, value, field } = rule;
+  return condition != "" &&
+    value !== '' && field !== '';
+};
+
+export const isBoolean = type => type === 'boolean';
+
+export const mapFieldsToOptions = fields => fields.map((x) => {
+  return {
+    text: x.label,
+    value: x.value,
+    key: x.value,
+  };
+});
+
 
 export const defaultRuleRender = rule => {
   if (isBoolean(rule.type)) {
@@ -126,4 +142,7 @@ export default {
   conditionsForType,
   getDefaultConditionForType,
   inputForType,
+  mapFieldsToOptions,
+  isBoolean,
+  isRuleComplete,
 };

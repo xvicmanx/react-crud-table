@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.inputForType = exports.getDefaultConditionForType = exports.conditionsForType = exports.defaultRuleRender = undefined;
+exports.inputForType = exports.getDefaultConditionForType = exports.conditionsForType = exports.defaultRuleRender = exports.mapFieldsToOptions = exports.isBoolean = exports.isRuleComplete = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -25,14 +25,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import '../../css/DateTimePicker.css';
 
+var styles = void 0;
+
 var Input = function Input(props) {
   return _react2.default.createElement('input', props);
 };
 
-var isBoolean = function isBoolean(type) {
+var isRuleComplete = exports.isRuleComplete = function isRuleComplete(rule) {
+  var condition = rule.condition,
+      value = rule.value,
+      field = rule.field;
+
+  return condition != "" && value !== '' && field !== '';
+};
+
+var isBoolean = exports.isBoolean = function isBoolean(type) {
   return type === 'boolean';
 };
-var styles = void 0;
+
+var mapFieldsToOptions = exports.mapFieldsToOptions = function mapFieldsToOptions(fields) {
+  return fields.map(function (x) {
+    return {
+      text: x.label,
+      value: x.value,
+      key: x.value
+    };
+  });
+};
 
 var defaultRuleRender = exports.defaultRuleRender = function defaultRuleRender(rule) {
   if (isBoolean(rule.type)) {
@@ -143,5 +162,8 @@ exports.default = {
   defaultRuleRender: defaultRuleRender,
   conditionsForType: conditionsForType,
   getDefaultConditionForType: getDefaultConditionForType,
-  inputForType: inputForType
+  inputForType: inputForType,
+  mapFieldsToOptions: mapFieldsToOptions,
+  isBoolean: isBoolean,
+  isRuleComplete: isRuleComplete
 };
