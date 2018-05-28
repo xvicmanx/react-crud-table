@@ -11,6 +11,6 @@ Table.Header = element('thead', 'header');
 Table.Body = element('tbody', 'body');
 Table.Cell = element('td', 'cell');
 Table.CellLabel = element('div', 'cell-label');
-Table.Caption = element('caption', 'caption');
+Table.Caption = element('div', 'caption');
 
 export default { Table };

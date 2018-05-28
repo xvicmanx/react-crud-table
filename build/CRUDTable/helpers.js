@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.extractForms = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = undefined;
+exports.extractForms = exports.extractQueryFields = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = undefined;
 
 var _react = require("react");
 
@@ -77,6 +77,17 @@ var extractPagination = exports.extractPagination = function extractPagination(i
   return getProps(container, [], {});
 };
 
+var extractQueryFields = exports.extractQueryFields = function extractQueryFields(items) {
+  var fields = extractFields(items);
+  return fields.filter(function (f) {
+    return f.queryable;
+  }).map(function (f) {
+    return Object.assign({}, f, {
+      value: f.name
+    });
+  });
+};
+
 var extractForms = exports.extractForms = function extractForms(items, fields) {
   return {
     create: getProps(items.find(FILTER_BY_TYPE(_constants.CREATE_FORM_COMPONENT_TYPE)), fields.filter(function (f) {
@@ -97,5 +108,6 @@ exports.default = {
   extractFields: extractFields,
   getProps: getProps,
   extractForms: extractForms,
-  extractPagination: extractPagination
+  extractPagination: extractPagination,
+  extractQueryFields: extractQueryFields
 };

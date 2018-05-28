@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Btn = undefined;
+exports.RuleBuilder = exports.Container = undefined;
 
 var _bemReactComponentCreator = require('bem-react-component-creator');
 
@@ -11,10 +11,11 @@ var _bemReactComponentCreator2 = _interopRequireDefault(_bemReactComponentCreato
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _bcc = (0, _bemReactComponentCreator2.default)('crud-button'),
+var _bcc = (0, _bemReactComponentCreator2.default)('crud-table-query-builder'),
     block = _bcc.block,
     element = _bcc.element;
 
-var Btn = exports.Btn = block('button');
+var Container = exports.Container = block('div');
+var RuleBuilder = exports.RuleBuilder = element('div', 'search-rule-builder');
 
-exports.default = { Btn: Btn };
+exports.default = { Container: Container, RuleBuilder: RuleBuilder };

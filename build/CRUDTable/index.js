@@ -39,6 +39,10 @@ var _FormModal = require("../FormModal");
 
 var _FormModal2 = _interopRequireDefault(_FormModal);
 
+var _QueryBuilder = require("../QueryBuilder");
+
+var _QueryBuilder2 = _interopRequireDefault(_QueryBuilder);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -62,11 +66,13 @@ var CRUDTable = function (_React$Component) {
     _this.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_this);
     _this.handleHeaderClick = _this.handleHeaderClick.bind(_this);
     _this.handlePaginationChange = _this.handlePaginationChange.bind(_this);
+    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
 
     var items = _react2.default.Children.toArray(props.children);
     _this.fields = (0, _helpers.extractFields)(items);
     _this.forms = (0, _helpers.extractForms)(items, _this.fields);
     _this.pagination = (0, _helpers.extractPagination)(items);
+    _this.queryFields = (0, _helpers.extractQueryFields)(items);
 
     _this.state = {
       items: props.values || [],
@@ -74,6 +80,7 @@ var CRUDTable = function (_React$Component) {
         field: _constants.ID_FIELD,
         direction: _constants.SORT_DIRECTIONS.DESCENDING
       },
+      queryRules: [],
       updateItem: {},
       deleteItem: {},
       pagination: _this.pagination,
@@ -85,18 +92,16 @@ var CRUDTable = function (_React$Component) {
   _createClass(CRUDTable, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.update({
-        sort: this.state.sort,
-        pagination: this.state.pagination
-      }, false);
+      this.update(undefined, false);
     }
   }, {
     key: "update",
-    value: function update(payload) {
+    value: function update(data) {
       var _this2 = this;
 
       var reportChange = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
+      var payload = this.getPayload(data);
       if (this.props.fetchItems) {
         this.props.fetchItems(payload).then(function (items) {
           _this2.setState({ items: items });
@@ -132,19 +137,30 @@ var CRUDTable = function (_React$Component) {
         direction: (0, _helpers.toggleDirection)(direction, field === this.state.sort.field)
       };
       this.setState({ sort: sort });
-      this.update({
-        sort: sort,
-        pagination: this.state.pagination
-      });
+      this.update({ sort: sort });
+    }
+  }, {
+    key: "getPayload",
+    value: function getPayload() {
+      var extension = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      return Object.assign({
+        queryRules: this.state.queryRules,
+        pagination: this.state.pagination,
+        sort: this.state.sort
+      }, extension);
     }
   }, {
     key: "handlePaginationChange",
     value: function handlePaginationChange(pagination) {
       this.setState({ pagination: pagination });
-      this.update({
-        pagination: pagination,
-        sort: this.state.sort
-      });
+      this.update({ pagination: pagination });
+    }
+  }, {
+    key: "handleQueryChange",
+    value: function handleQueryChange(queryRules) {
+      this.setState({ queryRules: queryRules });
+      this.update({ queryRules: queryRules });
     }
   }, {
     key: "handleOnCreateSubmission",
@@ -152,10 +168,7 @@ var CRUDTable = function (_React$Component) {
       var _this3 = this;
 
       this.forms.create.onSubmit(values).then(function () {
-        _this3.update({
-          pagination: _this3.state.pagination,
-          sort: _this3.state.sort
-        });
+        _this3.update();
       });
     }
   }, {
@@ -164,10 +177,7 @@ var CRUDTable = function (_React$Component) {
       var _this4 = this;
 
       this.forms.update.onSubmit(values).then(function () {
-        _this4.update({
-          pagination: _this4.state.pagination,
-          sort: _this4.state.sort
-        });
+        _this4.update();
       });
     }
   }, {
@@ -176,10 +186,7 @@ var CRUDTable = function (_React$Component) {
       var _this5 = this;
 
       this.forms.delete.onSubmit(values).then(function () {
-        _this5.update({
-          pagination: _this5.state.pagination,
-          sort: _this5.state.sort
-        });
+        _this5.update();
       });
     }
   }, {
@@ -201,13 +208,17 @@ var CRUDTable = function (_React$Component) {
           onSubmit: this.handleOnCreateSubmission
         }),
         _react2.default.createElement(
+          _wrappers.Table.Caption,
+          null,
+          this.props.caption
+        ),
+        this.props.showQueryBuilder && _react2.default.createElement(_QueryBuilder2.default, {
+          fields: this.queryFields,
+          onChange: this.handleQueryChange
+        }),
+        _react2.default.createElement(
           _wrappers.Table,
           null,
-          _react2.default.createElement(
-            _wrappers.Table.Caption,
-            null,
-            this.props.caption
-          ),
           _react2.default.createElement(_Header2.default, {
             fields: this.fields,
             sort: sort,
@@ -259,7 +270,8 @@ var CRUDTable = function (_React$Component) {
 
 CRUDTable.defaultProps = {
   onChange: function onChange() {},
-  actionsLabel: 'Actions'
+  actionsLabel: 'Actions',
+  showQueryBuilder: false
 };
 
 var Fields = exports.Fields = function Fields() {
@@ -272,16 +284,26 @@ var Field = exports.Field = function Field(_ref) {
       label = _ref.label,
       tableValueResolver = _ref.tableValueResolver,
       hideInCreateForm = _ref.hideInCreateForm,
-      hideInUpdateForm = _ref.hideInUpdateForm;
+      hideInUpdateForm = _ref.hideInUpdateForm,
+      queryable = _ref.queryable,
+      type = _ref.type;
   return _react2.default.createElement("div", props);
 };
 Field.displayName = _constants.FIELD_COMPONENT_TYPE;
 Field.propTypes = {
   name: _propTypes2.default.string.isRequired,
   label: _propTypes2.default.string.isRequired,
+  type: _propTypes2.default.string,
   tableValueResolver: _propTypes2.default.any,
   hideInCreateForm: _propTypes2.default.bool,
-  hideInUpdateForm: _propTypes2.default.bool
+  hideInUpdateForm: _propTypes2.default.bool,
+  queryable: _propTypes2.default.bool
+};
+Field.defaultProps = {
+  queryable: true,
+  type: 'text',
+  hideInCreateForm: false,
+  hideInUpdateForm: false
 };
 
 var CreateForm = exports.CreateForm = function CreateForm() {

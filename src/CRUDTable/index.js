@@ -21,8 +21,10 @@ import {
   extractPagination,
   getProps,
   extractForms,
+  extractQueryFields
 } from "./helpers";
 import FormModal from '../FormModal';
+import QueryBuilder from '../QueryBuilder';
 
 
 class CRUDTable extends React.Component {
@@ -35,11 +37,13 @@ class CRUDTable extends React.Component {
     this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handlePaginationChange = this.handlePaginationChange.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
 
     const items = React.Children.toArray(props.children);
     this.fields = extractFields(items);
     this.forms = extractForms(items, this.fields);
     this.pagination = extractPagination(items);
+    this.queryFields = extractQueryFields(items);
 
     this.state = {
       items: props.values || [],
@@ -47,6 +51,7 @@ class CRUDTable extends React.Component {
         field: ID_FIELD,
         direction: SORT_DIRECTIONS.DESCENDING,
       },
+      queryRules: [],
       updateItem: {},
       deleteItem: {},
       pagination: this.pagination,
@@ -55,13 +60,11 @@ class CRUDTable extends React.Component {
   }
 
   componentDidMount() {
-    this.update({
-      sort: this.state.sort,
-      pagination: this.state.pagination,
-    }, false);
+    this.update(undefined, false);
   }
 
-  update(payload, reportChange = true) {
+  update(data, reportChange = true) {
+    const payload = this.getPayload(data);
     if (this.props.fetchItems) {
       this.props
       .fetchItems(payload)
@@ -102,47 +105,48 @@ class CRUDTable extends React.Component {
       ),
     };
     this.setState({ sort });
-    this.update({
-      sort,
-      pagination: this.state.pagination,
-    });
+    this.update({ sort });
+  }
+
+  getPayload(extension = {}) {
+    return Object.assign(
+      {
+        queryRules: this.state.queryRules,
+        pagination: this.state.pagination,
+        sort: this.state.sort,
+      },
+      extension
+    );
   }
 
   handlePaginationChange(pagination) {
     this.setState({ pagination });
-    this.update({
-      pagination,
-      sort: this.state.sort,
-    });
+    this.update({ pagination });
+  }
+
+  handleQueryChange(queryRules) {
+    this.setState({ queryRules });
+    this.update({ queryRules });
   }
 
   handleOnCreateSubmission(values) {
     this.forms.create.onSubmit(values)
       .then(() => {
-        this.update({
-          pagination: this.state.pagination,
-          sort: this.state.sort,
-        });
+        this.update();
       });
   }
 
   handleOnUpdateSubmission(values) {
     this.forms.update.onSubmit(values)
       .then(() => {
-        this.update({
-          pagination: this.state.pagination,
-          sort: this.state.sort,
-        });
+        this.update();
       });
   }
 
   handleOnDeleteSubmission(values) {
     this.forms.delete.onSubmit(values)
       .then(() => {
-        this.update({
-          pagination: this.state.pagination,
-          sort: this.state.sort,
-        });
+        this.update();
       });
   }
 
@@ -157,8 +161,17 @@ class CRUDTable extends React.Component {
             onSubmit={this.handleOnCreateSubmission}
           />
         )}
+
+        <Table.Caption>{this.props.caption}</Table.Caption>
+        
+        {this.props.showQueryBuilder && (
+          <QueryBuilder
+            fields={this.queryFields}
+            onChange={this.handleQueryChange}
+          />
+        )}
+
         <Table>
-          <Table.Caption>{this.props.caption}</Table.Caption>
           <Header
             fields={this.fields}
             sort={sort}
@@ -181,6 +194,7 @@ class CRUDTable extends React.Component {
             }}
           />
         </Table>
+
         {!!pagination &&
           (!!this.state.totalOfItems) &&
           (
@@ -201,6 +215,7 @@ class CRUDTable extends React.Component {
             }}
           />
         )}
+  
         {this.forms.delete && (
           <FormModal
             initialValues={this.state.deleteItem}
@@ -219,6 +234,7 @@ class CRUDTable extends React.Component {
 CRUDTable.defaultProps = {
   onChange: () => {},
   actionsLabel: 'Actions',
+  showQueryBuilder: false,
 };
 
 export const Fields = () => <div />;
@@ -230,14 +246,24 @@ export const Field = ({
   tableValueResolver,
   hideInCreateForm,
   hideInUpdateForm,
+  queryable,
+  type,
 }) => <div {...props} />;
 Field.displayName = FIELD_COMPONENT_TYPE;
 Field.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  type: PropTypes.string,
   tableValueResolver: PropTypes.any,
   hideInCreateForm: PropTypes.bool,
   hideInUpdateForm: PropTypes.bool,
+  queryable: PropTypes.bool,
+};
+Field.defaultProps = {
+  queryable: true,
+  type: 'text',
+  hideInCreateForm: false,
+  hideInUpdateForm: false,
 };
 
 export const CreateForm = () => <div />;

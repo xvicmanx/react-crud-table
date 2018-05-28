@@ -64,7 +64,19 @@ export const extractPagination = (items) => {
   return getProps(container, [], {});
 };
 
-
+export const extractQueryFields = (items) => {
+  const fields = extractFields(items);
+  return fields.filter(f => f.queryable)
+    .map((f) => {
+      return Object.assign(
+        {},
+        f,
+        {
+          value: f.name,
+        }
+      );
+    });
+};
 
 export const extractForms = (items, fields) => ({
   create: getProps(
@@ -87,4 +99,5 @@ export default {
   getProps,
   extractForms,
   extractPagination,
+  extractQueryFields,
 };
