@@ -3,10 +3,17 @@ A table that includes all the CRUD operations.
 
 ![CRUD_LOGO](CRUD_Toon_SMALL.png)
 
-## Example
+## Basic Example
+This example shows the basics CRUD (Create, Read, Update, and Delete) and sorting operations.
+
+
+```shell 
+$ npm install react-crud-table --save
+```
 
 ```js
 import React from 'react';
+import ReactDOM from 'react-dom';
 import CRUDTable,
 {
   Fields,
@@ -15,6 +22,9 @@ import CRUDTable,
   UpdateForm,
   DeleteForm,
 } from 'react-crud-table';
+
+// Component's Base CSS
+import from './index.css';
 
 const DescriptionRenderer = ({ field }) => <textarea {...field} />;
 
@@ -174,8 +184,78 @@ const Example = () => (
 
 Example.propTypes = {};
 
-export default Example;
+ReactDOM.render(
+  <Example />,
+  document.getElementById('root')
+);
 ```
+
+![Basic Example](screenshot-simple.png)
+
+## Components Properties
+
+### CRUDTable Component
+  The CRUDTable Component is the parent component. All the others component should be children of it.
+
+  #### `caption`: string
+  Items table caption
+
+  #### `fetchItems`: function
+  A function that returns the read items asynchronously. This should return a promise.
+
+  #### `items`: array
+  Items to be shown in the table. Alternative to the `fetchItems` property.
+
+### Fields Component
+  A child of the `CRUDTable` Component. This Component should contain the individual fields definition.
+  Its children are `Field` components.
+
+### Field Component
+  A child of the `Fields` Component. This Component is the individual definition of the fields.
+
+  #### `name`: string
+  The name of the field (`required`).
+
+  #### `label`: node
+  The label of the field(`required`)
+
+  #### `type`: string
+  The type of the field. This can be (`text`, `number`, `date`, etc). It is useful when you want to make it queryable and/or sortable.
+
+  #### `tableValueResolver`: any
+  It is the mapper of the field value in the table. It can be a string representing a query to the object (For example `company.name`) or an function that takes the item as an argument and returns a value.
+
+  #### `hideInCreateForm`: bool
+  To hide this field in the Create Form.
+
+  #### `hideInUpdateForm`: bool
+  To hide this field in the Update Form.
+
+  #### `queryable`: bool
+  To indicate this field is queryable.
+
+### CreateForm, UpdateForm, and DeleteForm Components
+  This components are used to configure the forms to create, update and delete the items. Not including one of this forms means that you dont want support for the corresponding operation of the form and therefore will be hidden.
+
+
+  #### `title`: node
+  The title of the form.
+
+  #### `message`: node
+  A message to be shown below the title.
+
+  #### `trigger`: node
+  Title of the button that triggers the form to appear.
+
+  #### `onSubmit`: function
+  A function that is called when the form is submitting. This functions receives the item data and should return a promise.
+
+  #### `submitText`: node
+  Title of the form submission button.
+
+  #### `validate`: function
+  Validation function. Receives the values of the fields in the form and should return an object whose keys are the field names and the value is an error message.
+
 
 ## Comments
 Feel free to make any suggestion to improve this component.
