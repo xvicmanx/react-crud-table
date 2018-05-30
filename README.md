@@ -201,11 +201,51 @@ ReactDOM.render(
   #### `caption`: string
   Items table caption
 
+  #### `actionsLabel`: string
+  To specify the text of the header of the column that contains the update/delete actions.
+
   #### `fetchItems`: function
   A function that returns the read items asynchronously. This should return a promise.
 
+
   #### `items`: array
   Items to be shown in the table. Alternative to the `fetchItems` property.
+
+  #### `showQueryBuilder`: bool
+  To indicate that the query/search builder component should be shown.
+  The QueryBuilder component is used to perform search and filtering based on matching rules.
+
+  #### `onChange`: func
+  A callback to be called everytime either the pagination, the sorting or the search parameters change.
+  This function is called with an object like following being passed:
+
+  ```js
+  {
+    sort: {
+      field: 'foo',
+      direction: 'descenting',
+    },
+    queryRules: [
+      {
+        field: 'bar',
+        condition: 'CONTAINS',
+        value: 'test',
+      },
+      {
+        field: 'name',
+        condition: 'ENDS_WITH',
+        value: 'ry',
+      },
+    ],
+    pagination: {
+      itemsPerPage: 5,
+      totalOfItems: 52,
+      activePage: 3,
+    },
+  }
+  
+  ```
+  
 
 ### Fields Component
   A child of the `CRUDTable` Component. This Component should contain the individual fields definition.
@@ -257,6 +297,25 @@ ReactDOM.render(
   #### `validate`: function
   Validation function. Receives the values of the fields in the form and should return an object whose keys are the field names and the value is an error message.
 
+
+### Pagination Component
+  The Pagination Component is used to configure the pagination of the table.
+
+  #### `defaultActivePage`: number
+  This is the initial active page. The default value is `1`.
+
+  #### `totalOfItems`: number
+  The total number of items. This is used to calculate the number of pages links to show.
+  
+  #### `itemsPerPage`: number
+  This is to control how many items are to be shown per page. The number of pages is calculated by dividing the `totalOfItems` by the `itemsPerPage`.
+
+  #### `onChange`: function
+  A function to be called everytime the current page changes. This returns an object that has the following properties: `activePage`, `totalOfItems`, and `itemsPerPage`.
+
+  #### `fetchTotalOfItems`: function
+  Loads the total number of items in asynchronous way. This function should return a function that resolves in a number which is the total of items.
+  
 
 ## Comments
 Feel free to make any suggestion to improve this component.
