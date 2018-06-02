@@ -1,6 +1,6 @@
 {
   "name": "react-crud-table",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A table that includes all the CRUD operations.",
   "main": "build/CRUDTable/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "react"
   ],
   "author": "Victor Trejo",
-  "license": "MIT",
+  "license": "ISC",
   "dependencies": {
     "bem-react-component-creator": "^1.2.0",
     "formik": "0.11.11",
