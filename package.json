@@ -1,6 +1,6 @@
 {
   "name": "react-crud-table",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A table that includes all the CRUD operations.",
   "main": "build/CRUDTable/index.js",
   "scripts": {

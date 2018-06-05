@@ -3,7 +3,6 @@ import DateTime from 'react-datetime';
 import Label from '../Label';
 import { CONDITIONS_LABEL, CONDITIONS } from './constants';
 
-// import '../../css/DateTimePicker.css';
 
 let styles;
 
