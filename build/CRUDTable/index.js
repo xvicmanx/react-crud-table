@@ -297,10 +297,12 @@ Field.propTypes = {
   tableValueResolver: _propTypes2.default.any,
   hideInCreateForm: _propTypes2.default.bool,
   hideInUpdateForm: _propTypes2.default.bool,
-  queryable: _propTypes2.default.bool
+  queryable: _propTypes2.default.bool,
+  sortable: _propTypes2.default.bool
 };
 Field.defaultProps = {
   queryable: true,
+  sortable: true,
   type: 'text',
   hideInCreateForm: false,
   hideInUpdateForm: false

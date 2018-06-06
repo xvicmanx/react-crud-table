@@ -32,7 +32,9 @@ var Header = function Header(_ref) {
           _wrappers.Table.HeaderCell,
           {
             onClick: function onClick() {
-              _onClick(field.name, sort.direction);
+              if (field.sortable) {
+                _onClick(field.name, sort.direction);
+              }
             }
           },
           field.label,

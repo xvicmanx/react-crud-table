@@ -387,7 +387,10 @@ ReactDOM.render(<Example />, document.getElementById("root"));
   To hide this field in the Update Form.
 
   #### `queryable`: bool
-  To indicate this field is queryable.
+  To indicate this field is queryable.  Default is true
+
+  #### `sortable`: bool
+  To indicate this field is sortable. Default is true.
 
 ### CreateForm, UpdateForm, and DeleteForm Components
   These components are used to configure the forms to create, update and delete the items. Not including one of this forms means that you dont want support for the corresponding operation of the form and therefore will be hidden.

@@ -10,7 +10,9 @@ const Header = ({ fields, sort, onClick, forms, actionsLabel }) => {
           return (
             <Table.HeaderCell
               onClick={() => {
-                onClick(field.name, sort.direction);
+                if (field.sortable) {
+                  onClick(field.name, sort.direction);
+                }
               }}
             >
              {field.label} {sort.field === field.name && chevron(sort.direction)}

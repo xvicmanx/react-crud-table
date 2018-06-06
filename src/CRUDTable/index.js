@@ -258,9 +258,11 @@ Field.propTypes = {
   hideInCreateForm: PropTypes.bool,
   hideInUpdateForm: PropTypes.bool,
   queryable: PropTypes.bool,
+  sortable: PropTypes.bool,
 };
 Field.defaultProps = {
   queryable: true,
+  sortable: true,
   type: 'text',
   hideInCreateForm: false,
   hideInUpdateForm: false,
