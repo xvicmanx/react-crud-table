@@ -111,7 +111,17 @@ export const inputForType = (type, props) => {
     case 'number':
       return <Input type="number" {...props} />;
     case 'boolean':
-      return <Input type="checkbox" {...props} />;
+      return (
+        <Input
+          {...props}
+          type="checkbox"
+          onClick={(evt) => {
+            evt.target.value = evt.target.checked;
+            props.onChange(evt);
+          }}
+          onChange={() => {}}
+        />
+      );
     case 'date':
       return <DateTime
         {...props}

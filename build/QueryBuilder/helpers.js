@@ -23,8 +23,6 @@ var _constants = require('./constants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import '../../css/DateTimePicker.css';
-
 var styles = void 0;
 
 var Input = function Input(props) {
@@ -134,7 +132,14 @@ var inputForType = exports.inputForType = function inputForType(type, props) {
     case 'number':
       return _react2.default.createElement(Input, _extends({ type: 'number' }, props));
     case 'boolean':
-      return _react2.default.createElement(Input, _extends({ type: 'checkbox' }, props));
+      return _react2.default.createElement(Input, _extends({}, props, {
+        type: 'checkbox',
+        onClick: function onClick(evt) {
+          evt.target.value = evt.target.checked;
+          props.onChange(evt);
+        },
+        onChange: function onChange() {}
+      }));
     case 'date':
       return _react2.default.createElement(_reactDatetime2.default, _extends({}, props, {
         className: 'ui input',

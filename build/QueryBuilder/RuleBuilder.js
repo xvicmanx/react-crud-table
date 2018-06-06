@@ -123,6 +123,7 @@ var RuleBuilder = function (_React$Component) {
       var input = (0, _helpers.inputForType)(type, {
         value: value,
         onChange: function onChange(evt) {
+          console.log(evt.target.value);
           _this2.setState({ value: evt.target.value });
         }
       });

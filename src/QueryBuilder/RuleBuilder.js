@@ -104,6 +104,7 @@ export default class RuleBuilder extends React.Component {
     const input = inputForType(type, {
       value,
       onChange: evt => {
+        console.log(evt.target.value);
         this.setState({ value: evt.target.value });
       }
     });
