@@ -38,7 +38,8 @@ var BasicForm = function BasicForm(_ref) {
       onSubmit: onSubmit,
       render: function render(_ref2) {
         var errors = _ref2.errors,
-            touched = _ref2.touched;
+            touched = _ref2.touched,
+            error = _ref2.error;
         return _react2.default.createElement(
           _wrappers.Form,
           null,
@@ -46,6 +47,11 @@ var BasicForm = function BasicForm(_ref) {
             _wrappers.Form.Message,
             null,
             data.message
+          ),
+          error && _react2.default.createElement(
+            _wrappers.Form.ErrorMessage,
+            null,
+            error
           ),
           data.fields.map(function (field) {
             return _react2.default.createElement(

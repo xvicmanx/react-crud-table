@@ -130,23 +130,26 @@ class CRUDTable extends React.Component {
   }
 
   handleOnCreateSubmission(values) {
-    this.forms.create.onSubmit(values)
-      .then(() => {
+    return this.forms.create.onSubmit(values)
+      .then((result) => {
         this.update();
+        return result;
       });
   }
 
   handleOnUpdateSubmission(values) {
-    this.forms.update.onSubmit(values)
-      .then(() => {
+    return this.forms.update.onSubmit(values)
+      .then((result) => {
         this.update();
+        return result;
       });
   }
 
   handleOnDeleteSubmission(values) {
-    this.forms.delete.onSubmit(values)
-      .then(() => {
+    return this.forms.delete.onSubmit(values)
+      .then((result) => {
         this.update();
+        return result;
       });
   }
 
@@ -159,6 +162,7 @@ class CRUDTable extends React.Component {
             trigger={this.forms.create.trigger}
             data={this.forms.create}
             onSubmit={this.handleOnCreateSubmission}
+            shouldReset
           />
         )}
 

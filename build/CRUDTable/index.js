@@ -167,8 +167,9 @@ var CRUDTable = function (_React$Component) {
     value: function handleOnCreateSubmission(values) {
       var _this3 = this;
 
-      this.forms.create.onSubmit(values).then(function () {
+      return this.forms.create.onSubmit(values).then(function (result) {
         _this3.update();
+        return result;
       });
     }
   }, {
@@ -176,8 +177,9 @@ var CRUDTable = function (_React$Component) {
     value: function handleOnUpdateSubmission(values) {
       var _this4 = this;
 
-      this.forms.update.onSubmit(values).then(function () {
+      return this.forms.update.onSubmit(values).then(function (result) {
         _this4.update();
+        return result;
       });
     }
   }, {
@@ -185,8 +187,9 @@ var CRUDTable = function (_React$Component) {
     value: function handleOnDeleteSubmission(values) {
       var _this5 = this;
 
-      this.forms.delete.onSubmit(values).then(function () {
+      return this.forms.delete.onSubmit(values).then(function (result) {
         _this5.update();
+        return result;
       });
     }
   }, {
@@ -205,7 +208,8 @@ var CRUDTable = function (_React$Component) {
         this.forms.create && _react2.default.createElement(_FormModal2.default, {
           trigger: this.forms.create.trigger,
           data: this.forms.create,
-          onSubmit: this.handleOnCreateSubmission
+          onSubmit: this.handleOnCreateSubmission,
+          shouldReset: true
         }),
         _react2.default.createElement(
           _wrappers.Table.Caption,

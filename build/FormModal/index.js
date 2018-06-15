@@ -53,7 +53,8 @@ var FormModal = function (_React$Component) {
       var _props = this.props,
           data = _props.data,
           trigger = _props.trigger,
-          initialValues = _props.initialValues;
+          initialValues = _props.initialValues,
+          shouldReset = _props.shouldReset;
 
       return _react2.default.createElement(
         _Modal2.default,
@@ -65,9 +66,25 @@ var FormModal = function (_React$Component) {
         _react2.default.createElement(_Form2.default, {
           data: data,
           initialValues: initialValues,
-          onSubmit: function onSubmit(values) {
-            _this2.props.onSubmit(values);
-            _this2.controller.hide();
+          onSubmit: function onSubmit(values, _ref) {
+            var setError = _ref.setError,
+                resetForm = _ref.resetForm,
+                setSubmitting = _ref.setSubmitting;
+
+            var reset = Object.keys(values).reduce(function (result, prop) {
+              result[prop] = '';
+              return result;
+            }, {});
+            _this2.props.onSubmit(values).then(function () {
+              if (shouldReset) {
+                resetForm(reset);
+              }
+              setSubmitting(false);
+              _this2.controller.hide();
+            }).catch(function (err) {
+              setError(JSON.stringify(err, null, 2));
+              setSubmitting(false);
+            });
           }
         })
       );
@@ -78,7 +95,8 @@ var FormModal = function (_React$Component) {
 }(_react2.default.Component);
 
 FormModal.defaultProps = {
-  onInit: function onInit() {}
+  onInit: function onInit() {},
+  shouldReset: false
 };
 
 exports.default = FormModal;

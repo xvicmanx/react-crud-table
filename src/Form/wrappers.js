@@ -7,6 +7,7 @@ export const Form = block(FormikForm);
 
 Form.Label = element('label', 'label');
 Form.Message = element('div', 'message');
+Form.ErrorMessage = element('div', 'error-message');
 Form.FieldError = element('div', 'field-error');
 
 export default {

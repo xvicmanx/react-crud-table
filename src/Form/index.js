@@ -16,10 +16,13 @@ const BasicForm = ({
       initialValues={initialValues}
       validate={data.validate || DEFAULT_VALIDATE}
       onSubmit={onSubmit}
-      render={({ errors, touched }) => (
+      render={({ errors, touched, error }) => (
         <Form>
           {data.message && (
             <Form.Message>{data.message}</Form.Message>
+          )}
+          {error && (
+            <Form.ErrorMessage>{error}</Form.ErrorMessage>
           )}
           {data.fields.map(field => (
             <div>

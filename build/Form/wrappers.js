@@ -21,6 +21,7 @@ var Form = exports.Form = block(_formik.Form);
 
 Form.Label = element('label', 'label');
 Form.Message = element('div', 'message');
+Form.ErrorMessage = element('div', 'error-message');
 Form.FieldError = element('div', 'field-error');
 
 exports.default = {
