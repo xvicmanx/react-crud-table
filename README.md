@@ -8,6 +8,8 @@ This example shows the basics CRUD (Create, Read, Update, and Delete) and sortin
 
 [In Code Sandbox](https://codesandbox.io/s/6v8qm0jm43)
 
+[Link to the css](https://raw.githubusercontent.com/xvicmanx/react-crud-table/master/src/index.css)
+
 ```shell 
 $ npm install react-crud-table --save
 ```
@@ -197,6 +199,8 @@ ReactDOM.render(
 ## Pagination Example
 This simple example illustrates how to use the pagination component.
 [In Code Sandbox](https://codesandbox.io/s/jlr86lvv8v)
+
+[Link to the css](https://raw.githubusercontent.com/xvicmanx/react-crud-table/master/src/index.css)
 
 ```js
   import React from "react";
