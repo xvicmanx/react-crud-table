@@ -67,6 +67,14 @@
   text-align: left;
 }
 
+.crud-modal-form__error-message {
+  background-color: #e81b1b;
+  color: #fff;
+  padding: .8rem;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+}
+
 .crud-modal-form button {
   margin-top: .5rem;
   min-width: 250px;
