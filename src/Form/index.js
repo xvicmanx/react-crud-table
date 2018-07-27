@@ -5,6 +5,17 @@ import Button from '../Button';
 
 const DEFAULT_VALIDATE = () => ({});
 
+const generalValidationError = ({ touched, errors, message }) => {
+  return !!(errors && Object.keys(errors).length
+    && touched && Object.keys(touched).length)
+    && (
+      <Form.ErrorMessage>
+        {message || 'There are some errors'}
+      </Form.ErrorMessage>
+    );
+};
+
+
 const BasicForm = ({
   data,
   onSubmit,
@@ -24,6 +35,11 @@ const BasicForm = ({
           {error && (
             <Form.ErrorMessage>{error}</Form.ErrorMessage>
           )}
+          {generalValidationError({
+            touched,
+            errors,
+            message: data.generalErrorMessage
+          })}
           {data.fields.map(field => (
             <div>
               <Form.Label
@@ -46,6 +62,11 @@ const BasicForm = ({
               }
             </div>
           ))}
+          {generalValidationError({
+            touched,
+            errors,
+            message: data.generalErrorMessage
+          })}
           <Button
             type="submit"
             modifiers="positive"

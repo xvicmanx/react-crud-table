@@ -24,10 +24,22 @@ var DEFAULT_VALIDATE = function DEFAULT_VALIDATE() {
   return {};
 };
 
-var BasicForm = function BasicForm(_ref) {
-  var data = _ref.data,
-      onSubmit = _ref.onSubmit,
-      initialValues = _ref.initialValues;
+var generalValidationError = function generalValidationError(_ref) {
+  var touched = _ref.touched,
+      errors = _ref.errors,
+      message = _ref.message;
+
+  return !!(errors && Object.keys(errors).length && touched && Object.keys(touched).length) && _react2.default.createElement(
+    _wrappers.Form.ErrorMessage,
+    null,
+    message || 'There are some errors'
+  );
+};
+
+var BasicForm = function BasicForm(_ref2) {
+  var data = _ref2.data,
+      onSubmit = _ref2.onSubmit,
+      initialValues = _ref2.initialValues;
   return _react2.default.createElement(
     "div",
     null,
@@ -36,10 +48,10 @@ var BasicForm = function BasicForm(_ref) {
       initialValues: initialValues,
       validate: data.validate || DEFAULT_VALIDATE,
       onSubmit: onSubmit,
-      render: function render(_ref2) {
-        var errors = _ref2.errors,
-            touched = _ref2.touched,
-            error = _ref2.error;
+      render: function render(_ref3) {
+        var errors = _ref3.errors,
+            touched = _ref3.touched,
+            error = _ref3.error;
         return _react2.default.createElement(
           _wrappers.Form,
           null,
@@ -53,6 +65,11 @@ var BasicForm = function BasicForm(_ref) {
             null,
             error
           ),
+          generalValidationError({
+            touched: touched,
+            errors: errors,
+            message: data.generalErrorMessage
+          }),
           data.fields.map(function (field) {
             return _react2.default.createElement(
               "div",
@@ -75,6 +92,11 @@ var BasicForm = function BasicForm(_ref) {
                 errors[field.name]
               )
             );
+          }),
+          generalValidationError({
+            touched: touched,
+            errors: errors,
+            message: data.generalErrorMessage
           }),
           _react2.default.createElement(
             _Button2.default,
