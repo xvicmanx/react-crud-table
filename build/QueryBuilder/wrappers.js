@@ -1,21 +1,24 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RuleBuilder = exports.Container = undefined;
+exports["default"] = exports.RuleBuilder = exports.Container = void 0;
 
-var _bemReactComponentCreator = require('bem-react-component-creator');
+var _bemReactComponentCreator = _interopRequireDefault(require("bem-react-component-creator"));
 
-var _bemReactComponentCreator2 = _interopRequireDefault(_bemReactComponentCreator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _bcc = (0, _bemReactComponentCreator2.default)('crud-table-query-builder'),
+var _bcc = (0, _bemReactComponentCreator["default"])('crud-table-query-builder'),
     block = _bcc.block,
     element = _bcc.element;
 
-var Container = exports.Container = block('div');
-var RuleBuilder = exports.RuleBuilder = element('div', 'search-rule-builder');
-
-exports.default = { Container: Container, RuleBuilder: RuleBuilder };
+var Container = block('div');
+exports.Container = Container;
+var RuleBuilder = element('div', 'search-rule-builder');
+exports.RuleBuilder = RuleBuilder;
+var _default = {
+  Container: Container,
+  RuleBuilder: RuleBuilder
+};
+exports["default"] = _default;

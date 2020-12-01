@@ -3,20 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
+var _react = _interopRequireDefault(require("react"));
 
 var _wrappers = require("./wrappers");
 
-var _Button = require("../Button");
-
-var _Button2 = _interopRequireDefault(_Button);
+var _Button = _interopRequireDefault(require("../Button"));
 
 var _helpers = require("./helpers");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var getValue = function getValue(field, item) {
   if (typeof field.tableValueResolver === 'string') {
@@ -37,58 +34,22 @@ var Body = function Body(_ref) {
       onDeleteClick = _ref.onDeleteClick,
       onUpdateClick = _ref.onUpdateClick,
       actionsLabel = _ref.actionsLabel;
-  return _react2.default.createElement(
-    _wrappers.Table.Body,
-    null,
-    items.map(function (item) {
-      return _react2.default.createElement(
-        _wrappers.Table.Row,
-        null,
-        fields.map(function (field) {
-          return _react2.default.createElement(
-            _wrappers.Table.Cell,
-            null,
-            _react2.default.createElement(
-              _wrappers.Table.CellLabel,
-              null,
-              field.label
-            ),
-            getValue(field, item)
-          );
-        }),
-        (forms.delete || forms.update) && _react2.default.createElement(
-          _wrappers.Table.Cell,
-          null,
-          _react2.default.createElement(
-            _wrappers.Table.CellLabel,
-            null,
-            actionsLabel
-          ),
-          forms.update && _react2.default.createElement(
-            _Button2.default,
-            {
-              modifiers: "primary",
-              onClick: function onClick() {
-                onUpdateClick(item);
-              }
-            },
-            forms.update.trigger
-          ),
-          "\xA0",
-          forms.delete && _react2.default.createElement(
-            _Button2.default,
-            {
-              modifiers: "negative",
-              onClick: function onClick() {
-                onDeleteClick(item);
-              }
-            },
-            forms.delete.trigger
-          )
-        )
-      );
-    })
-  );
+  return /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Body, null, items.map(function (item) {
+    return /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Row, null, fields.map(function (field) {
+      return /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Cell, null, /*#__PURE__*/_react["default"].createElement(_wrappers.Table.CellLabel, null, field.label), getValue(field, item));
+    }), (forms["delete"] || forms.update) && /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Cell, null, /*#__PURE__*/_react["default"].createElement(_wrappers.Table.CellLabel, null, actionsLabel), forms.update && /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+      modifiers: "primary",
+      onClick: function onClick() {
+        onUpdateClick(item);
+      }
+    }, forms.update.trigger), "\xA0", forms["delete"] && /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+      modifiers: "negative",
+      onClick: function onClick() {
+        onDeleteClick(item);
+      }
+    }, forms["delete"].trigger)));
+  }));
 };
 
-exports.default = Body;
+var _default = Body;
+exports["default"] = _default;

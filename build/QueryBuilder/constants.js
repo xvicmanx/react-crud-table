@@ -1,9 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var CONDITIONS_LABEL = exports.CONDITIONS_LABEL = {
+exports["default"] = exports.DEFAULT_STATE = exports.CONDITIONS = exports.CONDITIONS_LABEL = void 0;
+var CONDITIONS_LABEL = {
   EQUALS_TO: 'EQUALS TO',
   BEGINS_WITH: 'BEGINS WITH',
   ENDS_WITH: 'ENDS WITH',
@@ -23,8 +24,8 @@ var CONDITIONS_LABEL = exports.CONDITIONS_LABEL = {
   IS_NOT_LESS_OR_EQUALS_THAN: 'IS NOT LESS OR EQUALS THAN',
   IS_NOT_GREATER_OR_EQUALS_THAN: 'IS NOT GREATER OR EQUALS THAN'
 };
-
-var CONDITIONS = exports.CONDITIONS = {
+exports.CONDITIONS_LABEL = CONDITIONS_LABEL;
+var CONDITIONS = {
   EQUALS_TO: 'EQUALS_TO',
   BEGINS_WITH: 'BEGINS_WITH',
   ENDS_WITH: 'ENDS_WITH',
@@ -44,17 +45,18 @@ var CONDITIONS = exports.CONDITIONS = {
   IS_NOT_LESS_OR_EQUALS_THAN: 'IS_NOT_LESS_OR_EQUALS_THAN',
   IS_NOT_GREATER_OR_EQUALS_THAN: 'IS_NOT_GREATER_OR_EQUALS_THAN'
 };
-
-var DEFAULT_STATE = exports.DEFAULT_STATE = {
+exports.CONDITIONS = CONDITIONS;
+var DEFAULT_STATE = {
   field: '',
   value: '',
   type: '',
   condition: '',
   collection: ''
 };
-
-exports.default = {
+exports.DEFAULT_STATE = DEFAULT_STATE;
+var _default = {
   CONDITIONS_LABEL: CONDITIONS_LABEL,
   CONDITIONS: CONDITIONS,
   DEFAULT_STATE: DEFAULT_STATE
 };
+exports["default"] = _default;

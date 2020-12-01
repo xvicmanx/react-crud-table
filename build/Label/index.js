@@ -1,34 +1,25 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _wrappers = _interopRequireDefault(require("./wrappers"));
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _wrappers = require('./wrappers');
-
-var _wrappers2 = _interopRequireDefault(_wrappers);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var Label = function Label(_ref) {
   var children = _ref.children;
-  return _react2.default.createElement(
-    _wrappers2.default,
-    null,
-    children
-  );
+  return /*#__PURE__*/_react["default"].createElement(_wrappers["default"], null, children);
 };
 
 Label.propTypes = {
-  children: _propTypes2.default.oneOf([_propTypes2.default.node, _propTypes2.default.arrayOf(_propTypes2.default.node)])
+  children: _propTypes["default"].oneOf([_propTypes["default"].node, _propTypes["default"].arrayOf(_propTypes["default"].node)])
 };
-
-exports.default = Label;
+var _default = Label;
+exports["default"] = _default;

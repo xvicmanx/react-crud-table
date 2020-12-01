@@ -1,59 +1,39 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _react = require('react');
+var _react = _interopRequireDefault(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _propTypes = require('prop-types');
+var _helpers = require("./helpers");
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+var _Button = _interopRequireDefault(require("../Button"));
 
-var _helpers = require('./helpers');
-
-var _Button = require('../Button');
-
-var _Button2 = _interopRequireDefault(_Button);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var Rules = function Rules(_ref) {
   var queries = _ref.queries,
       onRuleRemoved = _ref.onRuleRemoved,
       renderRule = _ref.renderRule;
-  return queries.length > 0 && _react2.default.createElement(
-    'div',
-    null,
-    queries.map(function (rule) {
-      var renderer = renderRule || _helpers.defaultRuleRender;
-      return _react2.default.createElement(
-        'div',
-        null,
-        renderer(rule),
-        '\xA0\xA0',
-        _react2.default.createElement(
-          _Button2.default,
-          {
-            onClick: function onClick() {
-              onRuleRemoved(rule);
-            },
-            modifiers: 'negative,circular'
-          },
-          'X'
-        )
-      );
-    }),
-    _react2.default.createElement('br', null)
-  );
+  return queries.length > 0 && /*#__PURE__*/_react["default"].createElement("div", null, queries.map(function (rule) {
+    var renderer = renderRule || _helpers.defaultRuleRender;
+    return /*#__PURE__*/_react["default"].createElement("div", null, renderer(rule), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+      onClick: function onClick() {
+        onRuleRemoved(rule);
+      },
+      modifiers: "negative,circular"
+    }, "X"));
+  }), /*#__PURE__*/_react["default"].createElement("br", null));
 };
 
 Rules.propTypes = {
-  queries: _propTypes2.default.instanceOf(Array).isRequired,
-  onRuleRemoved: _propTypes2.default.func.isRequired,
-  renderRule: _propTypes2.default.func.isRequired
+  queries: _propTypes["default"].instanceOf(Array).isRequired,
+  onRuleRemoved: _propTypes["default"].func.isRequired,
+  renderRule: _propTypes["default"].func.isRequired
 };
-
-exports.default = Rules;
+var _default = Rules;
+exports["default"] = _default;

@@ -1,20 +1,21 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Btn = undefined;
+exports["default"] = exports.Btn = void 0;
 
-var _bemReactComponentCreator = require('bem-react-component-creator');
+var _bemReactComponentCreator = _interopRequireDefault(require("bem-react-component-creator"));
 
-var _bemReactComponentCreator2 = _interopRequireDefault(_bemReactComponentCreator);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _bcc = (0, _bemReactComponentCreator2.default)('crud-button'),
+var _bcc = (0, _bemReactComponentCreator["default"])('crud-button'),
     block = _bcc.block,
     element = _bcc.element;
 
-var Btn = exports.Btn = block('button');
-
-exports.default = { Btn: Btn };
+var Btn = block('button');
+exports.Btn = Btn;
+var _default = {
+  Btn: Btn
+};
+exports["default"] = _default;

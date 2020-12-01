@@ -1,47 +1,44 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.inputForType = exports.getDefaultConditionForType = exports.conditionsForType = exports.defaultRuleRender = exports.mapFieldsToOptions = exports.isBoolean = exports.isRuleComplete = undefined;
+exports["default"] = exports.inputForType = exports.getDefaultConditionForType = exports.conditionsForType = exports.defaultRuleRender = exports.mapFieldsToOptions = exports.isBoolean = exports.isRuleComplete = void 0;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _react = _interopRequireDefault(require("react"));
 
-var _react = require('react');
+var _reactDatetime = _interopRequireDefault(require("react-datetime"));
 
-var _react2 = _interopRequireDefault(_react);
+var _Label = _interopRequireDefault(require("../Label"));
 
-var _reactDatetime = require('react-datetime');
+var _constants = require("./constants");
 
-var _reactDatetime2 = _interopRequireDefault(_reactDatetime);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _Label = require('../Label');
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-var _Label2 = _interopRequireDefault(_Label);
-
-var _constants = require('./constants');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var styles = void 0;
+var styles;
 
 var Input = function Input(props) {
-  return _react2.default.createElement('input', props);
+  return /*#__PURE__*/_react["default"].createElement("input", props);
 };
 
-var isRuleComplete = exports.isRuleComplete = function isRuleComplete(rule) {
+var isRuleComplete = function isRuleComplete(rule) {
   var condition = rule.condition,
       value = rule.value,
       field = rule.field;
-
   return condition != "" && value !== '' && field !== '';
 };
 
-var isBoolean = exports.isBoolean = function isBoolean(type) {
+exports.isRuleComplete = isRuleComplete;
+
+var isBoolean = function isBoolean(type) {
   return type === 'boolean';
 };
 
-var mapFieldsToOptions = exports.mapFieldsToOptions = function mapFieldsToOptions(fields) {
+exports.isBoolean = isBoolean;
+
+var mapFieldsToOptions = function mapFieldsToOptions(fields) {
   return fields.map(function (x) {
     return {
       text: x.label,
@@ -51,57 +48,41 @@ var mapFieldsToOptions = exports.mapFieldsToOptions = function mapFieldsToOption
   });
 };
 
-var defaultRuleRender = exports.defaultRuleRender = function defaultRuleRender(rule) {
+exports.mapFieldsToOptions = mapFieldsToOptions;
+
+var defaultRuleRender = function defaultRuleRender(rule) {
   if (isBoolean(rule.type)) {
-    return _react2.default.createElement(
-      'span',
-      null,
-      _react2.default.createElement(
-        _Label2.default,
-        { style: styles.label },
-        rule.condition
-      ),
-      '\xA0',
-      _react2.default.createElement(
-        _Label2.default,
-        { style: styles.label },
-        rule.label
-      )
-    );
+    return /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(_Label["default"], {
+      style: styles.label
+    }, rule.condition), "\xA0", /*#__PURE__*/_react["default"].createElement(_Label["default"], {
+      style: styles.label
+    }, rule.label));
   }
-  return _react2.default.createElement(
-    'span',
-    null,
-    _react2.default.createElement(
-      _Label2.default,
-      { style: styles.label },
-      rule.label
-    ),
-    '\xA0',
-    _react2.default.createElement(
-      _Label2.default,
-      { style: styles.label },
-      _constants.CONDITIONS_LABEL[rule.condition]
-    ),
-    '\xA0',
-    _react2.default.createElement(
-      _Label2.default,
-      { style: styles.label },
-      rule.value
-    )
-  );
+
+  return /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(_Label["default"], {
+    style: styles.label
+  }, rule.label), "\xA0", /*#__PURE__*/_react["default"].createElement(_Label["default"], {
+    style: styles.label
+  }, _constants.CONDITIONS_LABEL[rule.condition]), "\xA0", /*#__PURE__*/_react["default"].createElement(_Label["default"], {
+    style: styles.label
+  }, rule.value));
 };
 
-var conditionsForType = exports.conditionsForType = function conditionsForType(type) {
-  var result = void 0;
+exports.defaultRuleRender = defaultRuleRender;
+
+var conditionsForType = function conditionsForType(type) {
+  var result;
+
   switch (type) {
     case 'number':
     case 'date':
       result = [_constants.CONDITIONS.EQUALS_TO, _constants.CONDITIONS.LESS_THAN, _constants.CONDITIONS.GREATER_THAN, _constants.CONDITIONS.LESS_OR_EQUALS_THAN, _constants.CONDITIONS.GREATER_OR_EQUALS_THAN, _constants.CONDITIONS.IS_NOT_EQUALS_TO, _constants.CONDITIONS.IS_NOT_LESS_THAN, _constants.CONDITIONS.IS_NOT_GREATER_THAN, _constants.CONDITIONS.IS_NOT_LESS_OR_EQUALS_THAN, _constants.CONDITIONS.IS_NOT_GREATER_OR_EQUALS_THAN];
       break;
+
     case 'boolean':
       result = [_constants.CONDITIONS.IS, _constants.CONDITIONS.IS_NOT];
       break;
+
     default:
       result = [_constants.CONDITIONS.CONTAINS, _constants.CONDITIONS.EQUALS_TO, _constants.CONDITIONS.BEGINS_WITH, _constants.CONDITIONS.ENDS_WITH, _constants.CONDITIONS.IS_NOT_EQUALS_TO, _constants.CONDITIONS.DOES_NOT_BEGIN_WITH, _constants.CONDITIONS.DOES_NOT_END_WITH, _constants.CONDITIONS.DOES_NOT_CONTAIN];
       break;
@@ -116,54 +97,68 @@ var conditionsForType = exports.conditionsForType = function conditionsForType(t
   });
 };
 
-var getDefaultConditionForType = exports.getDefaultConditionForType = function getDefaultConditionForType(type) {
+exports.conditionsForType = conditionsForType;
+
+var getDefaultConditionForType = function getDefaultConditionForType(type) {
   switch (type) {
     case 'number':
       return _constants.CONDITIONS.EQUALS_TO;
+
     case 'date':
       return _constants.CONDITIONS.GREATER_OR_EQUALS_THAN;
+
     default:
       return _constants.CONDITIONS.CONTAINS;
   }
 };
 
-var inputForType = exports.inputForType = function inputForType(type, props) {
+exports.getDefaultConditionForType = getDefaultConditionForType;
+
+var inputForType = function inputForType(type, props) {
   switch (type) {
     case 'number':
-      return _react2.default.createElement(Input, _extends({ type: 'number' }, props));
+      return /*#__PURE__*/_react["default"].createElement(Input, _extends({
+        type: "number"
+      }, props));
+
     case 'boolean':
-      return _react2.default.createElement(Input, _extends({}, props, {
-        type: 'checkbox',
+      return /*#__PURE__*/_react["default"].createElement(Input, _extends({}, props, {
+        type: "checkbox",
         onClick: function onClick(evt) {
           evt.target.value = evt.target.checked;
           props.onChange(evt);
         },
         onChange: function onChange() {}
       }));
+
     case 'date':
-      return _react2.default.createElement(_reactDatetime2.default, _extends({}, props, {
-        className: 'ui input',
-        dateFormat: 'YYYY-MM-DD',
-        timeFormat: 'hh:mm A',
+      return /*#__PURE__*/_react["default"].createElement(_reactDatetime["default"], _extends({}, props, {
+        className: "ui input",
+        dateFormat: "YYYY-MM-DD",
+        timeFormat: "hh:mm A",
         onChange: function onChange(data) {
           props.onChange({
             target: {
               value: data.format('YYYY-MM-DD hh:mm A')
             }
           });
-        } }));
+        }
+      }));
+
     default:
-      return _react2.default.createElement(Input, _extends({ type: 'text' }, props));
+      return /*#__PURE__*/_react["default"].createElement(Input, _extends({
+        type: "text"
+      }, props));
   }
 };
 
+exports.inputForType = inputForType;
 styles = {
   label: {
     marginBottom: '5px'
   }
 };
-
-exports.default = {
+var _default = {
   defaultRuleRender: defaultRuleRender,
   conditionsForType: conditionsForType,
   getDefaultConditionForType: getDefaultConditionForType,
@@ -172,3 +167,4 @@ exports.default = {
   isBoolean: isBoolean,
   isRuleComplete: isRuleComplete
 };
+exports["default"] = _default;
