@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "watch 'npm run build' src",
     "build": "babel src -d build",
-    "test": "jest --env=jsdom --no-watchman",
+    "test": "jest --env=jsdom --no-watchman --passWithNoTests",
     "test-watch": "npm test -- --watch",
     "prepublish": "npm run build",
     "release": "np"
