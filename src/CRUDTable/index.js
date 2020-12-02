@@ -54,7 +54,10 @@ class CRUDTable extends React.Component {
       queryRules: [],
       updateItem: {},
       deleteItem: {},
-      pagination: this.pagination,
+      pagination: {
+        ...this.pagination,
+        activePage: this.pagination.activePage || 1,
+      },
       totalOfItems: this.pagination.totalOfItems || 0,
     };
   }
