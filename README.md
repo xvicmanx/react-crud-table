@@ -110,6 +110,7 @@ const Example = () => (
           name="id"
           label="Id"
           hideInCreateForm
+          readOnly
         />
         <Field
           name="title"
@@ -291,7 +292,7 @@ const Example = () => (
       fetchItems={payload => service.fetchItems(payload)}
     >
       <Fields>
-        <Field name="id" label="Id" hideInCreateForm />
+        <Field name="id" label="Id" hideInCreateForm readOnly />
         <Field name="title" label="Title" placeholder="Title" />
         <Field name="description" label="Description" />
       </Fields>
@@ -395,6 +396,13 @@ ReactDOM.render(<Example />, document.getElementById("root"));
 
   #### `sortable`: bool
   To indicate this field is sortable. Default is true.
+
+
+  #### `readOnly`: bool
+  To indicate this field is read only. Default is false.
+
+
+  
 
 ### CreateForm, UpdateForm, and DeleteForm Components
   These components are used to configure the forms to create, update and delete the items. Not including one of this forms means that you dont want support for the corresponding operation of the form and therefore will be hidden.

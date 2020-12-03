@@ -51,7 +51,9 @@ var BasicForm = function BasicForm(_ref2) {
         }, field.label), /*#__PURE__*/_react["default"].createElement(_formik.Field, {
           name: field.name,
           placeholder: field.placeholder,
-          render: field.render
+          render: field.render,
+          type: field.type,
+          readOnly: field.readOnly
         }), errors[field.name] && touched[field.name] && /*#__PURE__*/_react["default"].createElement(_wrappers.Form.FieldError, null, errors[field.name]));
       }), generalValidationError({
         touched: touched,

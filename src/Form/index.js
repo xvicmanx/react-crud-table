@@ -51,6 +51,8 @@ const BasicForm = ({
                 name={field.name}
                 placeholder={field.placeholder}
                 render={field.render}
+                type={field.type}
+                readOnly={field.readOnly}
               />
               {errors[field.name] &&
                 touched[field.name] &&
