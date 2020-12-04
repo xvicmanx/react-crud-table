@@ -391,6 +391,9 @@ ReactDOM.render(<Example />, document.getElementById("root"));
   #### `hideInUpdateForm`: bool
   To hide this field in the Update Form.
 
+  #### `hideFromTable`: bool
+  To hide the field from the table.
+
   #### `queryable`: bool
   To indicate this field is queryable.  Default is true
 

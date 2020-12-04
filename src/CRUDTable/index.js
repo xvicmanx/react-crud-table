@@ -158,6 +158,7 @@ class CRUDTable extends React.Component {
 
   render() {
     const { items, sort, pagination } = this.state;
+    const tabularFields = this.fields.filter(f => !f.hideFromTable);
     return (
       <div>
         {this.forms.create && (
@@ -180,14 +181,14 @@ class CRUDTable extends React.Component {
 
         <Table>
           <Header
-            fields={this.fields}
+            fields={tabularFields}
             sort={sort}
             onClick={this.handleHeaderClick}
             forms={this.forms}
             actionsLabel={this.props.actionsLabel}
           />
           <Body
-            fields={this.fields}
+            fields={tabularFields}
             items={items}
             forms={this.forms}
             actionsLabel={this.props.actionsLabel}
@@ -253,9 +254,10 @@ export const Field = ({
   tableValueResolver,
   hideInCreateForm,
   hideInUpdateForm,
+  hideFromTable,
   queryable,
   type,
-}) => <div {...props} />;
+}) => <div />;
 Field.displayName = FIELD_COMPONENT_TYPE;
 Field.propTypes = {
   name: PropTypes.string.isRequired,
@@ -264,6 +266,7 @@ Field.propTypes = {
   tableValueResolver: PropTypes.any,
   hideInCreateForm: PropTypes.bool,
   hideInUpdateForm: PropTypes.bool,
+  hideFromTable: PropTypes.bool,
   queryable: PropTypes.bool,
   sortable: PropTypes.bool,
 };
@@ -273,6 +276,7 @@ Field.defaultProps = {
   type: 'text',
   hideInCreateForm: false,
   hideInUpdateForm: false,
+  hideFromTable: false,
 };
 
 export const CreateForm = () => <div />;

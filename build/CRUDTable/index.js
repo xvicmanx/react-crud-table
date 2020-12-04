@@ -234,6 +234,9 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
           items = _this$state.items,
           sort = _this$state.sort,
           pagination = _this$state.pagination;
+      var tabularFields = this.fields.filter(function (f) {
+        return !f.hideFromTable;
+      });
       return /*#__PURE__*/_react["default"].createElement("div", null, this.forms.create && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
         trigger: this.forms.create.trigger,
         data: this.forms.create,
@@ -243,13 +246,13 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         fields: this.queryFields,
         onChange: this.handleQueryChange
       }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table, null, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
-        fields: this.fields,
+        fields: tabularFields,
         sort: sort,
         onClick: this.handleHeaderClick,
         forms: this.forms,
         actionsLabel: this.props.actionsLabel
       }), /*#__PURE__*/_react["default"].createElement(_Body["default"], {
-        fields: this.fields,
+        fields: tabularFields,
         items: items,
         forms: this.forms,
         actionsLabel: this.props.actionsLabel,
@@ -310,9 +313,10 @@ var Field = function Field(_ref) {
       tableValueResolver = _ref.tableValueResolver,
       hideInCreateForm = _ref.hideInCreateForm,
       hideInUpdateForm = _ref.hideInUpdateForm,
+      hideFromTable = _ref.hideFromTable,
       queryable = _ref.queryable,
       type = _ref.type;
-  return /*#__PURE__*/_react["default"].createElement("div", props);
+  return /*#__PURE__*/_react["default"].createElement("div", null);
 };
 
 exports.Field = Field;
@@ -324,6 +328,7 @@ Field.propTypes = {
   tableValueResolver: _propTypes["default"].any,
   hideInCreateForm: _propTypes["default"].bool,
   hideInUpdateForm: _propTypes["default"].bool,
+  hideFromTable: _propTypes["default"].bool,
   queryable: _propTypes["default"].bool,
   sortable: _propTypes["default"].bool
 };
@@ -332,7 +337,8 @@ Field.defaultProps = {
   sortable: true,
   type: 'text',
   hideInCreateForm: false,
-  hideInUpdateForm: false
+  hideInUpdateForm: false,
+  hideFromTable: false
 };
 
 var CreateForm = function CreateForm() {
