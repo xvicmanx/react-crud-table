@@ -35,6 +35,10 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+var isPromise = function isPromise(target) {
+  return Boolean(target && typeof target.then === 'function');
+};
+
 var FormModal = /*#__PURE__*/function (_React$Component) {
   _inherits(FormModal, _React$Component);
 
@@ -48,6 +52,9 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.controller = null;
     _this.setController = _this.setController.bind(_assertThisInitialized(_this));
+    _this.state = {
+      key: 0
+    };
     return _this;
   }
 
@@ -70,8 +77,14 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
         trigger: trigger,
         onInit: this.setController,
-        title: data.title
+        title: data.title,
+        onDisplay: function onDisplay() {
+          _this2.setState({
+            key: new Date().getTime()
+          });
+        }
       }, /*#__PURE__*/_react["default"].createElement(_Form["default"], {
+        key: this.state.key,
         data: data,
         initialValues: initialValues,
         onSubmit: function onSubmit(values, _ref) {
@@ -83,18 +96,22 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
             return result;
           }, {});
 
-          _this2.props.onSubmit(values).then(function () {
-            if (shouldReset) {
-              resetForm(reset);
-            }
+          var result = _this2.props.onSubmit(values);
 
-            setSubmitting(false);
+          if (isPromise(result)) {
+            result.then(function () {
+              if (shouldReset) {
+                resetForm(reset);
+              }
 
-            _this2.controller.hide();
-          })["catch"](function (err) {
-            setError(JSON.stringify(err, null, 2));
-            setSubmitting(false);
-          });
+              setSubmitting(false);
+
+              _this2.controller.hide();
+            })["catch"](function (err) {
+              setError(err ? err.message : 'Unexpected error');
+              setSubmitting(false);
+            });
+          }
         }
       }));
     }

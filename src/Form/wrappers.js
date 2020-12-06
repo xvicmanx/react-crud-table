@@ -9,6 +9,7 @@ Form.Label = element('label', 'label');
 Form.Message = element('div', 'message');
 Form.ErrorMessage = element('div', 'error-message');
 Form.FieldError = element('div', 'field-error');
+Form.FieldContainer = element('div', 'field-container');
 
 export default {
   Form

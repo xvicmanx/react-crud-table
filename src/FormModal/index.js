@@ -2,11 +2,14 @@ import React from "react";
 import Modal from "../Modal";
 import Form from "../Form";
 
+const isPromise = (target) => Boolean(target && typeof target.then === 'function');
+
 class FormModal extends React.Component {
   constructor(props) {
     super(props);
     this.controller = null;
     this.setController = this.setController.bind(this);
+    this.state = { key: 0 };
   }
 
   setController(controller) {
@@ -26,8 +29,12 @@ class FormModal extends React.Component {
         trigger={trigger}
         onInit={this.setController}
         title={data.title}
+        onDisplay={() => {
+          this.setState({ key: (new Date()).getTime()})
+        }}
       >
         <Form
+          key={this.state.key}
           data={data}
           initialValues={initialValues}
           onSubmit={(values, { setError, resetForm, setSubmitting }) => {
@@ -36,16 +43,22 @@ class FormModal extends React.Component {
                 result[prop] = '';
                 return result;
               }, {});
-            this.props.onSubmit(values).then(() => {
-              if (shouldReset) {
-                resetForm(reset)
-              }
-              setSubmitting(false);
-              this.controller.hide();
-            }).catch((err) => {
-              setError(JSON.stringify(err, null, 2));
-              setSubmitting(false);
-            });
+
+            const result = this.props.onSubmit(values)
+            
+            if (isPromise(result)) {
+              result.then(() => {
+                if (shouldReset) {
+                  resetForm(reset);
+                }
+  
+                setSubmitting(false);
+                this.controller.hide();
+              }).catch((err) => {
+                setError(err ? err.message : 'Unexpected error');
+                setSubmitting(false);
+              });
+            }
           }}
         />
       </Modal>

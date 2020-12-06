@@ -22,6 +22,10 @@ class Modal extends React.Component {
   }
 
   showModal() {
+    if (this.props.onDisplay) {
+      this.props.onDisplay();
+    }
+
     this.setState({ visible: true });
   }
 
@@ -61,6 +65,7 @@ class Modal extends React.Component {
 
 Modal.defaultProps = {
   onInit: () => {},
+  onDisplay: () => {},
   title: '',
 };
 

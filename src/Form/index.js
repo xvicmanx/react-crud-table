@@ -6,9 +6,10 @@ import Button from '../Button';
 const DEFAULT_VALIDATE = () => ({});
 
 const generalValidationError = ({ touched, errors, message }) => {
-  return !!(errors && Object.keys(errors).length
-    && touched && Object.keys(touched).length)
-    && (
+  const fieldsTouched = touched || {};
+  const showErrorMessage = Object.keys(errors || {})
+    .reduce((acc, key) => acc || fieldsTouched[key], false);
+  return showErrorMessage && (
       <Form.ErrorMessage>
         {message || 'There are some errors'}
       </Form.ErrorMessage>
@@ -41,7 +42,7 @@ const BasicForm = ({
             message: data.generalErrorMessage
           })}
           {data.fields.map(field => (
-            <div>
+            <Form.FieldContainer>
               <Form.Label
                 htmlFor={field.name}
               >
@@ -62,7 +63,7 @@ const BasicForm = ({
                   </Form.FieldError>
                 )
               }
-            </div>
+            </Form.FieldContainer>
           ))}
           {generalValidationError({
             touched,

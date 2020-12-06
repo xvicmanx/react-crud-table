@@ -37,6 +37,10 @@
   padding: 1rem;
 }
 
+.crud-modal-form__field-container {
+  text-align: left;
+}
+
 .crud-modal-form__field-error {
   color: #fff;
   background-color: #e81b1b;

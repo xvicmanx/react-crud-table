@@ -25,7 +25,11 @@ var generalValidationError = function generalValidationError(_ref) {
   var touched = _ref.touched,
       errors = _ref.errors,
       message = _ref.message;
-  return !!(errors && Object.keys(errors).length && touched && Object.keys(touched).length) && /*#__PURE__*/_react["default"].createElement(_wrappers.Form.ErrorMessage, null, message || 'There are some errors');
+  var fieldsTouched = touched || {};
+  var showErrorMessage = Object.keys(errors || {}).reduce(function (acc, key) {
+    return acc || fieldsTouched[key];
+  }, false);
+  return showErrorMessage && /*#__PURE__*/_react["default"].createElement(_wrappers.Form.ErrorMessage, null, message || 'There are some errors');
 };
 
 var BasicForm = function BasicForm(_ref2) {
@@ -46,7 +50,7 @@ var BasicForm = function BasicForm(_ref2) {
         errors: errors,
         message: data.generalErrorMessage
       }), data.fields.map(function (field) {
-        return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_wrappers.Form.Label, {
+        return /*#__PURE__*/_react["default"].createElement(_wrappers.Form.FieldContainer, null, /*#__PURE__*/_react["default"].createElement(_wrappers.Form.Label, {
           htmlFor: field.name
         }, field.label), /*#__PURE__*/_react["default"].createElement(_formik.Field, {
           name: field.name,

@@ -69,6 +69,10 @@ var Modal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "showModal",
     value: function showModal() {
+      if (this.props.onDisplay) {
+        this.props.onDisplay();
+      }
+
       this.setState({
         visible: true
       });
@@ -102,6 +106,7 @@ var Modal = /*#__PURE__*/function (_React$Component) {
 
 Modal.defaultProps = {
   onInit: function onInit() {},
+  onDisplay: function onDisplay() {},
   title: ''
 };
 var _default = Modal;
