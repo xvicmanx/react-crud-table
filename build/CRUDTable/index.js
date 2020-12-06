@@ -101,6 +101,13 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(CRUDTable, [{
+    key: "getPaginationProps",
+    value: function getPaginationProps(props) {
+      var items = _react["default"].Children.toArray(props.children);
+
+      return (0, _helpers.extractPagination)(items);
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.update(undefined, false);
@@ -136,16 +143,17 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
+      var newState = {};
+
       if (nextProps.items !== this.props.items) {
-        this.setState({
-          items: nextProps.items
-        });
+        newState.items = nextProps.items;
+        var paginationProps = this.getPaginationProps(nextProps);
+        console.log(paginationProps);
+        newState.totalOfItems = paginationProps.totalOfItems || 0;
       }
 
-      if (nextProps.totalOfItems !== this.props.totalOfItems) {
-        this.setState({
-          totalOfItems: nextProps.totalOfItems
-        });
+      if (Object.keys(newState).length) {
+        this.setState(newState);
       }
     }
   }, {
@@ -233,7 +241,8 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       var _this$state = this.state,
           items = _this$state.items,
           sort = _this$state.sort,
-          pagination = _this$state.pagination;
+          pagination = _this$state.pagination,
+          totalOfItems = _this$state.totalOfItems;
       var tabularFields = this.fields.filter(function (f) {
         return !f.hideFromTable;
       });
@@ -270,8 +279,8 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
 
           _this6.updateModalController.show();
         }
-      })), !!pagination && !!this.state.totalOfItems && /*#__PURE__*/_react["default"].createElement(_Pagination["default"], _extends({}, pagination, {
-        totalOfItems: this.state.totalOfItems,
+      })), !!pagination && totalOfItems > 0 && /*#__PURE__*/_react["default"].createElement(_Pagination["default"], _extends({}, pagination, {
+        totalOfItems: totalOfItems,
         onChange: this.handlePaginationChange
       })), this.forms.update && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
         initialValues: this.state.updateItem,

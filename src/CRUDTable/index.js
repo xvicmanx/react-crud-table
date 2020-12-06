@@ -62,6 +62,11 @@ class CRUDTable extends React.Component {
     };
   }
 
+  getPaginationProps(props) {
+    const items = React.Children.toArray(props.children);
+    return extractPagination(items);
+  }
+
   componentDidMount() {
     this.update(undefined, false);
   }
@@ -89,12 +94,16 @@ class CRUDTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const newState = {};
+
     if (nextProps.items !== this.props.items) {
-      this.setState({ items: nextProps.items });
+      newState.items = nextProps.items;
+      const paginationProps = this.getPaginationProps(nextProps);
+      newState.totalOfItems = paginationProps.totalOfItems || 0;
     }
 
-    if (nextProps.totalOfItems !== this.props.totalOfItems) {
-      this.setState({ totalOfItems: nextProps.totalOfItems });
+    if (Object.keys(newState).length) {
+      this.setState(newState);
     }
   }
   
@@ -157,7 +166,7 @@ class CRUDTable extends React.Component {
   }
 
   render() {
-    const { items, sort, pagination } = this.state;
+    const { items, sort, pagination, totalOfItems } = this.state;
     const tabularFields = this.fields.filter(f => !f.hideFromTable);
     return (
       <div>
@@ -204,11 +213,11 @@ class CRUDTable extends React.Component {
         </Table>
 
         {!!pagination &&
-          (!!this.state.totalOfItems) &&
+          totalOfItems > 0 &&
           (
             <PaginationCpt
               {...pagination}
-              totalOfItems={this.state.totalOfItems}
+              totalOfItems={totalOfItems}
               onChange={this.handlePaginationChange}
             />
         )}
