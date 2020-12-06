@@ -148,7 +148,6 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       if (nextProps.items !== this.props.items) {
         newState.items = nextProps.items;
         var paginationProps = this.getPaginationProps(nextProps);
-        console.log(paginationProps);
         newState.totalOfItems = paginationProps.totalOfItems || 0;
       }
 
