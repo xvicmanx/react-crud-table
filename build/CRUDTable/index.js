@@ -84,7 +84,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     _this.pagination = (0, _helpers.extractPagination)(items);
     _this.queryFields = (0, _helpers.extractQueryFields)(items);
     _this.state = {
-      items: props.values || [],
+      items: props.items || [],
       sort: {
         field: _constants.ID_FIELD,
         direction: _constants.SORT_DIRECTIONS.DESCENDING

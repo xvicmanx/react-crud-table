@@ -46,7 +46,7 @@ class CRUDTable extends React.Component {
     this.queryFields = extractQueryFields(items);
 
     this.state = {
-      items: props.values || [],
+      items: props.items || [],
       sort: {
         field: ID_FIELD,
         direction: SORT_DIRECTIONS.DESCENDING,
