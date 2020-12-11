@@ -27,9 +27,9 @@ const Body = ({
 }) => (
   <Table.Body>
     {items.map((item) => (
-      <Table.Row>
+      <Table.Row key={item.id}>
         {fields.map((field) => (
-          <Table.Cell>
+          <Table.Cell key={field.name}>
             <Table.CellLabel>{field.label}</Table.CellLabel>
             {getValue(field, item)}
           </Table.Cell>

@@ -42,7 +42,7 @@ const BasicForm = ({
             message: data.generalErrorMessage,
           })}
           {data.fields.map((field) => (
-            <Form.FieldContainer>
+            <Form.FieldContainer key={field.name}>
               <Form.Label
                 htmlFor={field.name}
               >

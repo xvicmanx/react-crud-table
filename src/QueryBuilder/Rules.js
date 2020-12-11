@@ -13,9 +13,9 @@ const Rules = ({
       {queries.map((rule) => {
         const renderer = renderRule || defaultRuleRender;
         return (
-          <div>
+          <div key={`${rule.field}:${rule.condition}`}>
             {renderer(rule)}
-&nbsp;&nbsp;
+            {'  '}
             <Button
               onClick={() => { onRuleRemoved(rule); }}
               modifiers="negative,circular"

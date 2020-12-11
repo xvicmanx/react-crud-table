@@ -15,6 +15,7 @@ const Header = ({
     <Table.Row>
       {fields.map((field) => (
         <Table.HeaderCell
+          key={field.name}
           onClick={() => {
             if (field.sortable) {
               onClick(field.name, sort.direction);
