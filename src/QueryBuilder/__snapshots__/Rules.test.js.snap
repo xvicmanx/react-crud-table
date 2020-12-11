@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rules renders as expected when no props are passed 1`] = `
+<div>
+  <br />
+</div>
+`;
+
+exports[`Rules renders as expected with the given props 1`] = `
+<div>
+  <div>
+    name ... EQUALS_TO
+      
+    <Button
+      modifiers="negative,circular"
+      onClick={[Function]}
+    >
+      X
+    </Button>
+  </div>
+  <br />
+</div>
+`;

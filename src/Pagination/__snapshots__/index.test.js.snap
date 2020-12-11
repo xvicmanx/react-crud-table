@@ -124,3 +124,14 @@ exports[`Pagination renders as expected when in the last page 1`] = `
   </PaginationLink>
 </Pagination>
 `;
+
+exports[`Pagination renders as expected when there are no items 1`] = `
+<Pagination>
+  <PaginationLink
+    modifiers="active"
+    onClick={[Function]}
+  >
+    1
+  </PaginationLink>
+</Pagination>
+`;

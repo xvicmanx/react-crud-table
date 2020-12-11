@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QueryBuilder renders as expected with the given props 1`] = `
+<Container>
+  <RuleBuilder
+    conditionsSelectPlaceholder="Select condition"
+    fields={
+      Array [
+        Object {
+          "name": "id",
+          "value": 1,
+        },
+      ]
+    }
+    fieldsSelectPlaceholder="Select field"
+    onSave={[MockFunction]}
+  />
+  <Rules
+    onRuleRemoved={[MockFunction]}
+    queryRules={
+      Array [
+        Object {
+          "condition": "EQUALS_TO",
+          "field": "name",
+        },
+      ]
+    }
+    renderRule={[MockFunction]}
+  />
+</Container>
+`;

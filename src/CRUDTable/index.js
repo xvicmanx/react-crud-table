@@ -38,7 +38,8 @@ class CRUDTable extends React.Component {
     this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.handleRuleAdded = this.handleRuleAdded.bind(this);
+    this.handleRuleRemoved = this.handleRuleRemoved.bind(this);
 
     const configItems = React.Children.toArray(props.children);
     this.fields = extractFields(configItems);
@@ -105,11 +106,6 @@ class CRUDTable extends React.Component {
     this.update({ pagination });
   }
 
-  handleQueryChange(queryRules) {
-    this.setState({ queryRules });
-    this.update({ queryRules });
-  }
-
   handleOnCreateSubmission(values) {
     return this.forms.create.onSubmit(values).then((result) => {
       this.update();
@@ -129,6 +125,22 @@ class CRUDTable extends React.Component {
       this.update();
       return result;
     });
+  }
+
+  handleRuleAdded(rule) {
+    const { queryRules } = this.state;
+    const newQueryRules = [...queryRules, rule];
+    this.setState({ queryRules: newQueryRules });
+    this.update({ queryRules: newQueryRules });
+  }
+
+  handleRuleRemoved(rule) {
+    const { queryRules } = this.state;
+    const newQueryRules = queryRules.filter(
+      (x) => x.field !== rule.field || x.condition !== rule.condition
+    );
+    this.setState({ queryRules: newQueryRules });
+    this.update({ queryRules: newQueryRules });
   }
 
   getPayload(extension = {}) {
@@ -170,6 +182,7 @@ class CRUDTable extends React.Component {
       totalOfItems,
       deleteItem,
       updateItem,
+      queryRules,
     } = this.state;
     const { caption, showQueryBuilder, actionsLabel } = this.props;
     const tabularFields = this.fields.filter((f) => !f.hideFromTable);
@@ -190,8 +203,10 @@ class CRUDTable extends React.Component {
 
         {showQueryBuilder && (
           <QueryBuilder
+            queryRules={queryRules}
             fields={this.queryFields}
-            onChange={this.handleQueryChange}
+            onRuleAdded={this.handleRuleAdded}
+            onRuleRemoved={this.handleRuleRemoved}
           />
         )}
 

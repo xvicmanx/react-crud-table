@@ -17,6 +17,18 @@ describe('Pagination', () => {
     onChange = jest.fn();
   });
 
+  it('renders as expected when there are no items', () => {
+    const result = renderer.render(
+      <Pagination
+        activePage={1}
+        totalOfItems={0}
+        itemsPerPage={2}
+        onPageChange={onChange}
+      />
+    );
+    expect(result).toMatchSnapshot();
+  });
+
   it('renders as expected when in the first page', () => {
     const result = renderer.render(
       <Pagination

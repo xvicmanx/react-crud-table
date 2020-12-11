@@ -31,6 +31,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -75,7 +87,8 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     _this.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_assertThisInitialized(_this));
     _this.handleHeaderClick = _this.handleHeaderClick.bind(_assertThisInitialized(_this));
     _this.handlePageChange = _this.handlePageChange.bind(_assertThisInitialized(_this));
-    _this.handleQueryChange = _this.handleQueryChange.bind(_assertThisInitialized(_this));
+    _this.handleRuleAdded = _this.handleRuleAdded.bind(_assertThisInitialized(_this));
+    _this.handleRuleRemoved = _this.handleRuleRemoved.bind(_assertThisInitialized(_this));
 
     var configItems = _react["default"].Children.toArray(props.children);
 
@@ -154,16 +167,6 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "handleQueryChange",
-    value: function handleQueryChange(queryRules) {
-      this.setState({
-        queryRules: queryRules
-      });
-      this.update({
-        queryRules: queryRules
-      });
-    }
-  }, {
     key: "handleOnCreateSubmission",
     value: function handleOnCreateSubmission(values) {
       var _this2 = this;
@@ -194,6 +197,32 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         _this4.update();
 
         return result;
+      });
+    }
+  }, {
+    key: "handleRuleAdded",
+    value: function handleRuleAdded(rule) {
+      var queryRules = this.state.queryRules;
+      var newQueryRules = [].concat(_toConsumableArray(queryRules), [rule]);
+      this.setState({
+        queryRules: newQueryRules
+      });
+      this.update({
+        queryRules: newQueryRules
+      });
+    }
+  }, {
+    key: "handleRuleRemoved",
+    value: function handleRuleRemoved(rule) {
+      var queryRules = this.state.queryRules;
+      var newQueryRules = queryRules.filter(function (x) {
+        return x.field !== rule.field || x.condition !== rule.condition;
+      });
+      this.setState({
+        queryRules: newQueryRules
+      });
+      this.update({
+        queryRules: newQueryRules
       });
     }
   }, {
@@ -252,7 +281,8 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
           pagination = _this$state2.pagination,
           totalOfItems = _this$state2.totalOfItems,
           deleteItem = _this$state2.deleteItem,
-          updateItem = _this$state2.updateItem;
+          updateItem = _this$state2.updateItem,
+          queryRules = _this$state2.queryRules;
       var _this$props2 = this.props,
           caption = _this$props2.caption,
           showQueryBuilder = _this$props2.showQueryBuilder,
@@ -268,8 +298,10 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         onSubmit: this.handleOnCreateSubmission,
         shouldReset: true
       }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Caption, null, caption), showQueryBuilder && /*#__PURE__*/_react["default"].createElement(_QueryBuilder["default"], {
+        queryRules: queryRules,
         fields: this.queryFields,
-        onChange: this.handleQueryChange
+        onRuleAdded: this.handleRuleAdded,
+        onRuleRemoved: this.handleRuleRemoved
       }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table, null, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
         fields: tabularFields,
         sort: sort,

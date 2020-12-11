@@ -70,8 +70,8 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
 
   _createClass(RuleBuilder, [{
     key: "handleFieldSelectChange",
-    value: function handleFieldSelectChange(evt, data) {
-      var value = data.value;
+    value: function handleFieldSelectChange(evt) {
+      var value = evt.target.value;
 
       var update = _objectSpread(_objectSpread({}, this.state), {}, {
         field: value,
@@ -165,7 +165,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
         value: condition,
         onChange: function onChange(evt, data) {
           _this2.setState({
-            condition: data.value
+            condition: evt.target.value
           });
         }
       }), "\xA0\xA0"), input, "\xA0\xA0", /*#__PURE__*/_react["default"].createElement(_Button["default"], {

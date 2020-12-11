@@ -49,8 +49,8 @@ class RuleBuilder extends React.Component<Props, State> {
     this.save = this.save.bind(this);
   }
 
-  handleFieldSelectChange(evt: SyntheticEvent<HTMLSelectElement>, data: Data) {
-    const { value } = data;
+  handleFieldSelectChange(evt: SyntheticEvent<HTMLSelectElement>) {
+    const { value } = evt.target;
     const update: State = {
       ...this.state,
       field: value,
@@ -141,7 +141,7 @@ class RuleBuilder extends React.Component<Props, State> {
               options={conditionsForType(type)}
               value={condition}
               onChange={(evt, data) => {
-                this.setState({ condition: data.value });
+                this.setState({ condition: evt.target.value });
               }}
             />
             &nbsp;&nbsp;

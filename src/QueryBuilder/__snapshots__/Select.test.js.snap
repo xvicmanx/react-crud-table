@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select renders as expected with the given props 1`] = `
+<select
+  onChange={[MockFunction]}
+>
+  <option
+    selected={false}
+    value=""
+  >
+    Select please
+  </option>
+  <option
+    value={1}
+  >
+    First
+  </option>
+  <option
+    value={2}
+  >
+    Second
+  </option>
+</select>
+`;

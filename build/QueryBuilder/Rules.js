@@ -16,14 +16,13 @@ var _Button = _interopRequireDefault(require("../Button"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var Rules = function Rules(_ref) {
-  var queries = _ref.queries,
+  var queryRules = _ref.queryRules,
       onRuleRemoved = _ref.onRuleRemoved,
       renderRule = _ref.renderRule;
-  return queries.length > 0 && /*#__PURE__*/_react["default"].createElement("div", null, queries.map(function (rule) {
-    var renderer = renderRule || _helpers.defaultRuleRender;
+  return /*#__PURE__*/_react["default"].createElement("div", null, queryRules.map(function (rule) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       key: "".concat(rule.field, ":").concat(rule.condition)
-    }, renderer(rule), '  ', /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+    }, renderRule(rule), '  ', /*#__PURE__*/_react["default"].createElement(_Button["default"], {
       onClick: function onClick() {
         onRuleRemoved(rule);
       },
@@ -33,9 +32,14 @@ var Rules = function Rules(_ref) {
 };
 
 Rules.propTypes = {
-  queries: _propTypes["default"].instanceOf(Array).isRequired,
-  onRuleRemoved: _propTypes["default"].func.isRequired,
-  renderRule: _propTypes["default"].func.isRequired
+  queryRules: _propTypes["default"].instanceOf(Array),
+  onRuleRemoved: _propTypes["default"].func,
+  renderRule: _propTypes["default"].func
+};
+Rules.defaultProps = {
+  renderRule: _helpers.defaultRuleRender,
+  queryRules: [],
+  onRuleRemoved: function onRuleRemoved() {}
 };
 var _default = Rules;
 exports["default"] = _default;

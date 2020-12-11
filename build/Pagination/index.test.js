@@ -20,6 +20,15 @@ describe('Pagination', function () {
   beforeEach(function () {
     onChange = jest.fn();
   });
+  it('renders as expected when there are no items', function () {
+    var result = renderer.render( /*#__PURE__*/_react["default"].createElement(_["default"], {
+      activePage: 1,
+      totalOfItems: 0,
+      itemsPerPage: 2,
+      onPageChange: onChange
+    }));
+    expect(result).toMatchSnapshot();
+  });
   it('renders as expected when in the first page', function () {
     var result = renderer.render( /*#__PURE__*/_react["default"].createElement(_["default"], {
       activePage: 1,
