@@ -35,8 +35,9 @@ class QueryBuilder extends React.Component<Props, State> {
     const { query } = this.state;
     const { onChange } = this.props;
     const update = {
-      query: query.filter((x) => x.field !== rule.field
-        || x.condition !== rule.condition),
+      query: query.filter(
+        (x) => x.field !== rule.field || x.condition !== rule.condition
+      ),
     };
     this.setState(update);
     onChange(update.query);
@@ -50,6 +51,8 @@ class QueryBuilder extends React.Component<Props, State> {
         <RuleBuilder
           fields={fields}
           onSave={(selection) => this.handleSave(selection)}
+          fieldsSelectPlaceholder="Select field"
+          conditionsSelectPlaceholder="Select condition"
         />
         <Rules
           queries={query}

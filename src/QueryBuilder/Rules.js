@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 import { defaultRuleRender } from './helpers';
 import Button from '../Button';
 
-const Rules = ({
-  queries,
-  onRuleRemoved,
-  renderRule,
-}) => (
-  (queries.length > 0) && (
+const Rules = ({ queries, onRuleRemoved, renderRule }) =>
+  queries.length > 0 && (
     <div>
       {queries.map((rule) => {
         const renderer = renderRule || defaultRuleRender;
@@ -17,7 +13,9 @@ const Rules = ({
             {renderer(rule)}
             {'  '}
             <Button
-              onClick={() => { onRuleRemoved(rule); }}
+              onClick={() => {
+                onRuleRemoved(rule);
+              }}
               modifiers="negative,circular"
             >
               X
@@ -27,8 +25,7 @@ const Rules = ({
       })}
       <br />
     </div>
-  )
-);
+  );
 
 Rules.propTypes = {
   queries: PropTypes.instanceOf(Array).isRequired,

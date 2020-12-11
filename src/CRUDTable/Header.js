@@ -4,12 +4,7 @@ import PropTypes from 'prop-types';
 import { Table } from './wrappers';
 import { chevron } from './helpers';
 
-const Header = ({
-  fields,
-  sort,
-  onClick,
-  actionsLabel,
-}) => (
+const Header = ({ fields, sort, onClick, actionsLabel }) => (
   <Table.Header>
     <Table.Row>
       {fields.map((field) => (
@@ -21,16 +16,10 @@ const Header = ({
             }
           }}
         >
-          {field.label}
-          {' '}
-          {sort.field === field.name && chevron(sort.direction)}
+          {field.label} {sort.field === field.name && chevron(sort.direction)}
         </Table.HeaderCell>
       ))}
-      {actionsLabel && (
-      <Table.HeaderCell>
-        {actionsLabel}
-      </Table.HeaderCell>
-      )}
+      {actionsLabel && <Table.HeaderCell>{actionsLabel}</Table.HeaderCell>}
     </Table.Row>
   </Table.Header>
 );

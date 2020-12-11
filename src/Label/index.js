@@ -2,17 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Container from './wrappers';
 
-const Label = ({ children }) => (
-  <Container>
-    {children}
-  </Container>
-);
+const Label = ({ children }) => <Container>{children}</Container>;
 
 Label.propTypes = {
-  children: PropTypes.oneOf([
-    PropTypes.node,
+  children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-  ]).isRequired,
+    PropTypes.node,
+  ]),
 };
 
 export default Label;

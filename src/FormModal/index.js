@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import Form from '../Form';
 
-const isPromise = (target) => Boolean(target && typeof target.then === 'function');
+const isPromise = (target) =>
+  Boolean(target && typeof target.then === 'function');
 
 class FormModal extends React.Component {
   constructor(props) {
@@ -20,13 +21,7 @@ class FormModal extends React.Component {
   }
 
   render() {
-    const {
-      data,
-      trigger,
-      initialValues,
-      shouldReset,
-      onSubmit,
-    } = this.props;
+    const { data, trigger, initialValues, shouldReset, onSubmit } = this.props;
     const { key } = this.state;
     return (
       <Modal
@@ -34,7 +29,7 @@ class FormModal extends React.Component {
         onInit={this.setController}
         title={data.title}
         onDisplay={() => {
-          this.setState({ key: (new Date()).getTime() });
+          this.setState({ key: new Date().getTime() });
         }}
       >
         <Form
@@ -42,26 +37,30 @@ class FormModal extends React.Component {
           data={data}
           initialValues={initialValues}
           onSubmit={(values, { setError, resetForm, setSubmitting }) => {
-            const reset = Object.keys(values)
-              .reduce((result, prop) => ({
+            const reset = Object.keys(values).reduce(
+              (result, prop) => ({
                 ...result,
                 [prop]: '',
-              }), {});
+              }),
+              {}
+            );
 
             const result = onSubmit(values);
 
             if (isPromise(result)) {
-              result.then(() => {
-                if (shouldReset) {
-                  resetForm(reset);
-                }
+              result
+                .then(() => {
+                  if (shouldReset) {
+                    resetForm(reset);
+                  }
 
-                setSubmitting(false);
-                this.controller.hide();
-              }).catch((err) => {
-                setError(err ? err.message : 'Unexpected error');
-                setSubmitting(false);
-              });
+                  setSubmitting(false);
+                  this.controller.hide();
+                })
+                .catch((err) => {
+                  setError(err ? err.message : 'Unexpected error');
+                  setSubmitting(false);
+                });
             }
           }}
         />

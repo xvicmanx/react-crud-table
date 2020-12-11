@@ -8,20 +8,20 @@ const DEFAULT_VALIDATE = () => ({});
 
 const generalValidationError = ({ touched, errors, message }) => {
   const fieldsTouched = touched || {};
-  const showErrorMessage = Object.keys(errors || {})
-    .reduce((acc, key) => acc || fieldsTouched[key], false);
-  return showErrorMessage && (
-  <Form.ErrorMessage>
-    {message || 'There are some errors'}
-  </Form.ErrorMessage>
+  const showErrorMessage = Object.keys(errors || {}).reduce(
+    (acc, key) => acc || fieldsTouched[key],
+    false
+  );
+  return (
+    showErrorMessage && (
+      <Form.ErrorMessage>
+        {message || 'There are some errors'}
+      </Form.ErrorMessage>
+    )
   );
 };
 
-const BasicForm = ({
-  data,
-  onSubmit,
-  initialValues,
-}) => (
+const BasicForm = ({ data, onSubmit, initialValues }) => (
   <div>
     <Formik
       enableReinitialize
@@ -30,12 +30,8 @@ const BasicForm = ({
       onSubmit={onSubmit}
       render={({ errors, touched, error }) => (
         <Form>
-          {data.message && (
-            <Form.Message>{data.message}</Form.Message>
-          )}
-          {error && (
-            <Form.ErrorMessage>{error}</Form.ErrorMessage>
-          )}
+          {data.message && <Form.Message>{data.message}</Form.Message>}
+          {error && <Form.ErrorMessage>{error}</Form.ErrorMessage>}
           {generalValidationError({
             touched,
             errors,
@@ -43,11 +39,7 @@ const BasicForm = ({
           })}
           {data.fields.map((field) => (
             <Form.FieldContainer key={field.name}>
-              <Form.Label
-                htmlFor={field.name}
-              >
-                {field.label}
-              </Form.Label>
+              <Form.Label htmlFor={field.name}>{field.label}</Form.Label>
               <Field
                 name={field.name}
                 placeholder={field.placeholder}
@@ -55,13 +47,9 @@ const BasicForm = ({
                 type={field.type}
                 readOnly={field.readOnly}
               />
-              {errors[field.name]
-                && touched[field.name]
-                && (
-                  <Form.FieldError>
-                    {errors[field.name]}
-                  </Form.FieldError>
-                )}
+              {errors[field.name] && touched[field.name] && (
+                <Form.FieldError>{errors[field.name]}</Form.FieldError>
+              )}
             </Form.FieldContainer>
           ))}
           {generalValidationError({

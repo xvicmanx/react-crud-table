@@ -21,7 +21,9 @@ var Rules = function Rules(_ref) {
       renderRule = _ref.renderRule;
   return queries.length > 0 && /*#__PURE__*/_react["default"].createElement("div", null, queries.map(function (rule) {
     var renderer = renderRule || _helpers.defaultRuleRender;
-    return /*#__PURE__*/_react["default"].createElement("div", null, renderer(rule), "\xA0\xA0", /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+    return /*#__PURE__*/_react["default"].createElement("div", {
+      key: "".concat(rule.field, ":").concat(rule.condition)
+    }, renderer(rule), '  ', /*#__PURE__*/_react["default"].createElement(_Button["default"], {
       onClick: function onClick() {
         onRuleRemoved(rule);
       },

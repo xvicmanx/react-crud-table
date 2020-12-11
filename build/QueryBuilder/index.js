@@ -49,8 +49,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var styles;
-
 var QueryBuilder = /*#__PURE__*/function (_React$Component) {
   _inherits(QueryBuilder, _React$Component);
 
@@ -65,45 +63,53 @@ var QueryBuilder = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       query: []
     };
-    _this.remove = _this.remove.bind(_assertThisInitialized(_this));
-    _this.handleSave = _this.handleSave.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(QueryBuilder, [{
+    key: "handleSave",
+    value: function handleSave(selection) {
+      var query = this.state.query;
+      var onChange = this.props.onChange;
+      var update = {
+        query: [].concat(_toConsumableArray(query), [selection])
+      };
+      this.setState(update);
+      onChange(update.query);
+    }
+  }, {
     key: "remove",
     value: function remove(rule) {
+      var query = this.state.query;
+      var onChange = this.props.onChange;
       var update = {
-        query: this.state.query.filter(function (x) {
+        query: query.filter(function (x) {
           return x.field !== rule.field || x.condition !== rule.condition;
         })
       };
       this.setState(update);
-      this.props.onChange(update.query);
-    }
-  }, {
-    key: "handleSave",
-    value: function handleSave(selection) {
-      var update = {
-        query: [].concat(_toConsumableArray(this.state.query), [selection])
-      };
-      this.setState(update);
-      this.props.onChange(update.query);
+      onChange(update.query);
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
+      var query = this.state.query;
+      var _this$props = this.props,
+          fields = _this$props.fields,
+          renderRule = _this$props.renderRule;
       return /*#__PURE__*/_react["default"].createElement(_wrappers.Container, null, /*#__PURE__*/_react["default"].createElement(_RuleBuilder["default"], {
-        fields: this.props.fields,
-        onSave: this.handleSave
+        fields: fields,
+        onSave: function onSave(selection) {
+          return _this2.handleSave(selection);
+        }
       }), /*#__PURE__*/_react["default"].createElement(_Rules["default"], {
-        queries: this.state.query,
+        queries: query,
         onRuleRemoved: function onRuleRemoved(rule) {
           return _this2.remove(rule);
         },
-        renderRule: this.props.renderRule
+        renderRule: renderRule
       }));
     }
   }]);
@@ -111,9 +117,5 @@ var QueryBuilder = /*#__PURE__*/function (_React$Component) {
   return QueryBuilder;
 }(_react["default"].Component);
 
-QueryBuilder.defaultProps = {
-  fields: [],
-  onChange: function onChange() {}
-};
 var _default = QueryBuilder;
 exports["default"] = _default;

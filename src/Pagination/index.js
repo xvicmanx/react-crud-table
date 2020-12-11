@@ -65,9 +65,7 @@ class Pagination extends Component {
             {i}
           </Container.Link>
         ))}
-        <Container.Next onClick={this.handleNextClick}>
-          &raquo;
-        </Container.Next>
+        <Container.Next onClick={this.handleNextClick}>&raquo;</Container.Next>
       </Container>
     );
   }

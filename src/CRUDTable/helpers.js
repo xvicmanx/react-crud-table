@@ -9,11 +9,16 @@ import {
   PAGINATION_COMPONENT_TYPE,
 } from './constants';
 
-export const chevron = (direction) => (direction === SORT_DIRECTIONS.ASCENDING ? (
-  <span>&#x25B2;</span>
-) : (
-  <span>&#x25BC;</span>
-));
+const UpArrow = () => <span>&#x25B2;</span>;
+const DownArrow = () => <span>&#x25BC;</span>;
+
+export const chevron = (direction) => {
+  if (direction === SORT_DIRECTIONS.ASCENDING) {
+    return <UpArrow />;
+  }
+
+  return <DownArrow />;
+};
 
 export const toggleDirection = (direction, toggle) => {
   if (toggle) {
@@ -28,17 +33,22 @@ export const toggleDirection = (direction, toggle) => {
 };
 
 export const queryValue = (source, query = '', defaultValue = null) => {
-  const value = query.split('.').reduce((result, key) => (result && result[key] ? result[key] : null), source);
+  const value = query
+    .split('.')
+    .reduce(
+      (result, key) => (result && result[key] ? result[key] : null),
+      source
+    );
   return value || defaultValue;
 };
 
-export const FILTER_BY_TYPE = (t) => (item) => item.type && item.type.displayName === t;
+export const FILTER_BY_TYPE = (t) => (item) =>
+  item.type && item.type.displayName === t;
 
 export const getProps = (comp, fields = [], defaultValue = null) => {
   const props = comp ? comp.props : null;
   if (!props) return defaultValue;
   return {
-
     ...props,
     fields,
   };
@@ -47,7 +57,8 @@ export const getProps = (comp, fields = [], defaultValue = null) => {
 export const extractFields = (items) => {
   const container = items.find(FILTER_BY_TYPE(FIELDS_COMPONENT_TYPE));
   const children = container
-    ? React.Children.toArray(container.props.children) : [];
+    ? React.Children.toArray(container.props.children)
+    : [];
   return children
     .filter(FILTER_BY_TYPE(FIELD_COMPONENT_TYPE))
     .map((c) => c.props);
@@ -60,9 +71,9 @@ export const extractPagination = (items) => {
 
 export const extractQueryFields = (items) => {
   const fields = extractFields(items);
-  return fields.filter((f) => f.queryable)
+  return fields
+    .filter((f) => f.queryable)
     .map((f) => ({
-
       ...f,
       value: f.name,
     }));
@@ -71,11 +82,11 @@ export const extractQueryFields = (items) => {
 export const extractForms = (items, fields) => ({
   create: getProps(
     items.find(FILTER_BY_TYPE(CREATE_FORM_COMPONENT_TYPE)),
-    fields.filter((f) => !f.hideInCreateForm),
+    fields.filter((f) => !f.hideInCreateForm)
   ),
   update: getProps(
     items.find(FILTER_BY_TYPE(UPDATE_FORM_COMPONENT_TYPE)),
-    fields.filter((f) => !f.hideInUpdateForm),
+    fields.filter((f) => !f.hideInUpdateForm)
   ),
   delete: getProps(items.find(FILTER_BY_TYPE(DELETE_FORM_COMPONENT_TYPE))),
 });

@@ -9,6 +9,8 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _wrappers = require("./wrappers");
 
 var _Button = _interopRequireDefault(require("../Button"));
@@ -50,18 +52,19 @@ var Modal = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, Modal);
 
     _this = _super.call(this, props);
-    _this.showModal = _this.showModal.bind(_assertThisInitialized(_this));
-    _this.hideModal = _this.hideModal.bind(_assertThisInitialized(_this));
     _this.state = {
       visible: false
     };
+    _this.showModal = _this.showModal.bind(_assertThisInitialized(_this));
+    _this.hideModal = _this.hideModal.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Modal, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.onInit({
+      var onInit = this.props.onInit;
+      onInit({
         show: this.showModal,
         hide: this.hideModal
       });
@@ -69,8 +72,10 @@ var Modal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "showModal",
     value: function showModal() {
-      if (this.props.onDisplay) {
-        this.props.onDisplay();
+      var onDisplay = this.props.onDisplay;
+
+      if (onDisplay) {
+        onDisplay();
       }
 
       this.setState({
@@ -87,27 +92,41 @@ var Modal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var display = getDisplay(this.state.visible);
-      return /*#__PURE__*/_react["default"].createElement("div", null, this.props.trigger && /*#__PURE__*/_react["default"].createElement(_Button["default"], {
+      var _this$props = this.props,
+          children = _this$props.children,
+          trigger = _this$props.trigger,
+          title = _this$props.title;
+      var visible = this.state.visible;
+      var style = {
+        display: getDisplay(visible)
+      };
+      return /*#__PURE__*/_react["default"].createElement("div", null, trigger && /*#__PURE__*/_react["default"].createElement(_Button["default"], {
         modifiers: "positive",
         onClick: this.showModal
-      }, this.props.trigger), /*#__PURE__*/_react["default"].createElement(_wrappers.Container, {
-        style: {
-          display: display
-        }
+      }, trigger), /*#__PURE__*/_react["default"].createElement(_wrappers.Container, {
+        style: style
       }, /*#__PURE__*/_react["default"].createElement(_wrappers.Container.BG, {
         onClick: this.hideModal
-      }), /*#__PURE__*/_react["default"].createElement(_wrappers.Container.Modal, null, this.props.title && /*#__PURE__*/_react["default"].createElement(_wrappers.Container.Title, null, this.props.title), this.props.children)));
+      }), /*#__PURE__*/_react["default"].createElement(_wrappers.Container.Modal, null, title && /*#__PURE__*/_react["default"].createElement(_wrappers.Container.Title, null, title), children)));
     }
   }]);
 
   return Modal;
 }(_react["default"].Component);
 
+Modal.propTypes = {
+  title: _propTypes["default"].string,
+  onInit: _propTypes["default"].func,
+  onDisplay: _propTypes["default"].func,
+  children: _propTypes["default"].node,
+  trigger: _propTypes["default"].node
+};
 Modal.defaultProps = {
   onInit: function onInit() {},
   onDisplay: function onDisplay() {},
-  title: ''
+  title: '',
+  children: null,
+  trigger: null
 };
 var _default = Modal;
 exports["default"] = _default;

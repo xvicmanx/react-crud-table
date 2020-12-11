@@ -1,10 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-  CONDITIONS,
-  DEFAULT_STATE,
-} from './constants';
+import { CONDITIONS, DEFAULT_STATE } from './constants';
 import {
   conditionsForType,
   getDefaultConditionForType,
@@ -22,18 +19,10 @@ import { queryValue } from '../CRUDTable/helpers';
 type Field = {
   value: any,
 };
-
-type DefaultProps = {|
-  // eslint-disable-next-line react/require-default-props
-  fields: Array<Field>,
-  // eslint-disable-next-line react/require-default-props
-  conditionsSelectPlaceholder: string,
-  // eslint-disable-next-line react/require-default-props
-  fieldsSelectPlaceholder: string,
-|};
-
 type Props = {
-  ...DefaultProps,
+  fields: Array<Field>,
+  conditionsSelectPlaceholder: string,
+  fieldsSelectPlaceholder: string,
   onSave: Function,
 };
 
@@ -51,13 +40,6 @@ type Data = {
 };
 
 class RuleBuilder extends React.Component<Props, State> {
-  // eslint-disable-next-line react/static-property-placement
-  static defaultProps: DefaultProps = {
-    fields: [],
-    fieldsSelectPlaceholder: 'Select field',
-    conditionsSelectPlaceholder: 'Select condition',
-  };
-
   constructor(props: Props) {
     super(props);
     this.state = DEFAULT_STATE;
@@ -92,39 +74,27 @@ class RuleBuilder extends React.Component<Props, State> {
   }
 
   getLabel(field: any): string {
-    return queryValue(
-      this.find(field),
-      'label',
-      '',
-    );
+    return queryValue(this.find(field), 'label', '');
   }
 
   getDefaultCondition(field: any): string {
     const defaultconditionForType = getDefaultConditionForType(
-      this.getType(field),
+      this.getType(field)
     );
 
     return queryValue(
       this.find(field),
       'defaultCondition',
-      defaultconditionForType,
+      defaultconditionForType
     );
   }
 
   getCollection(field: any): string {
-    return queryValue(
-      this.find(field),
-      'collection',
-      '',
-    );
+    return queryValue(this.find(field), 'collection', '');
   }
 
   getType(field: any): string {
-    return queryValue(
-      this.find(field),
-      'type',
-      '',
-    );
+    return queryValue(this.find(field), 'type', '');
   }
 
   find(field: any): ?Field {
@@ -164,7 +134,6 @@ class RuleBuilder extends React.Component<Props, State> {
           onChange={this.handleFieldSelectChange}
         />
         &nbsp;&nbsp;
-
         {!isBoolean(type) && (
           <span>
             <Select
@@ -178,14 +147,9 @@ class RuleBuilder extends React.Component<Props, State> {
             &nbsp;&nbsp;
           </span>
         )}
-
         {input}
         &nbsp;&nbsp;
-
-        <Button
-          modifiers="positive,add"
-          onClick={this.save}
-        >
+        <Button modifiers="positive,add" onClick={this.save}>
           +
         </Button>
       </Container>

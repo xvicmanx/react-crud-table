@@ -19,6 +19,18 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -39,16 +51,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var numbersTo = function numbersTo(n) {
-  var numbers = [];
-
-  for (var i = 0; i < n; i++) {
-    numbers.push(i + 1);
-  }
-
-  return numbers;
-};
-
 var Pagination = /*#__PURE__*/function (_Component) {
   _inherits(Pagination, _Component);
 
@@ -61,8 +63,7 @@ var Pagination = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      activePage: props.defaultActivePage,
-      totalOfItems: props.totalOfItems
+      activePage: props.defaultActivePage
     };
     _this.handleNextClick = _this.handleNextClick.bind(_assertThisInitialized(_this));
     _this.handlePreviousClick = _this.handlePreviousClick.bind(_assertThisInitialized(_this));
@@ -71,45 +72,22 @@ var Pagination = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(Pagination, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.totalOfItems !== this.props.totalOfItems) {
-        this.setState({
-          totalOfItems: nextProps.totalOfItems
-        });
-      }
-    }
-  }, {
-    key: "update",
-    value: function update(activePage) {
-      this.setState({
-        activePage: activePage
-      });
-      this.props.onChange({
-        activePage: activePage,
-        totalOfItems: this.props.totalOfItems,
-        itemsPerPage: this.props.itemsPerPage
-      });
-    }
-  }, {
-    key: "calculateNumberOfPages",
-    value: function calculateNumberOfPages() {
-      return Math.ceil(this.props.totalOfItems / this.props.itemsPerPage);
-    }
-  }, {
     key: "handlePreviousClick",
     value: function handlePreviousClick() {
-      if (this.state.activePage > 1) {
-        this.update(this.state.activePage - 1);
+      var activePage = this.state.activePage;
+
+      if (activePage > 1) {
+        this.update(activePage - 1);
       }
     }
   }, {
     key: "handleNextClick",
     value: function handleNextClick() {
+      var activePage = this.state.activePage;
       var numberOfPages = this.calculateNumberOfPages();
 
-      if (this.state.activePage < numberOfPages) {
-        this.update(this.state.activePage + 1);
+      if (activePage < numberOfPages) {
+        this.update(activePage + 1);
       }
     }
   }, {
@@ -118,17 +96,45 @@ var Pagination = /*#__PURE__*/function (_Component) {
       this.update(+evt.target.textContent.trim());
     }
   }, {
+    key: "update",
+    value: function update(activePage) {
+      var _this$props = this.props,
+          totalOfItems = _this$props.totalOfItems,
+          itemsPerPage = _this$props.itemsPerPage,
+          onChange = _this$props.onChange;
+      this.setState({
+        activePage: activePage
+      });
+      onChange({
+        activePage: activePage,
+        totalOfItems: totalOfItems,
+        itemsPerPage: itemsPerPage
+      });
+    }
+  }, {
+    key: "calculateNumberOfPages",
+    value: function calculateNumberOfPages() {
+      var _this$props2 = this.props,
+          totalOfItems = _this$props2.totalOfItems,
+          itemsPerPage = _this$props2.itemsPerPage;
+      return Math.ceil(totalOfItems / itemsPerPage);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
+      var activePage = this.state.activePage;
       var numberOfPages = this.calculateNumberOfPages();
-      var numbers = numbersTo(numberOfPages);
+
+      var numbers = _toConsumableArray(Array(numberOfPages).keys());
+
       return /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination, null, /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Prev, {
         onClick: this.handlePreviousClick
       }, "\xAB"), numbers.map(function (i) {
         return /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Link, {
-          modifiers: i === _this2.state.activePage ? 'active' : 'inactive',
+          key: i,
+          modifiers: i === activePage ? 'active' : 'inactive',
           onClick: _this2.handleLinkClick
         }, i);
       }), /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Next, {

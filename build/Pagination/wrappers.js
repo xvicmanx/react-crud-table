@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.Pagination = void 0;
 
-var _react = _interopRequireDefault(require("react"));
-
 var _bemReactComponentCreator = _interopRequireDefault(require("bem-react-component-creator"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

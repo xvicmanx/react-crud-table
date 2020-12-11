@@ -3,13 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.extractForms = exports.extractQueryFields = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = void 0;
+exports["default"] = exports.getPaginationProps = exports.getTableFieldValue = exports.extractForms = exports.extractQueryFields = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
 var _constants = require("./constants");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var chevron = function chevron(direction) {
   return direction === _constants.SORT_DIRECTIONS.ASCENDING ? /*#__PURE__*/_react["default"].createElement("span", null, "\u25B2") : /*#__PURE__*/_react["default"].createElement("span", null, "\u25BC");
@@ -20,11 +26,11 @@ exports.chevron = chevron;
 var toggleDirection = function toggleDirection(direction, toggle) {
   if (toggle) {
     switch (direction) {
-      case "ascending":
-        return "descending";
+      case 'ascending':
+        return 'descending';
 
       default:
-        return "ascending";
+        return 'ascending';
     }
   }
 
@@ -57,7 +63,7 @@ var getProps = function getProps(comp) {
   var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   var props = comp ? comp.props : null;
   if (!props) return defaultValue;
-  return Object.assign({}, props, {
+  return _objectSpread(_objectSpread({}, props), {}, {
     fields: fields
   });
 };
@@ -86,7 +92,7 @@ var extractQueryFields = function extractQueryFields(items) {
   return fields.filter(function (f) {
     return f.queryable;
   }).map(function (f) {
-    return Object.assign({}, f, {
+    return _objectSpread(_objectSpread({}, f), {}, {
       value: f.name
     });
   });
@@ -107,15 +113,39 @@ var extractForms = function extractForms(items, fields) {
 };
 
 exports.extractForms = extractForms;
+
+var getTableFieldValue = function getTableFieldValue(field, item) {
+  if (typeof field.tableValueResolver === 'string') {
+    return queryValue(item, field.tableValueResolver);
+  }
+
+  if (typeof field.tableValueResolver === 'function') {
+    return field.tableValueResolver(item);
+  }
+
+  return item[field.name];
+};
+
+exports.getTableFieldValue = getTableFieldValue;
+
+var getPaginationProps = function getPaginationProps(props) {
+  var items = _react["default"].Children.toArray(props.children);
+
+  return extractPagination(items);
+};
+
+exports.getPaginationProps = getPaginationProps;
 var _default = {
   chevron: chevron,
   toggleDirection: toggleDirection,
   queryValue: queryValue,
+  getTableFieldValue: getTableFieldValue,
   FILTER_BY_TYPE: FILTER_BY_TYPE,
   extractFields: extractFields,
   getProps: getProps,
   extractForms: extractForms,
   extractPagination: extractPagination,
-  extractQueryFields: extractQueryFields
+  extractQueryFields: extractQueryFields,
+  getPaginationProps: getPaginationProps
 };
 exports["default"] = _default;

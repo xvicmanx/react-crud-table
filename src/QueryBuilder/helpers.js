@@ -9,45 +9,35 @@ const Input = (props) => <input {...props} />;
 
 export const isRuleComplete = (rule) => {
   const { condition, value, field } = rule;
-  return condition !== ''
-    && value !== '' && field !== '';
+  return condition !== '' && value !== '' && field !== '';
 };
 
 export const isBoolean = (type) => type === 'boolean';
 
-export const mapFieldsToOptions = (fields) => fields.map((x) => ({
-  text: x.label,
-  value: x.value,
-  key: x.value,
-}));
+export const mapFieldsToOptions = (fields) =>
+  fields.map((x) => ({
+    text: x.label,
+    value: x.value,
+    key: x.value,
+  }));
 
 export const defaultRuleRender = (rule) => {
   if (isBoolean(rule.type)) {
     return (
       <span>
-        <Label style={styles.label}>
-          {rule.condition}
-        </Label>
-&nbsp;
-        <Label style={styles.label}>
-          {rule.label}
-        </Label>
+        <Label style={styles.label}>{rule.condition}</Label>
+        &nbsp;
+        <Label style={styles.label}>{rule.label}</Label>
       </span>
     );
   }
   return (
     <span>
-      <Label style={styles.label}>
-        {rule.label}
-      </Label>
-&nbsp;
-      <Label style={styles.label}>
-        {CONDITIONS_LABEL[rule.condition]}
-      </Label>
-&nbsp;
-      <Label style={styles.label}>
-        {rule.value}
-      </Label>
+      <Label style={styles.label}>{rule.label}</Label>
+      &nbsp;
+      <Label style={styles.label}>{CONDITIONS_LABEL[rule.condition]}</Label>
+      &nbsp;
+      <Label style={styles.label}>{rule.value}</Label>
     </span>
   );
 };

@@ -9,10 +9,6 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -51,35 +47,42 @@ var Select = /*#__PURE__*/function (_Component) {
     _this.state = {
       value: props.value
     };
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // eslint-disable-next-line camelcase
+
 
   _createClass(Select, [{
-    key: "handleChange",
-    value: function handleChange(evt) {
-      this.props.onChange(evt, {
-        value: evt.target.value
-      });
-    }
-  }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.value !== this.props.value) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
+      var value = this.props.value;
+
+      if (nextProps.value !== value) {
         this.setState({
           value: nextProps.value
         });
       }
     }
   }, {
+    key: "handleChange",
+    value: function handleChange(evt) {
+      var onChange = this.props.onChange;
+      onChange(evt, {
+        value: evt.currentTarget.value
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
+      var value = this.state.value;
+      var _this$props = this.props,
+          placeholder = _this$props.placeholder,
+          options = _this$props.options;
       return /*#__PURE__*/_react["default"].createElement("select", {
-        onChange: this.handleChange
+        onChange: this.handleChange.bind(this)
       }, /*#__PURE__*/_react["default"].createElement("option", {
         value: "",
-        selected: !this.state.value
-      }, this.props.placeholder), this.props.options.map(function (option) {
+        selected: !value
+      }, placeholder), options.map(function (option) {
         return /*#__PURE__*/_react["default"].createElement("option", {
           key: option.key,
           value: option.value
@@ -91,14 +94,5 @@ var Select = /*#__PURE__*/function (_Component) {
   return Select;
 }(_react.Component);
 
-Select.propTypes = {
-  value: _propTypes["default"].any,
-  options: _propTypes["default"].arrayOf(_propTypes["default"].shape({
-    key: _propTypes["default"].any,
-    value: _propTypes["default"].any,
-    text: _propTypes["default"].any
-  })).isRequired,
-  onChange: _propTypes["default"].func.isRequired
-};
 var _default = Select;
 exports["default"] = _default;

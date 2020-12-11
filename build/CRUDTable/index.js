@@ -11,6 +11,10 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
+var _constants = require("./constants");
+
+var _helpers = require("./helpers");
+
 var _wrappers = require("./wrappers");
 
 var _Header = _interopRequireDefault(require("./Header"));
@@ -18,10 +22,6 @@ var _Header = _interopRequireDefault(require("./Header"));
 var _Body = _interopRequireDefault(require("./Body"));
 
 var _Pagination = _interopRequireDefault(require("../Pagination"));
-
-var _constants = require("./constants");
-
-var _helpers = require("./helpers");
 
 var _FormModal = _interopRequireDefault(require("../FormModal"));
 
@@ -77,14 +77,14 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     _this.handlePaginationChange = _this.handlePaginationChange.bind(_assertThisInitialized(_this));
     _this.handleQueryChange = _this.handleQueryChange.bind(_assertThisInitialized(_this));
 
-    var items = _react["default"].Children.toArray(props.children);
+    var configItems = _react["default"].Children.toArray(props.children);
 
-    _this.fields = (0, _helpers.extractFields)(items);
-    _this.forms = (0, _helpers.extractForms)(items, _this.fields);
-    _this.pagination = (0, _helpers.extractPagination)(items);
-    _this.queryFields = (0, _helpers.extractQueryFields)(items);
+    _this.fields = (0, _helpers.extractFields)(configItems);
+    _this.forms = (0, _helpers.extractForms)(configItems, _this.fields);
+    _this.pagination = (0, _helpers.extractPagination)(configItems);
+    _this.queryFields = (0, _helpers.extractQueryFields)(configItems);
     _this.state = {
-      items: props.items || [],
+      items: props.items,
       sort: {
         field: _constants.ID_FIELD,
         direction: _constants.SORT_DIRECTIONS.DESCENDING
@@ -101,53 +101,20 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(CRUDTable, [{
-    key: "getPaginationProps",
-    value: function getPaginationProps(props) {
-      var items = _react["default"].Children.toArray(props.children);
-
-      return (0, _helpers.extractPagination)(items);
-    }
-  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.update(undefined, false);
-    }
+    } // eslint-disable-next-line camelcase
+
   }, {
-    key: "update",
-    value: function update(data) {
-      var _this2 = this;
-
-      var reportChange = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      var payload = this.getPayload(data);
-
-      if (this.props.fetchItems) {
-        this.props.fetchItems(payload).then(function (items) {
-          _this2.setState({
-            items: items
-          });
-        });
-      }
-
-      if (this.pagination.fetchTotalOfItems) {
-        this.pagination.fetchTotalOfItems(payload).then(function (totalOfItems) {
-          _this2.setState({
-            totalOfItems: totalOfItems
-          });
-        });
-      }
-
-      if (reportChange) {
-        this.props.onChange(payload);
-      }
-    }
-  }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
+      var items = this.props.items;
       var newState = {};
 
-      if (nextProps.items !== this.props.items) {
+      if (nextProps.items !== items) {
         newState.items = nextProps.items;
-        var paginationProps = this.getPaginationProps(nextProps);
+        var paginationProps = (0, _helpers.getPaginationProps)(nextProps);
         newState.totalOfItems = paginationProps.totalOfItems || 0;
       }
 
@@ -158,26 +125,17 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleHeaderClick",
     value: function handleHeaderClick(field, direction) {
-      var sort = {
+      var sort = this.state.sort;
+      var newSort = {
         field: field,
-        direction: (0, _helpers.toggleDirection)(direction, field === this.state.sort.field)
+        direction: (0, _helpers.toggleDirection)(direction, field === sort.field)
       };
       this.setState({
-        sort: sort
+        sort: newSort
       });
       this.update({
-        sort: sort
+        sort: newSort
       });
-    }
-  }, {
-    key: "getPayload",
-    value: function getPayload() {
-      var extension = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      return Object.assign({
-        queryRules: this.state.queryRules,
-        pagination: this.state.pagination,
-        sort: this.state.sort
-      }, extension);
     }
   }, {
     key: "handlePaginationChange",
@@ -202,10 +160,10 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleOnCreateSubmission",
     value: function handleOnCreateSubmission(values) {
-      var _this3 = this;
+      var _this2 = this;
 
       return this.forms.create.onSubmit(values).then(function (result) {
-        _this3.update();
+        _this2.update();
 
         return result;
       });
@@ -213,10 +171,10 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleOnUpdateSubmission",
     value: function handleOnUpdateSubmission(values) {
-      var _this4 = this;
+      var _this3 = this;
 
       return this.forms.update.onSubmit(values).then(function (result) {
-        _this4.update();
+        _this3.update();
 
         return result;
       });
@@ -224,56 +182,109 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleOnDeleteSubmission",
     value: function handleOnDeleteSubmission(values) {
-      var _this5 = this;
+      var _this4 = this;
 
       return this.forms["delete"].onSubmit(values).then(function (result) {
-        _this5.update();
+        _this4.update();
 
         return result;
       });
+    }
+  }, {
+    key: "getPayload",
+    value: function getPayload() {
+      var extension = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var _this$state = this.state,
+          queryRules = _this$state.queryRules,
+          pagination = _this$state.pagination,
+          sort = _this$state.sort;
+      return _objectSpread({
+        queryRules: queryRules,
+        pagination: pagination,
+        sort: sort
+      }, extension);
+    }
+  }, {
+    key: "update",
+    value: function update(data) {
+      var _this5 = this;
+
+      var reportChange = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var _this$props = this.props,
+          fetchItems = _this$props.fetchItems,
+          onChange = _this$props.onChange;
+      var payload = this.getPayload(data);
+
+      if (fetchItems) {
+        fetchItems(payload).then(function (items) {
+          _this5.setState({
+            items: items
+          });
+        });
+      }
+
+      if (this.pagination.fetchTotalOfItems) {
+        this.pagination.fetchTotalOfItems(payload).then(function (totalOfItems) {
+          _this5.setState({
+            totalOfItems: totalOfItems
+          });
+        });
+      }
+
+      if (reportChange) {
+        onChange(payload);
+      }
     }
   }, {
     key: "render",
     value: function render() {
       var _this6 = this;
 
-      var _this$state = this.state,
-          items = _this$state.items,
-          sort = _this$state.sort,
-          pagination = _this$state.pagination,
-          totalOfItems = _this$state.totalOfItems;
+      var _this$state2 = this.state,
+          items = _this$state2.items,
+          sort = _this$state2.sort,
+          pagination = _this$state2.pagination,
+          totalOfItems = _this$state2.totalOfItems,
+          deleteItem = _this$state2.deleteItem,
+          updateItem = _this$state2.updateItem;
+      var _this$props2 = this.props,
+          caption = _this$props2.caption,
+          showQueryBuilder = _this$props2.showQueryBuilder,
+          actionsLabel = _this$props2.actionsLabel;
       var tabularFields = this.fields.filter(function (f) {
         return !f.hideFromTable;
       });
+      var updateTrigger = (0, _helpers.queryValue)(this.forms, 'update.trigger');
+      var deleteTrigger = (0, _helpers.queryValue)(this.forms, 'delete.trigger');
       return /*#__PURE__*/_react["default"].createElement("div", null, this.forms.create && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
         trigger: this.forms.create.trigger,
         data: this.forms.create,
         onSubmit: this.handleOnCreateSubmission,
         shouldReset: true
-      }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Caption, null, this.props.caption), this.props.showQueryBuilder && /*#__PURE__*/_react["default"].createElement(_QueryBuilder["default"], {
+      }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Caption, null, caption), showQueryBuilder && /*#__PURE__*/_react["default"].createElement(_QueryBuilder["default"], {
         fields: this.queryFields,
         onChange: this.handleQueryChange
       }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table, null, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
         fields: tabularFields,
         sort: sort,
         onClick: this.handleHeaderClick,
-        forms: this.forms,
-        actionsLabel: this.props.actionsLabel
+        actionsLabel: updateTrigger || deleteTrigger ? actionsLabel : ''
       }), /*#__PURE__*/_react["default"].createElement(_Body["default"], {
         fields: tabularFields,
         items: items,
-        forms: this.forms,
-        actionsLabel: this.props.actionsLabel,
-        onDeleteClick: function onDeleteClick(deleteItem) {
+        updateTrigger: updateTrigger,
+        deleteTrigger: deleteTrigger,
+        actionsLabel: actionsLabel,
+        onDeleteClick: function onDeleteClick(item) {
           _this6.setState({
-            deleteItem: deleteItem
+            deleteItem: item
           });
 
           _this6.deleteModalController.show();
         },
-        onUpdateClick: function onUpdateClick(updateItem) {
+        onUpdateClick: function onUpdateClick(item) {
           _this6.setState({
-            updateItem: updateItem
+            updateItem: item
           });
 
           _this6.updateModalController.show();
@@ -282,14 +293,14 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         totalOfItems: totalOfItems,
         onChange: this.handlePaginationChange
       })), this.forms.update && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
-        initialValues: this.state.updateItem,
+        initialValues: updateItem,
         data: this.forms.update,
         onSubmit: this.handleOnUpdateSubmission,
         onInit: function onInit(controller) {
           _this6.updateModalController = controller;
         }
       }), this.forms["delete"] && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
-        initialValues: this.state.deleteItem,
+        initialValues: deleteItem,
         data: this.forms["delete"],
         onSubmit: this.handleOnDeleteSubmission,
         onInit: function onInit(controller) {
@@ -305,7 +316,19 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
 CRUDTable.defaultProps = {
   onChange: function onChange() {},
   actionsLabel: 'Actions',
-  showQueryBuilder: false
+  showQueryBuilder: false,
+  items: [],
+  caption: null,
+  fetchItems: null
+};
+CRUDTable.propTypes = {
+  onChange: _propTypes["default"].func,
+  actionsLabel: _propTypes["default"].node,
+  showQueryBuilder: _propTypes["default"].bool,
+  items: _propTypes["default"].instanceOf(Object),
+  caption: _propTypes["default"].node,
+  fetchItems: _propTypes["default"].func,
+  children: _propTypes["default"].oneOf([_propTypes["default"].node, _propTypes["default"].arrayOf(_propTypes["default"].node)]).isRequired
 };
 
 var Fields = function Fields() {
@@ -323,7 +346,8 @@ var Field = function Field(_ref) {
       hideInUpdateForm = _ref.hideInUpdateForm,
       hideFromTable = _ref.hideFromTable,
       queryable = _ref.queryable,
-      type = _ref.type;
+      type = _ref.type,
+      sortable = _ref.sortable;
   return /*#__PURE__*/_react["default"].createElement("div", null);
 };
 
@@ -333,7 +357,7 @@ Field.propTypes = {
   name: _propTypes["default"].string.isRequired,
   label: _propTypes["default"].string.isRequired,
   type: _propTypes["default"].string,
-  tableValueResolver: _propTypes["default"].any,
+  tableValueResolver: _propTypes["default"].oneOf([_propTypes["default"].func, _propTypes["default"].string]),
   hideInCreateForm: _propTypes["default"].bool,
   hideInUpdateForm: _propTypes["default"].bool,
   hideFromTable: _propTypes["default"].bool,
@@ -346,7 +370,8 @@ Field.defaultProps = {
   type: 'text',
   hideInCreateForm: false,
   hideInUpdateForm: false,
-  hideFromTable: false
+  hideFromTable: false,
+  tableValueResolver: null
 };
 
 var CreateForm = function CreateForm() {

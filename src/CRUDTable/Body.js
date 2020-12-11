@@ -35,17 +35,16 @@ const Body = ({
               >
                 {updateTrigger}
               </Button>
-            )}
-            {' '}
+            )}{' '}
             {deleteTrigger && (
-            <Button
-              modifiers="negative"
-              onClick={() => {
-                onDeleteClick(item);
-              }}
-            >
-              {deleteTrigger}
-            </Button>
+              <Button
+                modifiers="negative"
+                onClick={() => {
+                  onDeleteClick(item);
+                }}
+              >
+                {deleteTrigger}
+              </Button>
             )}
           </Table.Cell>
         )}

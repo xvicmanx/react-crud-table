@@ -1,27 +1,21 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
-    es2021: true,
+    node: true,
+  },
+  parserOptions: {
+    parser: 'babel-eslint',
+    ecmaVersion: 2018,
+    sourceType: 'module',
   },
   extends: [
     'plugin:react/recommended',
+    'plugin:prettier/recommended',
     'plugin:flowtype/recommended',
-    'airbnb',
   ],
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
-  plugins: [
-    'react',
-    'flowtype',
-  ],
+  plugins: ['flowtype'],
   rules: {
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/jsx-props-no-spreading': 'off',
-    'react/default-props-match-prop-types': ['error', { allowRequiredDefaults: true }],
+    'react/prop-types': 1,
   },
 };

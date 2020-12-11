@@ -37,11 +37,7 @@ class Modal extends React.Component {
   }
 
   render() {
-    const {
-      children,
-      trigger,
-      title,
-    } = this.props;
+    const { children, trigger, title } = this.props;
     const { visible } = this.state;
     const style = {
       display: getDisplay(visible),
@@ -49,21 +45,14 @@ class Modal extends React.Component {
     return (
       <div>
         {trigger && (
-          <Button
-            modifiers="positive"
-            onClick={this.showModal}
-          >
+          <Button modifiers="positive" onClick={this.showModal}>
             {trigger}
           </Button>
         )}
         <Container style={style}>
           <Container.BG onClick={this.hideModal} />
           <Container.Modal>
-            {title && (
-              <Container.Title>
-                {title}
-              </Container.Title>
-            )}
+            {title && <Container.Title>{title}</Container.Title>}
             {children}
           </Container.Modal>
         </Container>

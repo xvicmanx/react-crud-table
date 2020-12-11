@@ -5,23 +5,47 @@
   "main": "build/CRUDTable/index.js",
   "scripts": {
     "dev": "watch 'npm run build' src",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint './src/**/*.{js,jsx}'",
+    "lint:fix": "eslint './src/**/*.{js,jsx}' --fix",
     "build": "babel src -d build",
-    "test": "jest --env=jsdom --no-watchman --passWithNoTests",
     "types:check": "flow ./src",
-    "test-watch": "npm test -- --watch",
+    "test": "jest --env=jsdom --no-watchman",
+    "test:watch": "jest --env=jsdom --watch",
+    "test:coverage": "CI=true  npm test -- --coverage",
+    "test:badges": "npm run test:coverage  && jest-coverage-badges",
     "prepublish": "npm run build",
     "release": "np"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   },
   "babel": {
     "presets": [
       [
         "@babel/preset-env",
         {
-          "useBuiltIns": "entry"
+          "useBuiltIns": "entry",
+          "corejs": "2.0.0"
         }
       ],
-      "@babel/preset-react"
+      "@babel/preset-react",
+      "@babel/preset-flow"
     ]
   },
   "repository": {
@@ -54,13 +78,16 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.15.0",
     "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.2.0",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
     "flow-bin": "^0.140.0",
     "jest": "^26.6.3",
+    "jest-coverage-badges": "^1.1.2",
     "np": "^2.18.2",
     "prettier-eslint": "^12.0.0",
     "react-dom": "^16.14.0",

@@ -9,14 +9,14 @@ export const CONDITIONS_LABEL = {
   GREATER_OR_EQUALS_THAN: 'Greater or equals than',
   IS: 'Is',
   IS_NOT: 'Is not',
-  IS_NOT_EQUALS_TO: 'IS not equals to',
+  IS_NOT_EQUALS_TO: 'Is not equals to',
   DOES_NOT_BEGIN_WITH: ' Does not begin with',
   DOES_NOT_END_WITH: ' Does not end with',
   DOES_NOT_CONTAIN: ' Does not contain',
   IS_NOT_LESS_THAN: 'Is not less than',
-  IS_NOT_GREATER_THAN: 'IS not greater than',
+  IS_NOT_GREATER_THAN: 'Is not greater than',
   IS_NOT_LESS_OR_EQUALS_THAN: 'Is not less or equals than',
-  IS_NOT_GREATER_OR_EQUALS_THAN: 'IS not greater or equals than',
+  IS_NOT_GREATER_OR_EQUALS_THAN: 'Is not greater or equals than',
 };
 
 export const CONDITIONS = {

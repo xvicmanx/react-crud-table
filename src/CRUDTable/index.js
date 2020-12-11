@@ -87,10 +87,7 @@ class CRUDTable extends React.Component {
     const { sort } = this.state;
     const newSort = {
       field,
-      direction: toggleDirection(
-        direction,
-        field === sort.field,
-      ),
+      direction: toggleDirection(direction, field === sort.field),
     };
     this.setState({ sort: newSort });
     this.update({ sort: newSort });
@@ -107,35 +104,28 @@ class CRUDTable extends React.Component {
   }
 
   handleOnCreateSubmission(values) {
-    return this.forms.create.onSubmit(values)
-      .then((result) => {
-        this.update();
-        return result;
-      });
+    return this.forms.create.onSubmit(values).then((result) => {
+      this.update();
+      return result;
+    });
   }
 
   handleOnUpdateSubmission(values) {
-    return this.forms.update.onSubmit(values)
-      .then((result) => {
-        this.update();
-        return result;
-      });
+    return this.forms.update.onSubmit(values).then((result) => {
+      this.update();
+      return result;
+    });
   }
 
   handleOnDeleteSubmission(values) {
-    return this.forms.delete.onSubmit(values)
-      .then((result) => {
-        this.update();
-        return result;
-      });
+    return this.forms.delete.onSubmit(values).then((result) => {
+      this.update();
+      return result;
+    });
   }
 
   getPayload(extension = {}) {
-    const {
-      queryRules,
-      pagination,
-      sort,
-    } = this.state;
+    const { queryRules, pagination, sort } = this.state;
     return {
       queryRules,
       pagination,
@@ -155,10 +145,9 @@ class CRUDTable extends React.Component {
     }
 
     if (this.pagination.fetchTotalOfItems) {
-      this.pagination.fetchTotalOfItems(payload)
-        .then((totalOfItems) => {
-          this.setState({ totalOfItems });
-        });
+      this.pagination.fetchTotalOfItems(payload).then((totalOfItems) => {
+        this.setState({ totalOfItems });
+      });
     }
 
     if (reportChange) {
@@ -175,11 +164,7 @@ class CRUDTable extends React.Component {
       deleteItem,
       updateItem,
     } = this.state;
-    const {
-      caption,
-      showQueryBuilder,
-      actionsLabel,
-    } = this.props;
+    const { caption, showQueryBuilder, actionsLabel } = this.props;
     const tabularFields = this.fields.filter((f) => !f.hideFromTable);
     const updateTrigger = queryValue(this.forms, 'update.trigger');
     const deleteTrigger = queryValue(this.forms, 'delete.trigger');
@@ -208,7 +193,7 @@ class CRUDTable extends React.Component {
             fields={tabularFields}
             sort={sort}
             onClick={this.handleHeaderClick}
-            actionsLabel={(updateTrigger || deleteTrigger) ? actionsLabel : ''}
+            actionsLabel={updateTrigger || deleteTrigger ? actionsLabel : ''}
           />
           <Body
             fields={tabularFields}
@@ -227,15 +212,13 @@ class CRUDTable extends React.Component {
           />
         </Table>
 
-        {!!pagination
-          && totalOfItems > 0
-          && (
-            <PaginationCpt
-              {...pagination}
-              totalOfItems={totalOfItems}
-              onChange={this.handlePaginationChange}
-            />
-          )}
+        {!!pagination && totalOfItems > 0 && (
+          <PaginationCpt
+            {...pagination}
+            totalOfItems={totalOfItems}
+            onChange={this.handlePaginationChange}
+          />
+        )}
 
         {this.forms.update && (
           <FormModal
@@ -279,10 +262,8 @@ CRUDTable.propTypes = {
   items: PropTypes.instanceOf(Object),
   caption: PropTypes.node,
   fetchItems: PropTypes.func,
-  children: PropTypes.oneOf([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node),
-  ]).isRequired,
+  children: PropTypes.oneOf([PropTypes.node, PropTypes.arrayOf(PropTypes.node)])
+    .isRequired,
 };
 
 export const Fields = () => <div />;
@@ -313,10 +294,7 @@ Field.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   type: PropTypes.string,
-  tableValueResolver: PropTypes.oneOf([
-    PropTypes.func,
-    PropTypes.string,
-  ]),
+  tableValueResolver: PropTypes.oneOf([PropTypes.func, PropTypes.string]),
   hideInCreateForm: PropTypes.bool,
   hideInUpdateForm: PropTypes.bool,
   hideFromTable: PropTypes.bool,

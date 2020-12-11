@@ -19,7 +19,7 @@ var Label = function Label(_ref) {
 };
 
 Label.propTypes = {
-  children: _propTypes["default"].oneOf([_propTypes["default"].node, _propTypes["default"].arrayOf(_propTypes["default"].node)])
+  children: _propTypes["default"].oneOf([_propTypes["default"].node, _propTypes["default"].arrayOf(_propTypes["default"].node)]).isRequired
 };
 var _default = Label;
 exports["default"] = _default;

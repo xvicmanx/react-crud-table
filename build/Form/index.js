@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _formik = require("formik");
 
 var _wrappers = require("./wrappers");
@@ -50,7 +52,9 @@ var BasicForm = function BasicForm(_ref2) {
         errors: errors,
         message: data.generalErrorMessage
       }), data.fields.map(function (field) {
-        return /*#__PURE__*/_react["default"].createElement(_wrappers.Form.FieldContainer, null, /*#__PURE__*/_react["default"].createElement(_wrappers.Form.Label, {
+        return /*#__PURE__*/_react["default"].createElement(_wrappers.Form.FieldContainer, {
+          key: field.name
+        }, /*#__PURE__*/_react["default"].createElement(_wrappers.Form.Label, {
           htmlFor: field.name
         }, field.label), /*#__PURE__*/_react["default"].createElement(_formik.Field, {
           name: field.name,
@@ -71,6 +75,11 @@ var BasicForm = function BasicForm(_ref2) {
   }));
 };
 
+BasicForm.propTypes = {
+  onSubmit: _propTypes["default"].func.isRequired,
+  data: _propTypes["default"].instanceOf(Object),
+  initialValues: _propTypes["default"].instanceOf(Object)
+};
 BasicForm.defaultProps = {
   initialValues: {},
   data: {

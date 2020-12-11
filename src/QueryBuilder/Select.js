@@ -34,10 +34,7 @@ class Select extends Component<Props, State> {
 
   handleChange(evt: SyntheticEvent<HTMLSelectElement>) {
     const { onChange } = this.props;
-    onChange(
-      evt,
-      { value: evt.currentTarget.value },
-    );
+    onChange(evt, { value: evt.currentTarget.value });
   }
 
   render(): React$Element<'select'> {
@@ -45,17 +42,11 @@ class Select extends Component<Props, State> {
     const { placeholder, options } = this.props;
     return (
       <select onChange={this.handleChange.bind(this)}>
-        <option
-          value=""
-          selected={!value}
-        >
+        <option value="" selected={!value}>
           {placeholder}
         </option>
         {options.map((option) => (
-          <option
-            key={option.key}
-            value={option.value}
-          >
+          <option key={option.key} value={option.value}>
             {option.text}
           </option>
         ))}
