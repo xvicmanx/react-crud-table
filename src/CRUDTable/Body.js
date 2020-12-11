@@ -1,29 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getTableFieldValue } from './helpers';
 import { Table } from './wrappers';
 import Button from '../Button';
-import { queryValue } from './helpers';
-
-const getValue = (field, item) => {
-  if (typeof field.tableValueResolver === 'string') {
-    return queryValue(item, field.tableValueResolver);
-  }
-
-  if (typeof field.tableValueResolver === 'function') {
-    return field.tableValueResolver(item);
-  }
-
-  return item[field.name];
-};
 
 const Body = ({
   fields,
   items,
-  forms,
   onDeleteClick,
   onUpdateClick,
   actionsLabel,
+  updateTrigger,
+  deleteTrigger,
 }) => (
   <Table.Body>
     {items.map((item) => (
@@ -31,31 +20,31 @@ const Body = ({
         {fields.map((field) => (
           <Table.Cell key={field.name}>
             <Table.CellLabel>{field.label}</Table.CellLabel>
-            {getValue(field, item)}
+            {getTableFieldValue(field, item)}
           </Table.Cell>
         ))}
-        {(forms.delete || forms.update) && (
+        {(updateTrigger || deleteTrigger) && (
           <Table.Cell>
             <Table.CellLabel>{actionsLabel}</Table.CellLabel>
-            {forms.update && (
+            {updateTrigger && (
               <Button
                 modifiers="primary"
                 onClick={() => {
                   onUpdateClick(item);
                 }}
               >
-                {forms.update.trigger}
+                {updateTrigger}
               </Button>
             )}
             {' '}
-            {forms.delete && (
+            {deleteTrigger && (
             <Button
               modifiers="negative"
               onClick={() => {
                 onDeleteClick(item);
               }}
             >
-              {forms.delete.trigger}
+              {deleteTrigger}
             </Button>
             )}
           </Table.Cell>
@@ -67,7 +56,8 @@ const Body = ({
 
 Body.propTypes = {
   actionsLabel: PropTypes.node,
-  forms: PropTypes.instanceOf(Object),
+  updateTrigger: PropTypes.node,
+  deleteTrigger: PropTypes.node,
   fields: PropTypes.instanceOf(Array),
   items: PropTypes.instanceOf(Array),
   onDeleteClick: PropTypes.func,
@@ -78,9 +68,10 @@ Body.defaultProps = {
   fields: [],
   items: [],
   actionsLabel: '',
-  forms: {},
   onDeleteClick: () => {},
   onUpdateClick: () => {},
+  updateTrigger: null,
+  deleteTrigger: null,
 };
 
 export default Body;

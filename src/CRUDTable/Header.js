@@ -8,7 +8,6 @@ const Header = ({
   fields,
   sort,
   onClick,
-  forms,
   actionsLabel,
 }) => (
   <Table.Header>
@@ -27,7 +26,7 @@ const Header = ({
           {sort.field === field.name && chevron(sort.direction)}
         </Table.HeaderCell>
       ))}
-      {(forms.delete || forms.update) && (
+      {actionsLabel && (
       <Table.HeaderCell>
         {actionsLabel}
       </Table.HeaderCell>
@@ -39,7 +38,6 @@ const Header = ({
 Header.propTypes = {
   onClick: PropTypes.func,
   actionsLabel: PropTypes.node,
-  forms: PropTypes.instanceOf(Object),
   fields: PropTypes.instanceOf(Array),
   sort: PropTypes.instanceOf(Array).isRequired,
 };
@@ -48,7 +46,6 @@ Header.defaultProps = {
   fields: [],
   onClick: () => {},
   actionsLabel: '',
-  forms: {},
 };
 
 export default Header;

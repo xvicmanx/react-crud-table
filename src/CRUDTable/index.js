@@ -1,10 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Table } from './wrappers';
-import Header from './Header';
-import Body from './Body';
-import PaginationCpt from '../Pagination';
 import {
   SORT_DIRECTIONS,
   ID_FIELD,
@@ -21,18 +17,20 @@ import {
   extractPagination,
   extractForms,
   extractQueryFields,
+  queryValue,
+  getPaginationProps,
 } from './helpers';
+import { Table } from './wrappers';
+import Header from './Header';
+import Body from './Body';
+import PaginationCpt from '../Pagination';
 import FormModal from '../FormModal';
 import QueryBuilder from '../QueryBuilder';
-
-const getPaginationProps = (props) => {
-  const items = React.Children.toArray(props.children);
-  return extractPagination(items);
-};
 
 class CRUDTable extends React.Component {
   constructor(props) {
     super(props);
+
     this.updateModalController = null;
     this.deleteModalController = null;
     this.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
@@ -183,6 +181,8 @@ class CRUDTable extends React.Component {
       actionsLabel,
     } = this.props;
     const tabularFields = this.fields.filter((f) => !f.hideFromTable);
+    const updateTrigger = queryValue(this.forms, 'update.trigger');
+    const deleteTrigger = queryValue(this.forms, 'delete.trigger');
     return (
       <div>
         {this.forms.create && (
@@ -208,13 +208,13 @@ class CRUDTable extends React.Component {
             fields={tabularFields}
             sort={sort}
             onClick={this.handleHeaderClick}
-            forms={this.forms}
-            actionsLabel={actionsLabel}
+            actionsLabel={(updateTrigger || deleteTrigger) ? actionsLabel : ''}
           />
           <Body
             fields={tabularFields}
             items={items}
-            forms={this.forms}
+            updateTrigger={updateTrigger}
+            deleteTrigger={deleteTrigger}
             actionsLabel={actionsLabel}
             onDeleteClick={(item) => {
               this.setState({ deleteItem: item });

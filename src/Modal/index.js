@@ -8,7 +8,6 @@ const getDisplay = (visible) => (visible ? 'block' : 'none');
 class Modal extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = { visible: false };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -44,7 +43,9 @@ class Modal extends React.Component {
       title,
     } = this.props;
     const { visible } = this.state;
-    const display = getDisplay(visible);
+    const style = {
+      display: getDisplay(visible),
+    };
     return (
       <div>
         {trigger && (
@@ -55,10 +56,8 @@ class Modal extends React.Component {
             {trigger}
           </Button>
         )}
-        <Container style={{ display }}>
-          <Container.BG
-            onClick={this.hideModal}
-          />
+        <Container style={style}>
+          <Container.BG onClick={this.hideModal} />
           <Container.Modal>
             {title && (
               <Container.Title>

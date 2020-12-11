@@ -80,14 +80,33 @@ export const extractForms = (items, fields) => ({
   delete: getProps(items.find(FILTER_BY_TYPE(DELETE_FORM_COMPONENT_TYPE))),
 });
 
+export const getTableFieldValue = (field, item) => {
+  if (typeof field.tableValueResolver === 'string') {
+    return queryValue(item, field.tableValueResolver);
+  }
+
+  if (typeof field.tableValueResolver === 'function') {
+    return field.tableValueResolver(item);
+  }
+
+  return item[field.name];
+};
+
+export const getPaginationProps = (props) => {
+  const items = React.Children.toArray(props.children);
+  return extractPagination(items);
+};
+
 export default {
   chevron,
   toggleDirection,
   queryValue,
+  getTableFieldValue,
   FILTER_BY_TYPE,
   extractFields,
   getProps,
   extractForms,
   extractPagination,
   extractQueryFields,
+  getPaginationProps,
 };
