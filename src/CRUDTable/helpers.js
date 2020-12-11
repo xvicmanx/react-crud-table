@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   SORT_DIRECTIONS,
   FIELDS_COMPONENT_TYPE,
@@ -9,54 +9,48 @@ import {
   PAGINATION_COMPONENT_TYPE,
 } from './constants';
 
-export const chevron = direction => {
-  return direction === SORT_DIRECTIONS.ASCENDING ? (
-    <span>&#x25B2;</span>
-  ) : (
-    <span>&#x25BC;</span>
-  );
-};
+export const chevron = (direction) => (direction === SORT_DIRECTIONS.ASCENDING ? (
+  <span>&#x25B2;</span>
+) : (
+  <span>&#x25BC;</span>
+));
 
 export const toggleDirection = (direction, toggle) => {
   if (toggle) {
     switch (direction) {
-      case "ascending":
-        return "descending";
+      case 'ascending':
+        return 'descending';
       default:
-        return "ascending";
+        return 'ascending';
     }
   }
   return direction;
 };
 
 export const queryValue = (source, query = '', defaultValue = null) => {
-  const value = query.split('.').reduce((result, key) => {
-      return result && result[key] ? result[key] : null;
-  }, source);
+  const value = query.split('.').reduce((result, key) => (result && result[key] ? result[key] : null), source);
   return value || defaultValue;
 };
 
-export const FILTER_BY_TYPE = t => item => item.type && item.type.displayName === t;
+export const FILTER_BY_TYPE = (t) => (item) => item.type && item.type.displayName === t;
 
 export const getProps = (comp, fields = [], defaultValue = null) => {
   const props = comp ? comp.props : null;
   if (!props) return defaultValue;
-  return Object.assign(
-    {},
-    props,
-    {
-      fields,
-    }
-  );
+  return {
+
+    ...props,
+    fields,
+  };
 };
 
 export const extractFields = (items) => {
   const container = items.find(FILTER_BY_TYPE(FIELDS_COMPONENT_TYPE));
-  const children = container ? 
-    React.Children.toArray(container.props.children): [];
+  const children = container
+    ? React.Children.toArray(container.props.children) : [];
   return children
     .filter(FILTER_BY_TYPE(FIELD_COMPONENT_TYPE))
-    .map(c => c.props);
+    .map((c) => c.props);
 };
 
 export const extractPagination = (items) => {
@@ -66,26 +60,22 @@ export const extractPagination = (items) => {
 
 export const extractQueryFields = (items) => {
   const fields = extractFields(items);
-  return fields.filter(f => f.queryable)
-    .map((f) => {
-      return Object.assign(
-        {},
-        f,
-        {
-          value: f.name,
-        }
-      );
-    });
+  return fields.filter((f) => f.queryable)
+    .map((f) => ({
+
+      ...f,
+      value: f.name,
+    }));
 };
 
 export const extractForms = (items, fields) => ({
   create: getProps(
     items.find(FILTER_BY_TYPE(CREATE_FORM_COMPONENT_TYPE)),
-    fields.filter(f => !f.hideInCreateForm),
+    fields.filter((f) => !f.hideInCreateForm),
   ),
   update: getProps(
     items.find(FILTER_BY_TYPE(UPDATE_FORM_COMPONENT_TYPE)),
-    fields.filter(f => !f.hideInUpdateForm),
+    fields.filter((f) => !f.hideInUpdateForm),
   ),
   delete: getProps(items.find(FILTER_BY_TYPE(DELETE_FORM_COMPONENT_TYPE))),
 });

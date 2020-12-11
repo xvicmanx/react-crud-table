@@ -1,4 +1,4 @@
-import { Field, Form as FormikForm } from "formik";
+import { Form as FormikForm } from 'formik';
 import bcc from 'bem-react-component-creator';
 
 const { block, element } = bcc('crud-modal-form');
@@ -12,5 +12,5 @@ Form.FieldError = element('div', 'field-error');
 Form.FieldContainer = element('div', 'field-container');
 
 export default {
-  Form
+  Form,
 };

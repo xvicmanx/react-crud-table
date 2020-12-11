@@ -1,6 +1,7 @@
-import React from "react";
-import { Formik, Field } from "formik";
-import { Form } from "./wrappers";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Formik, Field } from 'formik';
+import { Form } from './wrappers';
 import Button from '../Button';
 
 const DEFAULT_VALIDATE = () => ({});
@@ -10,12 +11,11 @@ const generalValidationError = ({ touched, errors, message }) => {
   const showErrorMessage = Object.keys(errors || {})
     .reduce((acc, key) => acc || fieldsTouched[key], false);
   return showErrorMessage && (
-      <Form.ErrorMessage>
-        {message || 'There are some errors'}
-      </Form.ErrorMessage>
-    );
+  <Form.ErrorMessage>
+    {message || 'There are some errors'}
+  </Form.ErrorMessage>
+  );
 };
-
 
 const BasicForm = ({
   data,
@@ -39,9 +39,9 @@ const BasicForm = ({
           {generalValidationError({
             touched,
             errors,
-            message: data.generalErrorMessage
+            message: data.generalErrorMessage,
           })}
-          {data.fields.map(field => (
+          {data.fields.map((field) => (
             <Form.FieldContainer>
               <Form.Label
                 htmlFor={field.name}
@@ -55,20 +55,19 @@ const BasicForm = ({
                 type={field.type}
                 readOnly={field.readOnly}
               />
-              {errors[field.name] &&
-                touched[field.name] &&
-                (
+              {errors[field.name]
+                && touched[field.name]
+                && (
                   <Form.FieldError>
                     {errors[field.name]}
                   </Form.FieldError>
-                )
-              }
+                )}
             </Form.FieldContainer>
           ))}
           {generalValidationError({
             touched,
             errors,
-            message: data.generalErrorMessage
+            message: data.generalErrorMessage,
           })}
           <Button
             type="submit"
@@ -82,6 +81,12 @@ const BasicForm = ({
     />
   </div>
 );
+
+BasicForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  data: PropTypes.instanceOf(Object),
+  initialValues: PropTypes.instanceOf(Object),
+};
 
 BasicForm.defaultProps = {
   initialValues: {},

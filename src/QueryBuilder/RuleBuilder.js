@@ -1,6 +1,7 @@
+// @flow
+
 import React from 'react';
 import {
-  CONDITIONS_LABEL,
   CONDITIONS,
   DEFAULT_STATE,
 } from './constants';
@@ -8,76 +9,68 @@ import {
   conditionsForType,
   getDefaultConditionForType,
   inputForType,
-} from './helpers';
-import Button from '../Button';
-import Select from './Select';
-import { RuleBuilder as Container } from './wrappers';
-import {
   mapFieldsToOptions,
   isBoolean,
   isRuleComplete,
 } from './helpers';
+import Button from '../Button';
+import Select from './Select';
+import { RuleBuilder as Container } from './wrappers';
+
 import { queryValue } from '../CRUDTable/helpers';
 
+type Field = {
+  value: any,
+};
 
-export default class RuleBuilder extends React.Component {
-  constructor(props) {
+type DefaultProps = {|
+  // eslint-disable-next-line react/require-default-props
+  fields: Array<Field>,
+  // eslint-disable-next-line react/require-default-props
+  conditionsSelectPlaceholder: string,
+  // eslint-disable-next-line react/require-default-props
+  fieldsSelectPlaceholder: string,
+|};
+
+type Props = {
+  ...DefaultProps,
+  onSave: Function,
+};
+
+type State = {
+  field: any,
+  type: string,
+  value: any,
+  label: string,
+  collection: string,
+  condition: string,
+};
+
+type Data = {
+  value: any,
+};
+
+class RuleBuilder extends React.Component<Props, State> {
+  // eslint-disable-next-line react/static-property-placement
+  static defaultProps: DefaultProps = {
+    fields: [],
+    fieldsSelectPlaceholder: 'Select field',
+    conditionsSelectPlaceholder: 'Select condition',
+  };
+
+  constructor(props: Props) {
     super(props);
     this.state = DEFAULT_STATE;
+    // $FlowFixMe
     this.handleFieldSelectChange = this.handleFieldSelectChange.bind(this);
+    // $FlowFixMe
+    this.save = this.save.bind(this);
   }
 
-  save() {
-    if (isRuleComplete(this.state)) {
-      this.props.onSave(this.state);
-      this.setState(DEFAULT_STATE);
-    }
-  }
-
-  find(field) {
-    return this.props.fields
-      .find(t => t.value === field);
-  }
-
-  getType(field) {
-    return queryValue(
-      this.find(field),
-      'type',
-      ''
-    );
-  }
-
-  getCollection(field) {
-    return queryValue(
-      this.find(field),
-      'collection',
-      ''
-    );
-  }
-
-  getDefaultCondition(field) {
-    const defaultconditionForType = getDefaultConditionForType(
-      this.getType(field),
-    );
-
-    return queryValue(
-      this.find(field),
-      'defaultCondition',
-      defaultconditionForType
-    );
-  }
-
-  getLabel(field) {
-    return queryValue(
-      this.find(field),
-      'label',
-      ''
-    );
-  }
-
-  handleFieldSelectChange(evt, data) {
+  handleFieldSelectChange(evt: SyntheticEvent<HTMLSelectElement>, data: Data) {
     const { value } = data;
-    const update = {
+    const update: State = {
+      ...this.state,
       field: value,
       type: this.getType(value),
       label: this.getLabel(value),
@@ -98,22 +91,75 @@ export default class RuleBuilder extends React.Component {
     this.setState(update);
   }
 
-  render() {
+  getLabel(field: any): string {
+    return queryValue(
+      this.find(field),
+      'label',
+      '',
+    );
+  }
+
+  getDefaultCondition(field: any): string {
+    const defaultconditionForType = getDefaultConditionForType(
+      this.getType(field),
+    );
+
+    return queryValue(
+      this.find(field),
+      'defaultCondition',
+      defaultconditionForType,
+    );
+  }
+
+  getCollection(field: any): string {
+    return queryValue(
+      this.find(field),
+      'collection',
+      '',
+    );
+  }
+
+  getType(field: any): string {
+    return queryValue(
+      this.find(field),
+      'type',
+      '',
+    );
+  }
+
+  find(field: any): ?Field {
+    const { fields } = this.props;
+    return fields.find((f) => f.value === field);
+  }
+
+  save() {
+    const { onSave } = this.props;
+    if (isRuleComplete(this.state)) {
+      onSave(this.state);
+      this.setState(DEFAULT_STATE);
+    }
+  }
+
+  render(): React$Element<any> {
+    const {
+      fields,
+      conditionsSelectPlaceholder,
+      fieldsSelectPlaceholder,
+    } = this.props;
     const { field, value, condition } = this.state;
     const type = this.getType(field);
     const input = inputForType(type, {
       value,
-      onChange: evt => {
-        console.log(evt.target.value);
+      onChange: (evt) => {
         this.setState({ value: evt.target.value });
-      }
+      },
     });
 
     return (
       <Container>
         <Select
-          placeholder={this.props.fieldsSelectPlaceholder}
-          options={mapFieldsToOptions(this.props.fields)}
+          placeholder={fieldsSelectPlaceholder}
+          options={mapFieldsToOptions(fields)}
           value={field}
           onChange={this.handleFieldSelectChange}
         />
@@ -122,7 +168,7 @@ export default class RuleBuilder extends React.Component {
         {!isBoolean(type) && (
           <span>
             <Select
-              placeholder={this.props.conditionsSelectPlaceholder}
+              placeholder={conditionsSelectPlaceholder}
               options={conditionsForType(type)}
               value={condition}
               onChange={(evt, data) => {
@@ -138,7 +184,7 @@ export default class RuleBuilder extends React.Component {
 
         <Button
           modifiers="positive,add"
-          onClick={this.save.bind(this)}
+          onClick={this.save}
         >
           +
         </Button>
@@ -147,8 +193,4 @@ export default class RuleBuilder extends React.Component {
   }
 }
 
-RuleBuilder.defaultProps = {
-  fields: [],
-  fieldsSelectPlaceholder: 'Select field',
-  conditionsSelectPlaceholder: 'Select condition',
-};
+export default RuleBuilder;

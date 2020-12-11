@@ -1,29 +1,33 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Container } from './wrappers';
 import Button from '../Button';
 
-const getDisplay = (visible) => {
-  return visible ? 'block' : 'none';
-};
+const getDisplay = (visible) => (visible ? 'block' : 'none');
 
 class Modal extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = { visible: false };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    this.state = { visible: false };
   }
 
   componentDidMount() {
-    this.props.onInit({
+    const { onInit } = this.props;
+
+    onInit({
       show: this.showModal,
-      hide: this.hideModal
+      hide: this.hideModal,
     });
   }
 
   showModal() {
-    if (this.props.onDisplay) {
-      this.props.onDisplay();
+    const { onDisplay } = this.props;
+
+    if (onDisplay) {
+      onDisplay();
     }
 
     this.setState({ visible: true });
@@ -34,15 +38,21 @@ class Modal extends React.Component {
   }
 
   render() {
-    const display = getDisplay(this.state.visible);
+    const {
+      children,
+      trigger,
+      title,
+    } = this.props;
+    const { visible } = this.state;
+    const display = getDisplay(visible);
     return (
       <div>
-        {this.props.trigger && (
+        {trigger && (
           <Button
             modifiers="positive"
             onClick={this.showModal}
           >
-            {this.props.trigger}
+            {trigger}
           </Button>
         )}
         <Container style={{ display }}>
@@ -50,12 +60,12 @@ class Modal extends React.Component {
             onClick={this.hideModal}
           />
           <Container.Modal>
-            {this.props.title && (
+            {title && (
               <Container.Title>
-                {this.props.title}
+                {title}
               </Container.Title>
             )}
-            {this.props.children}
+            {children}
           </Container.Modal>
         </Container>
       </div>
@@ -63,10 +73,20 @@ class Modal extends React.Component {
   }
 }
 
+Modal.propTypes = {
+  title: PropTypes.string,
+  onInit: PropTypes.func,
+  onDisplay: PropTypes.func,
+  children: PropTypes.node,
+  trigger: PropTypes.node,
+};
+
 Modal.defaultProps = {
   onInit: () => {},
   onDisplay: () => {},
   title: '',
+  children: null,
+  trigger: null,
 };
 
 export default Modal;

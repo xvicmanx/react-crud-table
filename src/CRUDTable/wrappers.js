@@ -1,4 +1,3 @@
-import React from "react";
 import bcc from 'bem-react-component-creator';
 
 const { block, element } = bcc('crud-table');

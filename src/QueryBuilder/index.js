@@ -1,57 +1,64 @@
-import React from "react";
+// @flow
+
+import React from 'react';
 import RuleBuilder from './RuleBuilder';
 import Rules from './Rules';
 import { Container } from './wrappers';
 
-let styles;
+type Props = {
+  fields: Array<Object>,
+  onChange: Function,
+  renderRule: Function,
+};
 
-class QueryBuilder extends React.Component {
-  constructor(props) {
+type State = {
+  query: Array<Object>,
+};
+
+class QueryBuilder extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { query: [] };
-    this.remove = this.remove.bind(this);
-    this.handleSave = this.handleSave.bind(this);
   }
 
-  remove(rule) {
+  handleSave(selection: Object) {
+    const { query } = this.state;
+    const { onChange } = this.props;
     const update = {
-      query: this.state
-      .query.filter(x => x.field !== rule.field ||
-        x.condition !== rule.condition
-      )
+      query: [...query, selection],
     };
     this.setState(update);
-    this.props.onChange(update.query);
+    onChange(update.query);
   }
 
-  handleSave(selection) {
+  remove(rule: Object) {
+    const { query } = this.state;
+    const { onChange } = this.props;
     const update = {
-      query: [...this.state.query, selection]
+      query: query.filter((x) => x.field !== rule.field
+        || x.condition !== rule.condition),
     };
     this.setState(update);
-    this.props.onChange(update.query);
+    onChange(update.query);
   }
 
-  render() {
+  render(): React$Element<any> {
+    const { query } = this.state;
+    const { fields, renderRule } = this.props;
     return (
       <Container>
         <RuleBuilder
-          fields={this.props.fields}
-          onSave={this.handleSave}
+          fields={fields}
+          onSave={(selection) => this.handleSave(selection)}
         />
         <Rules
-          queries={this.state.query}
-          onRuleRemoved={rule => this.remove(rule)}
-          renderRule={this.props.renderRule}
+          queries={query}
+          onRuleRemoved={(rule) => this.remove(rule)}
+          renderRule={renderRule}
         />
       </Container>
     );
   }
 }
-
-QueryBuilder.defaultProps = {
-  fields: [],
-  onChange: () => {},
-};
 
 export default QueryBuilder;

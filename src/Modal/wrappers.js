@@ -8,5 +8,5 @@ Container.Modal = element('div', 'modal');
 Container.Title = element('h3', 'title');
 
 export default {
-  Container
+  Container,
 };
