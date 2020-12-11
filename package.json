@@ -9,14 +9,17 @@
     "lint:fix": "eslint './src/**/*.{js,jsx}' --fix",
     "build": "babel src -d build",
     "types:check": "flow ./src",
-    "test": "jest --env=jsdom --no-watchman",
-    "test:watch": "jest --env=jsdom --watch",
+    "test": "jest ./src --no-watchman",
+    "test:watch": "jest ./src --watch",
     "test:coverage": "CI=true  npm test -- --coverage",
     "test:badges": "npm run test:coverage  && jest-coverage-badges",
     "prepublish": "npm run build",
     "release": "np"
   },
   "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/"
@@ -73,9 +76,9 @@
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.7",
-    "babel-eslint": "^10.1.0",
-    "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.15.5",
+    "babel-eslint": "^10.1.0",
+    "enzyme": "^3.11.0",
     "eslint": "^7.15.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.0.0",

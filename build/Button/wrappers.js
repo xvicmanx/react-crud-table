@@ -14,6 +14,7 @@ var _bcc = (0, _bemReactComponentCreator["default"])('crud-button'),
 
 var Btn = block('button');
 exports.Btn = Btn;
+Btn.displayName = 'Button';
 var _default = {
   Btn: Btn
 };

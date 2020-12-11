@@ -17,8 +17,20 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+var UpArrow = function UpArrow() {
+  return /*#__PURE__*/_react["default"].createElement("span", null, "\u25B2");
+};
+
+var DownArrow = function DownArrow() {
+  return /*#__PURE__*/_react["default"].createElement("span", null, "\u25BC");
+};
+
 var chevron = function chevron(direction) {
-  return direction === _constants.SORT_DIRECTIONS.ASCENDING ? /*#__PURE__*/_react["default"].createElement("span", null, "\u25B2") : /*#__PURE__*/_react["default"].createElement("span", null, "\u25BC");
+  if (direction === _constants.SORT_DIRECTIONS.ASCENDING) {
+    return /*#__PURE__*/_react["default"].createElement(UpArrow, null);
+  }
+
+  return /*#__PURE__*/_react["default"].createElement(DownArrow, null);
 };
 
 exports.chevron = chevron;

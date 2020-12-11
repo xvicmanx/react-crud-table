@@ -15,9 +15,13 @@ var _bcc = (0, _bemReactComponentCreator["default"])('crud-table-pagination'),
 
 var Pagination = block('div');
 exports.Pagination = Pagination;
+Pagination.displayName = 'Pagination';
 Pagination.Link = element('button', 'link');
+Pagination.Link.displayName = 'PaginationLink';
 Pagination.Prev = element('button', 'previous');
+Pagination.Prev.displayName = 'PaginationPrev';
 Pagination.Next = element('button', 'next');
+Pagination.Next.displayName = 'PaginationNext';
 var _default = {
   Pagination: Pagination
 };

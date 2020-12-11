@@ -13,5 +13,6 @@ var _bcc = (0, _bemReactComponentCreator["default"])('crud-label'),
     block = _bcc.block;
 
 var Label = block('div');
+Label.displayName = 'Label';
 var _default = Label;
 exports["default"] = _default;

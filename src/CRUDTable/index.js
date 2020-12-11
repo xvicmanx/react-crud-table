@@ -37,7 +37,7 @@ class CRUDTable extends React.Component {
     this.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
     this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
-    this.handlePaginationChange = this.handlePaginationChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
     this.handleQueryChange = this.handleQueryChange.bind(this);
 
     const configItems = React.Children.toArray(props.children);
@@ -57,7 +57,10 @@ class CRUDTable extends React.Component {
       deleteItem: {},
       pagination: {
         ...this.pagination,
-        activePage: this.pagination.activePage || 1,
+        activePage:
+          this.pagination.activePage || this.pagination.defaultActivePage || 1,
+        totalOfItems: this.pagination.totalOfItems || 0,
+        itemsPerPage: this.pagination.itemsPerPage || 10,
       },
       totalOfItems: this.pagination.totalOfItems || 0,
     };
@@ -93,7 +96,11 @@ class CRUDTable extends React.Component {
     this.update({ sort: newSort });
   }
 
-  handlePaginationChange(pagination) {
+  handlePageChange(activePage) {
+    const pagination = {
+      ...this.state.pagination,
+      activePage,
+    };
     this.setState({ pagination });
     this.update({ pagination });
   }
@@ -216,7 +223,7 @@ class CRUDTable extends React.Component {
           <PaginationCpt
             {...pagination}
             totalOfItems={totalOfItems}
-            onChange={this.handlePaginationChange}
+            onPageChange={this.handlePageChange}
           />
         )}
 

@@ -31,132 +31,46 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var linkModifier = function linkModifier(active) {
+  return active ? 'active' : 'inactive';
+};
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+var Pagination = function Pagination(props) {
+  var activePage = props.activePage,
+      totalOfItems = props.totalOfItems,
+      itemsPerPage = props.itemsPerPage,
+      onPageChange = props.onPageChange;
+  var numberOfPages = Math.ceil(totalOfItems / itemsPerPage) || 1;
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+  var pageNumbers = _toConsumableArray(Array(numberOfPages).keys());
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var Pagination = /*#__PURE__*/function (_Component) {
-  _inherits(Pagination, _Component);
-
-  var _super = _createSuper(Pagination);
-
-  function Pagination(props) {
-    var _this;
-
-    _classCallCheck(this, Pagination);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      activePage: props.defaultActivePage
-    };
-    _this.handleNextClick = _this.handleNextClick.bind(_assertThisInitialized(_this));
-    _this.handlePreviousClick = _this.handlePreviousClick.bind(_assertThisInitialized(_this));
-    _this.handleLinkClick = _this.handleLinkClick.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(Pagination, [{
-    key: "handlePreviousClick",
-    value: function handlePreviousClick() {
-      var activePage = this.state.activePage;
-
-      if (activePage > 1) {
-        this.update(activePage - 1);
+  var canIncreasePage = activePage < numberOfPages;
+  var canDecreasePage = activePage > 1;
+  return /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination, null, canDecreasePage && /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Prev, {
+    onClick: function onClick() {
+      onPageChange(activePage - 1);
+    }
+  }, "\xAB"), pageNumbers.map(function (i) {
+    var page = i + 1;
+    return /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Link, {
+      key: page,
+      modifiers: linkModifier(page === activePage),
+      onClick: function onClick() {
+        onPageChange(page);
       }
+    }, page);
+  }), canIncreasePage && /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Next, {
+    onClick: function onClick() {
+      onPageChange(activePage + 1);
     }
-  }, {
-    key: "handleNextClick",
-    value: function handleNextClick() {
-      var activePage = this.state.activePage;
-      var numberOfPages = this.calculateNumberOfPages();
-
-      if (activePage < numberOfPages) {
-        this.update(activePage + 1);
-      }
-    }
-  }, {
-    key: "handleLinkClick",
-    value: function handleLinkClick(evt) {
-      this.update(+evt.target.textContent.trim());
-    }
-  }, {
-    key: "update",
-    value: function update(activePage) {
-      var _this$props = this.props,
-          totalOfItems = _this$props.totalOfItems,
-          itemsPerPage = _this$props.itemsPerPage,
-          onChange = _this$props.onChange;
-      this.setState({
-        activePage: activePage
-      });
-      onChange({
-        activePage: activePage,
-        totalOfItems: totalOfItems,
-        itemsPerPage: itemsPerPage
-      });
-    }
-  }, {
-    key: "calculateNumberOfPages",
-    value: function calculateNumberOfPages() {
-      var _this$props2 = this.props,
-          totalOfItems = _this$props2.totalOfItems,
-          itemsPerPage = _this$props2.itemsPerPage;
-      return Math.ceil(totalOfItems / itemsPerPage);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      var activePage = this.state.activePage;
-      var numberOfPages = this.calculateNumberOfPages();
-
-      var numbers = _toConsumableArray(Array(numberOfPages).keys());
-
-      return /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination, null, /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Prev, {
-        onClick: this.handlePreviousClick
-      }, "\xAB"), numbers.map(function (i) {
-        return /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Link, {
-          key: i,
-          modifiers: i === activePage ? 'active' : 'inactive',
-          onClick: _this2.handleLinkClick
-        }, i);
-      }), /*#__PURE__*/_react["default"].createElement(_wrappers.Pagination.Next, {
-        onClick: this.handleNextClick
-      }, "\xBB"));
-    }
-  }]);
-
-  return Pagination;
-}(_react.Component);
+  }, "\xBB"));
+};
 
 Pagination.propTypes = {
-  defaultActivePage: _propTypes["default"].number,
-  itemsPerPage: _propTypes["default"].number,
-  totalOfItems: _propTypes["default"].number,
-  onChange: _propTypes["default"].func
-};
-Pagination.defaultProps = {
-  defaultActivePage: 1,
-  totalOfItems: 0,
-  itemsPerPage: 10,
-  onChange: function onChange() {}
+  activePage: _propTypes["default"].number.isRequired,
+  itemsPerPage: _propTypes["default"].number.isRequired,
+  totalOfItems: _propTypes["default"].number.isRequired,
+  onPageChange: _propTypes["default"].func.isRequired
 };
 var _default = Pagination;
 exports["default"] = _default;

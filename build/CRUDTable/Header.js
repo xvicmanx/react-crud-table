@@ -28,7 +28,7 @@ var Header = function Header(_ref) {
           _onClick(field.name, sort.direction);
         }
       }
-    }, field.label, ' ', sort.field === field.name && (0, _helpers.chevron)(sort.direction));
+    }, field.label, " ", sort.field === field.name && (0, _helpers.chevron)(sort.direction));
   }), actionsLabel && /*#__PURE__*/_react["default"].createElement(_wrappers.Table.HeaderCell, null, actionsLabel)));
 };
 

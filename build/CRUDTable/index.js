@@ -74,7 +74,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     _this.handleOnDeleteSubmission = _this.handleOnDeleteSubmission.bind(_assertThisInitialized(_this));
     _this.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_assertThisInitialized(_this));
     _this.handleHeaderClick = _this.handleHeaderClick.bind(_assertThisInitialized(_this));
-    _this.handlePaginationChange = _this.handlePaginationChange.bind(_assertThisInitialized(_this));
+    _this.handlePageChange = _this.handlePageChange.bind(_assertThisInitialized(_this));
     _this.handleQueryChange = _this.handleQueryChange.bind(_assertThisInitialized(_this));
 
     var configItems = _react["default"].Children.toArray(props.children);
@@ -93,7 +93,9 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       updateItem: {},
       deleteItem: {},
       pagination: _objectSpread(_objectSpread({}, _this.pagination), {}, {
-        activePage: _this.pagination.activePage || 1
+        activePage: _this.pagination.activePage || _this.pagination.defaultActivePage || 1,
+        totalOfItems: _this.pagination.totalOfItems || 0,
+        itemsPerPage: _this.pagination.itemsPerPage || 10
       }),
       totalOfItems: _this.pagination.totalOfItems || 0
     };
@@ -138,8 +140,12 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "handlePaginationChange",
-    value: function handlePaginationChange(pagination) {
+    key: "handlePageChange",
+    value: function handlePageChange(activePage) {
+      var pagination = _objectSpread(_objectSpread({}, this.state.pagination), {}, {
+        activePage: activePage
+      });
+
       this.setState({
         pagination: pagination
       });
@@ -291,7 +297,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         }
       })), !!pagination && totalOfItems > 0 && /*#__PURE__*/_react["default"].createElement(_Pagination["default"], _extends({}, pagination, {
         totalOfItems: totalOfItems,
-        onChange: this.handlePaginationChange
+        onPageChange: this.handlePageChange
       })), this.forms.update && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
         initialValues: updateItem,
         data: this.forms.update,

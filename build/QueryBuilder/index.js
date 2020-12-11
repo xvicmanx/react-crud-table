@@ -103,7 +103,9 @@ var QueryBuilder = /*#__PURE__*/function (_React$Component) {
         fields: fields,
         onSave: function onSave(selection) {
           return _this2.handleSave(selection);
-        }
+        },
+        fieldsSelectPlaceholder: "Select field",
+        conditionsSelectPlaceholder: "Select condition"
       }), /*#__PURE__*/_react["default"].createElement(_Rules["default"], {
         queries: query,
         onRuleRemoved: function onRuleRemoved(rule) {

@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination renders as expected when in a page in the middle 1`] = `
+<Pagination>
+  <PaginationPrev
+    onClick={[Function]}
+  >
+    «
+  </PaginationPrev>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    1
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    2
+  </PaginationLink>
+  <PaginationLink
+    modifiers="active"
+    onClick={[Function]}
+  >
+    3
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    4
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    5
+  </PaginationLink>
+  <PaginationNext
+    onClick={[Function]}
+  >
+    »
+  </PaginationNext>
+</Pagination>
+`;
+
+exports[`Pagination renders as expected when in the first page 1`] = `
+<Pagination>
+  <PaginationLink
+    modifiers="active"
+    onClick={[Function]}
+  >
+    1
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    2
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    3
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    4
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    5
+  </PaginationLink>
+  <PaginationNext
+    onClick={[Function]}
+  >
+    »
+  </PaginationNext>
+</Pagination>
+`;
+
+exports[`Pagination renders as expected when in the last page 1`] = `
+<Pagination>
+  <PaginationPrev
+    onClick={[Function]}
+  >
+    «
+  </PaginationPrev>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    1
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    2
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    3
+  </PaginationLink>
+  <PaginationLink
+    modifiers="inactive"
+    onClick={[Function]}
+  >
+    4
+  </PaginationLink>
+  <PaginationLink
+    modifiers="active"
+    onClick={[Function]}
+  >
+    5
+  </PaginationLink>
+</Pagination>
+`;

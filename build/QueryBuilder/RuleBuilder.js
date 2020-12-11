@@ -176,13 +176,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return RuleBuilder;
-}(_react["default"].Component); // $FlowFixMe
+}(_react["default"].Component);
 
-
-RuleBuilder.defaultProps = {
-  fields: [],
-  fieldsSelectPlaceholder: 'Select field',
-  conditionsSelectPlaceholder: 'Select condition'
-};
 var _default = RuleBuilder;
 exports["default"] = _default;
