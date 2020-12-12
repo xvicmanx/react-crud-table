@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getTableFieldValue } from './helpers';
 import { Table } from './wrappers';
 import Button from '../Button';
+import { NO_OP } from '../helpers';
 
 const Body = ({
   fields,
@@ -67,8 +68,8 @@ Body.defaultProps = {
   fields: [],
   items: [],
   actionsLabel: '',
-  onDeleteClick: () => {},
-  onUpdateClick: () => {},
+  onDeleteClick: NO_OP,
+  onUpdateClick: NO_OP,
   updateTrigger: null,
   deleteTrigger: null,
 };

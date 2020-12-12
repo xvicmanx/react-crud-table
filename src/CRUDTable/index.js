@@ -26,13 +26,12 @@ import Body from './Body';
 import PaginationCpt from '../Pagination';
 import FormModal from '../FormModal';
 import QueryBuilder from '../QueryBuilder';
+import { NO_OP } from '../helpers';
 
 class CRUDTable extends React.Component {
   constructor(props) {
     super(props);
 
-    this.updateModalController = null;
-    this.deleteModalController = null;
     this.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
     this.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
     this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
@@ -183,6 +182,9 @@ class CRUDTable extends React.Component {
       deleteItem,
       updateItem,
       queryRules,
+      createModalVisible,
+      deleteModalVisible,
+      updateModalVisible,
     } = this.state;
     const { caption, showQueryBuilder, actionsLabel } = this.props;
     const tabularFields = this.fields.filter((f) => !f.hideFromTable);
@@ -196,6 +198,12 @@ class CRUDTable extends React.Component {
             data={this.forms.create}
             onSubmit={this.handleOnCreateSubmission}
             shouldReset
+            visible={createModalVisible}
+            onVisibilityChange={(visible) => {
+              this.setState({
+                createModalVisible: visible,
+              });
+            }}
           />
         )}
 
@@ -224,12 +232,16 @@ class CRUDTable extends React.Component {
             deleteTrigger={deleteTrigger}
             actionsLabel={actionsLabel}
             onDeleteClick={(item) => {
-              this.setState({ deleteItem: item });
-              this.deleteModalController.show();
+              this.setState({
+                deleteItem: item,
+                deleteModalVisible: true,
+              });
             }}
             onUpdateClick={(item) => {
-              this.setState({ updateItem: item });
-              this.updateModalController.show();
+              this.setState({
+                updateItem: item,
+                updateModalVisible: true,
+              });
             }}
           />
         </Table>
@@ -247,8 +259,11 @@ class CRUDTable extends React.Component {
             initialValues={updateItem}
             data={this.forms.update}
             onSubmit={this.handleOnUpdateSubmission}
-            onInit={(controller) => {
-              this.updateModalController = controller;
+            visible={updateModalVisible}
+            onVisibilityChange={(visible) => {
+              this.setState({
+                updateModalVisible: visible,
+              });
             }}
           />
         )}
@@ -258,8 +273,11 @@ class CRUDTable extends React.Component {
             initialValues={deleteItem}
             data={this.forms.delete}
             onSubmit={this.handleOnDeleteSubmission}
-            onInit={(controller) => {
-              this.deleteModalController = controller;
+            visible={deleteModalVisible}
+            onVisibilityChange={(visible) => {
+              this.setState({
+                deleteModalVisible: visible,
+              });
             }}
           />
         )}
@@ -269,7 +287,7 @@ class CRUDTable extends React.Component {
 }
 
 CRUDTable.defaultProps = {
-  onChange: () => {},
+  onChange: NO_OP,
   actionsLabel: 'Actions',
   showQueryBuilder: false,
   items: [],

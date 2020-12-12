@@ -80,8 +80,6 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, CRUDTable);
 
     _this = _super.call(this, props);
-    _this.updateModalController = null;
-    _this.deleteModalController = null;
     _this.handleOnCreateSubmission = _this.handleOnCreateSubmission.bind(_assertThisInitialized(_this));
     _this.handleOnDeleteSubmission = _this.handleOnDeleteSubmission.bind(_assertThisInitialized(_this));
     _this.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_assertThisInitialized(_this));
@@ -282,7 +280,10 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
           totalOfItems = _this$state2.totalOfItems,
           deleteItem = _this$state2.deleteItem,
           updateItem = _this$state2.updateItem,
-          queryRules = _this$state2.queryRules;
+          queryRules = _this$state2.queryRules,
+          createModalVisible = _this$state2.createModalVisible,
+          deleteModalVisible = _this$state2.deleteModalVisible,
+          updateModalVisible = _this$state2.updateModalVisible;
       var _this$props2 = this.props,
           caption = _this$props2.caption,
           showQueryBuilder = _this$props2.showQueryBuilder,
@@ -296,7 +297,13 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         trigger: this.forms.create.trigger,
         data: this.forms.create,
         onSubmit: this.handleOnCreateSubmission,
-        shouldReset: true
+        shouldReset: true,
+        visible: createModalVisible,
+        onVisibilityChange: function onVisibilityChange(visible) {
+          _this6.setState({
+            createModalVisible: visible
+          });
+        }
       }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Caption, null, caption), showQueryBuilder && /*#__PURE__*/_react["default"].createElement(_QueryBuilder["default"], {
         queryRules: queryRules,
         fields: this.queryFields,
@@ -315,17 +322,15 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         actionsLabel: actionsLabel,
         onDeleteClick: function onDeleteClick(item) {
           _this6.setState({
-            deleteItem: item
+            deleteItem: item,
+            deleteModalVisible: true
           });
-
-          _this6.deleteModalController.show();
         },
         onUpdateClick: function onUpdateClick(item) {
           _this6.setState({
-            updateItem: item
+            updateItem: item,
+            updateModalVisible: true
           });
-
-          _this6.updateModalController.show();
         }
       })), !!pagination && totalOfItems > 0 && /*#__PURE__*/_react["default"].createElement(_Pagination["default"], _extends({}, pagination, {
         totalOfItems: totalOfItems,
@@ -334,15 +339,21 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         initialValues: updateItem,
         data: this.forms.update,
         onSubmit: this.handleOnUpdateSubmission,
-        onInit: function onInit(controller) {
-          _this6.updateModalController = controller;
+        visible: updateModalVisible,
+        onVisibilityChange: function onVisibilityChange(visible) {
+          _this6.setState({
+            updateModalVisible: visible
+          });
         }
       }), this.forms["delete"] && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
         initialValues: deleteItem,
         data: this.forms["delete"],
         onSubmit: this.handleOnDeleteSubmission,
-        onInit: function onInit(controller) {
-          _this6.deleteModalController = controller;
+        visible: deleteModalVisible,
+        onVisibilityChange: function onVisibilityChange(visible) {
+          _this6.setState({
+            deleteModalVisible: visible
+          });
         }
       }));
     }

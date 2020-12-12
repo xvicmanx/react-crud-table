@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import Form from '../Form';
+import { NO_OP } from '../helpers';
 
 const isPromise = (target) =>
   Boolean(target && typeof target.then === 'function');
@@ -9,27 +10,33 @@ const isPromise = (target) =>
 class FormModal extends React.Component {
   constructor(props) {
     super(props);
-    this.controller = null;
-    this.setController = this.setController.bind(this);
     this.state = { key: 0 };
   }
 
-  setController(controller) {
-    const { onInit } = this.props;
-    this.controller = controller;
-    onInit(controller);
-  }
-
   render() {
-    const { data, trigger, initialValues, shouldReset, onSubmit } = this.props;
+    const {
+      data,
+      trigger,
+      initialValues,
+      shouldReset,
+      onSubmit,
+      visible,
+      onVisibilityChange,
+    } = this.props;
     const { key } = this.state;
     return (
       <Modal
         trigger={trigger}
-        onInit={this.setController}
         title={data.title}
-        onDisplay={() => {
-          this.setState({ key: new Date().getTime() });
+        visible={visible}
+        onShow={() => {
+          onVisibilityChange(true);
+          this.setState({
+            key: new Date().getTime(),
+          });
+        }}
+        onHide={() => {
+          onVisibilityChange(false);
         }}
       >
         <Form
@@ -55,7 +62,7 @@ class FormModal extends React.Component {
                   }
 
                   setSubmitting(false);
-                  this.controller.hide();
+                  onVisibilityChange(false);
                 })
                 .catch((err) => {
                   setError(err ? err.message : 'Unexpected error');
@@ -70,7 +77,8 @@ class FormModal extends React.Component {
 }
 
 FormModal.propTypes = {
-  onInit: PropTypes.func,
+  visible: PropTypes.bool,
+  onVisibilityChange: PropTypes.func,
   onSubmit: PropTypes.func,
   shouldReset: PropTypes.bool,
   trigger: PropTypes.node,
@@ -79,12 +87,13 @@ FormModal.propTypes = {
 };
 
 FormModal.defaultProps = {
-  onInit: () => {},
-  onSubmit: () => {},
+  onVisibilityChange: NO_OP,
+  onSubmit: NO_OP,
   shouldReset: false,
   trigger: null,
   data: {},
   initialValues: null,
+  visible: false,
 };
 
 export default FormModal;

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { defaultRuleRender } from './helpers';
 import Button from '../Button';
+import { NO_OP } from '../helpers';
 
 const Rules = ({ queryRules, onRuleRemoved, renderRule }) => (
   <div>
@@ -32,7 +33,7 @@ Rules.propTypes = {
 Rules.defaultProps = {
   renderRule: defaultRuleRender,
   queryRules: [],
-  onRuleRemoved: () => {},
+  onRuleRemoved: NO_OP,
 };
 
 export default Rules;

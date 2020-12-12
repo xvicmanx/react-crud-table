@@ -1,5 +1,6 @@
 import React from 'react';
 import DateTime from 'react-datetime';
+import { NO_OP } from '../helpers';
 import Label from '../Label';
 import { CONDITIONS_LABEL, CONDITIONS } from './constants';
 
@@ -113,7 +114,7 @@ export const inputForType = (type, props) => {
               },
             });
           }}
-          onChange={() => {}}
+          onChange={NO_OP}
         />
       );
     case 'date':

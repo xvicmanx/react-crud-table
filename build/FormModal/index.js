@@ -58,8 +58,6 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, FormModal);
 
     _this = _super.call(this, props);
-    _this.controller = null;
-    _this.setController = _this.setController.bind(_assertThisInitialized(_this));
     _this.state = {
       key: 0
     };
@@ -67,13 +65,6 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(FormModal, [{
-    key: "setController",
-    value: function setController(controller) {
-      var onInit = this.props.onInit;
-      this.controller = controller;
-      onInit(controller);
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -83,16 +74,23 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
           trigger = _this$props.trigger,
           initialValues = _this$props.initialValues,
           shouldReset = _this$props.shouldReset,
-          _onSubmit = _this$props.onSubmit;
+          _onSubmit = _this$props.onSubmit,
+          visible = _this$props.visible,
+          onVisibilityChange = _this$props.onVisibilityChange;
       var key = this.state.key;
       return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
         trigger: trigger,
-        onInit: this.setController,
         title: data.title,
-        onDisplay: function onDisplay() {
+        visible: visible,
+        onShow: function onShow() {
+          onVisibilityChange(true);
+
           _this2.setState({
             key: new Date().getTime()
           });
+        },
+        onHide: function onHide() {
+          onVisibilityChange(false);
         }
       }, /*#__PURE__*/_react["default"].createElement(_Form["default"], {
         key: key,
@@ -115,8 +113,7 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
               }
 
               setSubmitting(false);
-
-              _this2.controller.hide();
+              onVisibilityChange(false);
             })["catch"](function (err) {
               setError(err ? err.message : 'Unexpected error');
               setSubmitting(false);
@@ -131,7 +128,8 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
 }(_react["default"].Component);
 
 FormModal.propTypes = {
-  onInit: _propTypes["default"].func,
+  visible: _propTypes["default"].bool,
+  onVisibilityChange: _propTypes["default"].func,
   onSubmit: _propTypes["default"].func,
   shouldReset: _propTypes["default"].bool,
   trigger: _propTypes["default"].node,
@@ -139,12 +137,13 @@ FormModal.propTypes = {
   initialValues: _propTypes["default"].instanceOf(Object)
 };
 FormModal.defaultProps = {
-  onInit: function onInit() {},
+  onVisibilityChange: function onVisibilityChange() {},
   onSubmit: function onSubmit() {},
   shouldReset: false,
   trigger: null,
   data: {},
-  initialValues: null
+  initialValues: null,
+  visible: false
 };
 var _default = FormModal;
 exports["default"] = _default;

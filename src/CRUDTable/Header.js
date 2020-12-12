@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Table } from './wrappers';
 import { chevron } from './helpers';
+import { NO_OP } from '../helpers';
 
 const Header = ({ fields, sort, onClick, actionsLabel }) => (
   <Table.Header>
@@ -33,7 +34,7 @@ Header.propTypes = {
 
 Header.defaultProps = {
   fields: [],
-  onClick: () => {},
+  onClick: NO_OP,
   actionsLabel: '',
 };
 
