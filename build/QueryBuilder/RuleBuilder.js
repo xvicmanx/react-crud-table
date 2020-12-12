@@ -150,7 +150,6 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
           });
         }
       });
-      console.log(condition);
       return /*#__PURE__*/_react["default"].createElement(_wrappers.RuleBuilder, null, /*#__PURE__*/_react["default"].createElement(_Select["default"], {
         placeholder: fieldsSelectPlaceholder,
         options: (0, _helpers.mapFieldsToOptions)(fields),
