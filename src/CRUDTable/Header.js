@@ -5,11 +5,22 @@ import { Table } from './wrappers';
 import { chevron } from './helpers';
 import { NO_OP } from '../helpers';
 
+type Field = {
+  name: string,
+  label: string,
+  sortable?: boolean,
+};
+
+type Sort = {
+  field: string,
+  direction: 'descending' | 'ascending',
+};
+
 export type Props = {
   onClick: Function,
   actionsLabel: number | string | React.Element<any> | Array<any>,
-  fields: Array<Object>,
-  sort: Object,
+  fields: Array<Field>,
+  sort: Sort,
 };
 
 const Header = (props: Props): React.Element<any> => {

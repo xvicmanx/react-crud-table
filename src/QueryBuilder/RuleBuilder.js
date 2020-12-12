@@ -121,8 +121,6 @@ class RuleBuilder extends React.Component<Props, State> {
       },
     });
 
-    console.log(condition);
-
     return (
       <Container>
         <Select
