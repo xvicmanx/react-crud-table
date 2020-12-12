@@ -1,10 +1,17 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Pagination as Container } from './wrappers';
 
 const linkModifier = (active) => (active ? 'active' : 'inactive');
 
-const Pagination = (props) => {
+export type Props = {
+  activePage: number,
+  itemsPerPage: number,
+  totalOfItems: number,
+  onPageChange: Function,
+};
+
+const Pagination = (props: Props) => {
   const { activePage, totalOfItems, itemsPerPage, onPageChange } = props;
   const numberOfPages = Math.ceil(totalOfItems / itemsPerPage) || 1;
   const pageNumbers = [...Array(numberOfPages).keys()];
@@ -46,13 +53,6 @@ const Pagination = (props) => {
       )}
     </Container>
   );
-};
-
-Pagination.propTypes = {
-  activePage: PropTypes.number.isRequired,
-  itemsPerPage: PropTypes.number.isRequired,
-  totalOfItems: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;

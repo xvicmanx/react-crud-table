@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
   SORT_DIRECTIONS,
@@ -28,8 +28,18 @@ import FormModal from '../FormModal';
 import QueryBuilder from '../QueryBuilder';
 import { NO_OP } from '../helpers';
 
+type Props = {
+  onChange?: Function,
+  actionsLabel?: number | string | React.Element | Array<any>,
+  showQueryBuilder?: boolean,
+  items?: Object,
+  caption?: number | string | React.Element | Array<any>,
+  fetchItems?: Function,
+  children: number | string | React.Element | Array<any>,
+};
+
 class CRUDTable extends React.Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
@@ -65,6 +75,8 @@ class CRUDTable extends React.Component {
       totalOfItems: this.pagination.totalOfItems || 0,
     };
   }
+
+  props: Props;
 
   componentDidMount() {
     this.update(undefined, false);
@@ -295,52 +307,46 @@ CRUDTable.defaultProps = {
   fetchItems: null,
 };
 
-CRUDTable.propTypes = {
-  onChange: PropTypes.func,
-  actionsLabel: PropTypes.node,
-  showQueryBuilder: PropTypes.bool,
-  items: PropTypes.instanceOf(Object),
-  caption: PropTypes.node,
-  fetchItems: PropTypes.func,
-  children: PropTypes.oneOf([PropTypes.node, PropTypes.arrayOf(PropTypes.node)])
-    .isRequired,
-};
-
 export const Fields = () => <div />;
 Fields.displayName = FIELDS_COMPONENT_TYPE;
 
-export const Field = ({
-  // eslint-disable-next-line no-unused-vars
-  name,
-  // eslint-disable-next-line no-unused-vars
-  label,
-  // eslint-disable-next-line no-unused-vars
-  tableValueResolver,
-  // eslint-disable-next-line no-unused-vars
-  hideInCreateForm,
-  // eslint-disable-next-line no-unused-vars
-  hideInUpdateForm,
-  // eslint-disable-next-line no-unused-vars
-  hideFromTable,
-  // eslint-disable-next-line no-unused-vars
-  queryable,
-  // eslint-disable-next-line no-unused-vars
-  type,
-  // eslint-disable-next-line no-unused-vars
-  sortable,
-}) => <div />;
-Field.displayName = FIELD_COMPONENT_TYPE;
-Field.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  tableValueResolver: PropTypes.oneOf([PropTypes.func, PropTypes.string]),
-  hideInCreateForm: PropTypes.bool,
-  hideInUpdateForm: PropTypes.bool,
-  hideFromTable: PropTypes.bool,
-  queryable: PropTypes.bool,
-  sortable: PropTypes.bool,
+export type FieldProps = {
+  name: string,
+  label: string,
+  type?: string,
+  tableValueResolver?: Function | string,
+  hideInCreateForm?: boolean,
+  hideInUpdateForm?: boolean,
+  hideFromTable?: boolean,
+  queryable?: boolean,
+  sortable?: boolean,
 };
+
+export const Field = (props: FieldProps) => {
+  const {
+    // eslint-disable-next-line no-unused-vars
+    name,
+    // eslint-disable-next-line no-unused-vars
+    label,
+    // eslint-disable-next-line no-unused-vars
+    tableValueResolver,
+    // eslint-disable-next-line no-unused-vars
+    hideInCreateForm,
+    // eslint-disable-next-line no-unused-vars
+    hideInUpdateForm,
+    // eslint-disable-next-line no-unused-vars
+    hideFromTable,
+    // eslint-disable-next-line no-unused-vars
+    queryable,
+    // eslint-disable-next-line no-unused-vars
+    type,
+    // eslint-disable-next-line no-unused-vars
+    sortable,
+  } = props;
+
+  return <div />;
+};
+Field.displayName = FIELD_COMPONENT_TYPE;
 Field.defaultProps = {
   queryable: true,
   sortable: true,

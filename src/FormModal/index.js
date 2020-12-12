@@ -1,5 +1,5 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import Form from '../Form';
 import { NO_OP } from '../helpers';
@@ -7,11 +7,23 @@ import { NO_OP } from '../helpers';
 const isPromise = (target) =>
   Boolean(target && typeof target.then === 'function');
 
+type Props = {
+  visible?: boolean,
+  onVisibilityChange?: Function,
+  onSubmit?: Function,
+  shouldReset?: boolean,
+  trigger?: number | string | React.Element | Array<any>,
+  data?: Object,
+  initialValues?: Object,
+};
+
 class FormModal extends React.Component {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = { key: 0 };
   }
+
+  props: Props;
 
   render() {
     const {
@@ -75,16 +87,6 @@ class FormModal extends React.Component {
     );
   }
 }
-
-FormModal.propTypes = {
-  visible: PropTypes.bool,
-  onVisibilityChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  shouldReset: PropTypes.bool,
-  trigger: PropTypes.node,
-  data: PropTypes.instanceOf(Object),
-  initialValues: PropTypes.instanceOf(Object),
-};
 
 FormModal.defaultProps = {
   onVisibilityChange: NO_OP,

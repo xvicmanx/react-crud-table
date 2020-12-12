@@ -1,14 +1,14 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import Container from './wrappers';
 
-const Label = ({ children }) => <Container>{children}</Container>;
+export type Props = {
+  children?: Array<any> | number | string | React.Element,
+};
 
-Label.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
+const Label = (props: Props) => {
+  const { children } = props;
+  return <Container>{children}</Container>;
 };
 
 export default Label;

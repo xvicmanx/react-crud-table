@@ -1,12 +1,21 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Container } from './wrappers';
 import Button from '../Button';
 import { NO_OP } from '../helpers';
 
 const getDisplay = (visible) => (visible ? 'block' : 'none');
 
-const Modal = (props) => {
+export type Props = {
+  title?: string,
+  onHide?: Function,
+  onShow?: Function,
+  children?: number | string | React.Element | Array<any>,
+  trigger?: number | string | React.Element | Array<any>,
+  visible?: boolean,
+};
+
+const Modal = (props: Props) => {
   const { children, trigger, title, visible, onHide, onShow } = props;
   const style = {
     display: getDisplay(visible),
@@ -27,15 +36,6 @@ const Modal = (props) => {
       </Container>
     </div>
   );
-};
-
-Modal.propTypes = {
-  title: PropTypes.string,
-  onHide: PropTypes.func,
-  onShow: PropTypes.func,
-  children: PropTypes.node,
-  trigger: PropTypes.node,
-  visible: PropTypes.bool,
 };
 
 Modal.defaultProps = {
