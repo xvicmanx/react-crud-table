@@ -11,7 +11,7 @@ export type Props = {
   onPageChange: Function,
 };
 
-const Pagination = (props: Props) => {
+const Pagination = (props: Props): React$Element<any> => {
   const { activePage, totalOfItems, itemsPerPage, onPageChange } = props;
   const numberOfPages = Math.ceil(totalOfItems / itemsPerPage) || 1;
   const pageNumbers = [...Array(numberOfPages).keys()];

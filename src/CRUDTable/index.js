@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import {
   SORT_DIRECTIONS,
@@ -30,15 +30,17 @@ import { NO_OP } from '../helpers';
 
 type Props = {
   onChange?: Function,
-  actionsLabel?: number | string | React.Element | Array<any>,
+  actionsLabel?: number | string | React.Element<any> | Array<any>,
   showQueryBuilder?: boolean,
   items?: Object,
-  caption?: number | string | React.Element | Array<any>,
+  caption?: number | string | React.Element<any> | Array<any>,
   fetchItems?: Function,
-  children: number | string | React.Element | Array<any>,
+  children: number | string | React.Element<any> | Array<any>,
 };
 
-class CRUDTable extends React.Component {
+type State = {};
+
+class CRUDTable extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 

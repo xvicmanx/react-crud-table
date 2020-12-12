@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.onSubmitHandler = void 0;
 
+var _helpers = require("../CRUDTable/helpers");
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -28,7 +30,7 @@ var onSubmitHandler = function onSubmitHandler(onSubmit, shouldReset, callback) 
       setSubmitting(false);
       callback();
     })["catch"](function (err) {
-      setError(err ? err.message : 'Unexpected error');
+      setError((0, _helpers.queryValue)(err, 'message', 'Unexpected error'));
       setSubmitting(false);
     });
   };

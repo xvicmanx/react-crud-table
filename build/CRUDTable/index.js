@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.Pagination = exports.DeleteForm = exports.UpdateForm = exports.CreateForm = exports.Field = exports.Fields = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var React = _interopRequireWildcard(require("react"));
 
 var _constants = require("./constants");
 
@@ -28,6 +28,10 @@ var _QueryBuilder = _interopRequireDefault(require("../QueryBuilder"));
 var _helpers2 = require("../helpers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -87,9 +91,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     _this.handlePageChange = _this.handlePageChange.bind(_assertThisInitialized(_this));
     _this.handleRuleAdded = _this.handleRuleAdded.bind(_assertThisInitialized(_this));
     _this.handleRuleRemoved = _this.handleRuleRemoved.bind(_assertThisInitialized(_this));
-
-    var configItems = _react["default"].Children.toArray(props.children);
-
+    var configItems = React.Children.toArray(props.children);
     _this.fields = (0, _helpers.extractFields)(configItems);
     _this.forms = (0, _helpers.extractForms)(configItems, _this.fields);
     _this.pagination = (0, _helpers.extractPagination)(configItems);
@@ -293,7 +295,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       });
       var updateTrigger = (0, _helpers.queryValue)(this.forms, 'update.trigger');
       var deleteTrigger = (0, _helpers.queryValue)(this.forms, 'delete.trigger');
-      return /*#__PURE__*/_react["default"].createElement("div", null, this.forms.create && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
+      return /*#__PURE__*/React.createElement("div", null, this.forms.create && /*#__PURE__*/React.createElement(_FormModal["default"], {
         trigger: this.forms.create.trigger,
         data: this.forms.create,
         onSubmit: this.handleOnCreateSubmission,
@@ -304,17 +306,17 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
             createModalVisible: visible
           });
         }
-      }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Caption, null, caption), showQueryBuilder && /*#__PURE__*/_react["default"].createElement(_QueryBuilder["default"], {
+      }), /*#__PURE__*/React.createElement(_wrappers.Table.Caption, null, caption), showQueryBuilder && /*#__PURE__*/React.createElement(_QueryBuilder["default"], {
         queryRules: queryRules,
         fields: this.queryFields,
         onRuleAdded: this.handleRuleAdded,
         onRuleRemoved: this.handleRuleRemoved
-      }), /*#__PURE__*/_react["default"].createElement(_wrappers.Table, null, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
+      }), /*#__PURE__*/React.createElement(_wrappers.Table, null, /*#__PURE__*/React.createElement(_Header["default"], {
         fields: tabularFields,
         sort: sort,
         onClick: this.handleHeaderClick,
         actionsLabel: updateTrigger || deleteTrigger ? actionsLabel : ''
-      }), /*#__PURE__*/_react["default"].createElement(_Body["default"], {
+      }), /*#__PURE__*/React.createElement(_Body["default"], {
         fields: tabularFields,
         items: items,
         updateTrigger: updateTrigger,
@@ -332,10 +334,10 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
             updateModalVisible: true
           });
         }
-      })), !!pagination && totalOfItems > 0 && /*#__PURE__*/_react["default"].createElement(_Pagination["default"], _extends({}, pagination, {
+      })), !!pagination && totalOfItems > 0 && /*#__PURE__*/React.createElement(_Pagination["default"], _extends({}, pagination, {
         totalOfItems: totalOfItems,
         onPageChange: this.handlePageChange
-      })), this.forms.update && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
+      })), this.forms.update && /*#__PURE__*/React.createElement(_FormModal["default"], {
         initialValues: updateItem,
         data: this.forms.update,
         onSubmit: this.handleOnUpdateSubmission,
@@ -345,7 +347,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
             updateModalVisible: visible
           });
         }
-      }), this.forms["delete"] && /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
+      }), this.forms["delete"] && /*#__PURE__*/React.createElement(_FormModal["default"], {
         initialValues: deleteItem,
         data: this.forms["delete"],
         onSubmit: this.handleOnDeleteSubmission,
@@ -360,7 +362,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return CRUDTable;
-}(_react["default"].Component);
+}(React.Component);
 
 CRUDTable.defaultProps = {
   onChange: _helpers2.NO_OP,
@@ -372,7 +374,7 @@ CRUDTable.defaultProps = {
 };
 
 var Fields = function Fields() {
-  return /*#__PURE__*/_react["default"].createElement("div", null);
+  return /*#__PURE__*/React.createElement("div", null);
 };
 
 exports.Fields = Fields;
@@ -388,7 +390,7 @@ var Field = function Field(props) {
       queryable = props.queryable,
       type = props.type,
       sortable = props.sortable;
-  return /*#__PURE__*/_react["default"].createElement("div", null);
+  return /*#__PURE__*/React.createElement("div", null);
 };
 
 exports.Field = Field;
@@ -404,28 +406,28 @@ Field.defaultProps = {
 };
 
 var CreateForm = function CreateForm() {
-  return /*#__PURE__*/_react["default"].createElement("div", null);
+  return /*#__PURE__*/React.createElement("div", null);
 };
 
 exports.CreateForm = CreateForm;
 CreateForm.displayName = _constants.CREATE_FORM_COMPONENT_TYPE;
 
 var UpdateForm = function UpdateForm() {
-  return /*#__PURE__*/_react["default"].createElement("div", null);
+  return /*#__PURE__*/React.createElement("div", null);
 };
 
 exports.UpdateForm = UpdateForm;
 UpdateForm.displayName = _constants.UPDATE_FORM_COMPONENT_TYPE;
 
 var DeleteForm = function DeleteForm() {
-  return /*#__PURE__*/_react["default"].createElement("div", null);
+  return /*#__PURE__*/React.createElement("div", null);
 };
 
 exports.DeleteForm = DeleteForm;
 DeleteForm.displayName = _constants.DELETE_FORM_COMPONENT_TYPE;
 
 var Pagination = function Pagination() {
-  return /*#__PURE__*/_react["default"].createElement("div", null);
+  return /*#__PURE__*/React.createElement("div", null);
 };
 
 exports.Pagination = Pagination;

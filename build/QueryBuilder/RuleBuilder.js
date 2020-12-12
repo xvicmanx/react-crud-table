@@ -71,7 +71,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
   _createClass(RuleBuilder, [{
     key: "handleFieldSelectChange",
     value: function handleFieldSelectChange(evt) {
-      var value = evt.target.value;
+      var value = evt.currentTarget.value;
 
       var update = _objectSpread(_objectSpread({}, this.state), {}, {
         field: value,

@@ -50,7 +50,7 @@ class RuleBuilder extends React.Component<Props, State> {
   }
 
   handleFieldSelectChange(evt: SyntheticEvent<HTMLSelectElement>) {
-    const { value } = evt.target;
+    const { value } = evt.currentTarget;
     const update: State = {
       ...this.state,
       field: value,

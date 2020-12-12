@@ -1,5 +1,6 @@
 // @flow
-import React from 'react';
+
+import * as React from 'react';
 import { Container } from './wrappers';
 import Button from '../Button';
 import { NO_OP } from '../helpers';
@@ -10,12 +11,12 @@ export type Props = {
   title?: string,
   onHide?: Function,
   onShow?: Function,
-  children?: number | string | React.Element | Array<any>,
-  trigger?: number | string | React.Element | Array<any>,
+  children?: number | string | React.Element<any> | Array<any>,
+  trigger?: number | string | React.Element<any> | Array<any>,
   visible?: boolean,
 };
 
-const Modal = (props: Props) => {
+const Modal = (props: Props): React$Element<any> => {
   const { children, trigger, title, visible, onHide, onShow } = props;
   const style = {
     display: getDisplay(visible),

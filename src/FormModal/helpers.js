@@ -1,3 +1,5 @@
+import { queryValue } from '../CRUDTable/helpers';
+
 export const onSubmitHandler = (onSubmit, shouldReset, callback) => (
   values,
   { setError, resetForm, setSubmitting }
@@ -21,7 +23,7 @@ export const onSubmitHandler = (onSubmit, shouldReset, callback) => (
       callback();
     })
     .catch((err) => {
-      setError(err ? err.message : 'Unexpected error');
+      setError(queryValue(err, 'message', 'Unexpected error'));
       setSubmitting(false);
     });
 };

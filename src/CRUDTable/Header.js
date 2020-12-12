@@ -1,18 +1,18 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 
 import { Table } from './wrappers';
 import { chevron } from './helpers';
 import { NO_OP } from '../helpers';
 
 export type Props = {
-  onClick?: Function,
-  actionsLabel?: number | string | React.Element | Array<any>,
-  fields?: Array,
-  sort: Array,
+  onClick: Function,
+  actionsLabel: number | string | React.Element<any> | Array<any>,
+  fields: Array<Object>,
+  sort: Object,
 };
 
-const Header = (props: Props) => {
+const Header = (props: Props): React.Element<any> => {
   const { fields, sort, onClick, actionsLabel } = props;
 
   return (
@@ -37,7 +37,7 @@ const Header = (props: Props) => {
 };
 
 Header.defaultProps = {
-  fields: [],
+  fields: ([]: Array<Object>),
   onClick: NO_OP,
   actionsLabel: '',
 };

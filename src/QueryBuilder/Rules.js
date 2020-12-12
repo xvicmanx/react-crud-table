@@ -5,12 +5,12 @@ import Button from '../Button';
 import { NO_OP } from '../helpers';
 
 export type Props = {
-  queryRules?: Array,
-  onRuleRemoved?: Function,
-  renderRule?: Function,
+  queryRules: Array<Object>,
+  onRuleRemoved: Function,
+  renderRule: Function,
 };
 
-const Rules = (props: Props) => {
+const Rules = (props: Props): React$Element<any> => {
   const { queryRules, onRuleRemoved, renderRule } = props;
 
   return (
@@ -36,7 +36,7 @@ const Rules = (props: Props) => {
 
 Rules.defaultProps = {
   renderRule: defaultRuleRender,
-  queryRules: [],
+  queryRules: ([]: Array<Object>),
   onRuleRemoved: NO_OP,
 };
 
