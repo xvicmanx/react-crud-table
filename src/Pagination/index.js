@@ -1,103 +1,58 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Pagination as Container } from './wrappers';
 
-const numbersTo = (n) => {
-  const numbers = [];
-  for (let i = 0; i < n; i++) { 
-    numbers.push(i+1);
-  }
-  return numbers;
+const linkModifier = (active) => (active ? 'active' : 'inactive');
+
+export type Props = {
+  activePage: number,
+  itemsPerPage: number,
+  totalOfItems: number,
+  onPageChange: Function,
 };
 
-class Pagination extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activePage: props.defaultActivePage,
-      totalOfItems: props.totalOfItems,
-    };
-    this.handleNextClick = this.handleNextClick.bind(this);
-    this.handlePreviousClick = this.handlePreviousClick.bind(this);
-    this.handleLinkClick = this.handleLinkClick.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.totalOfItems !== this.props.totalOfItems) {
-      this.setState({
-        totalOfItems: nextProps.totalOfItems,
-      });
-    }
-  }
-  
-  
-
-  update(activePage) {
-    this.setState({ activePage });
-    this.props.onChange({
-      activePage,
-      totalOfItems: this.props.totalOfItems,
-      itemsPerPage: this.props.itemsPerPage,
-    });
-  }
-
-  calculateNumberOfPages() {
-    return Math.ceil(this.props.totalOfItems/this.props.itemsPerPage);
-  }
-
-  handlePreviousClick() {
-    if (this.state.activePage > 1) {
-      this.update(this.state.activePage - 1);
-    }
-  }
-
-  handleNextClick() {
-    const numberOfPages = this.calculateNumberOfPages();
-    if (this.state.activePage < numberOfPages) {
-      this.update(this.state.activePage + 1);
-    }
-  }
-  
-  handleLinkClick(evt) {
-    this.update(+evt.target.textContent.trim());
-  }
-  
-  render() {
-    const numberOfPages = this.calculateNumberOfPages();
-    const numbers = numbersTo(numberOfPages);
-    return (
-      <Container>
-        <Container.Prev onClick={this.handlePreviousClick}>
+const Pagination = (props: Props): React$Element<any> => {
+  const { activePage, totalOfItems, itemsPerPage, onPageChange } = props;
+  const numberOfPages = Math.ceil(totalOfItems / itemsPerPage) || 1;
+  const pageNumbers = [...Array(numberOfPages).keys()];
+  const canIncreasePage = activePage < numberOfPages;
+  const canDecreasePage = activePage > 1;
+  return (
+    <Container>
+      {canDecreasePage && (
+        <Container.Prev
+          onClick={() => {
+            onPageChange(activePage - 1);
+          }}
+        >
           &laquo;
         </Container.Prev>
-        {numbers.map(i => (
+      )}
+      {pageNumbers.map((i) => {
+        const page = i + 1;
+        return (
           <Container.Link
-            modifiers={i === this.state.activePage ? 'active' : 'inactive'}
-            onClick={this.handleLinkClick}
+            key={page}
+            modifiers={linkModifier(page === activePage)}
+            onClick={() => {
+              onPageChange(page);
+            }}
           >
-            {i}
+            {page}
           </Container.Link>
-        ))}
-        <Container.Next onClick={this.handleNextClick}>
+        );
+      })}
+      {canIncreasePage && (
+        <Container.Next
+          onClick={() => {
+            onPageChange(activePage + 1);
+          }}
+        >
           &raquo;
         </Container.Next>
-      </Container>
-    );
-  }
-}
-
-Pagination.propTypes = {
-  defaultActivePage: PropTypes.number,
-  itemsPerPage: PropTypes.number,
-  totalOfItems: PropTypes.number,
-  onChange: PropTypes.func,
-};
-
-Pagination.defaultProps = {
-  defaultActivePage: 1,
-  totalOfItems: 0,
-  itemsPerPage: 10,
-  onChange: () => {},
+      )}
+    </Container>
+  );
 };
 
 export default Pagination;

@@ -1,74 +1,81 @@
-import React from "react";
-import Modal from "../Modal";
-import Form from "../Form";
+// @flow
 
-const isPromise = (target) => Boolean(target && typeof target.then === 'function');
+import * as React from 'react';
 
-class FormModal extends React.Component {
-  constructor(props) {
+import Modal from '../Modal';
+import Form from '../Form';
+import { NO_OP } from '../helpers';
+import { onSubmitHandler } from './helpers';
+
+type Props = {
+  visible: boolean,
+  onVisibilityChange: Function,
+  onSubmit: Function,
+  shouldReset: boolean,
+  trigger: number | string | null | React.Element<any> | Array<any>,
+  data: Object,
+  initialValues?: Object,
+};
+
+type State = {
+  key: number,
+};
+
+class FormModal extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.controller = null;
-    this.setController = this.setController.bind(this);
     this.state = { key: 0 };
   }
 
-  setController(controller) {
-    this.controller = controller;
-    this.props.onInit(controller);
-  }
+  props: Props;
 
-  render() {
+  render(): React$Element<any> {
     const {
       data,
       trigger,
       initialValues,
       shouldReset,
+      onSubmit,
+      visible,
+      onVisibilityChange,
     } = this.props;
+    const { key } = this.state;
     return (
       <Modal
         trigger={trigger}
-        onInit={this.setController}
         title={data.title}
-        onDisplay={() => {
-          this.setState({ key: (new Date()).getTime()})
+        visible={visible}
+        onShow={() => {
+          onVisibilityChange(true);
+          this.setState({
+            key: new Date().getTime(),
+          });
+        }}
+        onHide={() => {
+          onVisibilityChange(false);
         }}
       >
         <Form
-          key={this.state.key}
+          key={key}
           data={data}
           initialValues={initialValues}
-          onSubmit={(values, { setError, resetForm, setSubmitting }) => {
-            const reset = Object.keys(values)
-              .reduce((result, prop) => {
-                result[prop] = '';
-                return result;
-              }, {});
-
-            const result = this.props.onSubmit(values)
-            
-            if (isPromise(result)) {
-              result.then(() => {
-                if (shouldReset) {
-                  resetForm(reset);
-                }
-  
-                setSubmitting(false);
-                this.controller.hide();
-              }).catch((err) => {
-                setError(err ? err.message : 'Unexpected error');
-                setSubmitting(false);
-              });
-            }
-          }}
+          onSubmit={onSubmitHandler(onSubmit, shouldReset, () =>
+            onVisibilityChange(false)
+          )}
         />
       </Modal>
     );
   }
 }
 
+// $FlowFixMe
 FormModal.defaultProps = {
-  onInit: () => {},
+  onVisibilityChange: NO_OP,
+  onSubmit: NO_OP,
   shouldReset: false,
+  trigger: null,
+  initialValues: null,
+  visible: false,
 };
 
 export default FormModal;

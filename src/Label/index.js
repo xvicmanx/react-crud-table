@@ -1,18 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import Container from './wrappers';
 
-const Label = ({ children }) => (
-  <Container>
-    {children}
-  </Container>
-);
+export type Props = {
+  children?: Array<any> | number | string | React.Element<any>,
+};
 
-Label.propTypes = {
-  children: PropTypes.oneOf([
-    PropTypes.node,
-    PropTypes.arrayOf(PropTypes.node),
-  ]),
+const Label = (props: Props): React.Element<any> => {
+  const { children } = props;
+  return <Container>{children}</Container>;
 };
 
 export default Label;

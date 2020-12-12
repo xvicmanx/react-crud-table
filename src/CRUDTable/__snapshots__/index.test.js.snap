@@ -1,0 +1,763 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CRUDTable renders as expected when passing promise fetchers 1`] = `
+<div>
+  <FormModal
+    data={
+      Object {
+        "fields": Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ],
+        "message": "Create a new task!",
+        "onSubmit": [MockFunction],
+        "submitText": "Create",
+        "title": "Task Creation",
+        "trigger": "Create Task",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={null}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={true}
+    trigger="Create Task"
+    visible={false}
+  />
+  <Caption>
+    Tasks
+  </Caption>
+  <Table>
+    <Header
+      actionsLabel="Actions"
+      fields={
+        Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ]
+      }
+      onClick={[Function]}
+      sort={
+        Object {
+          "direction": "descending",
+          "field": "id",
+        }
+      }
+    />
+    <Body
+      actionsLabel="Actions"
+      deleteTrigger="Delete"
+      fields={
+        Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ]
+      }
+      items={Array []}
+      onDeleteClick={[Function]}
+      onUpdateClick={[Function]}
+      updateTrigger="Update"
+    />
+  </Table>
+  <FormModal
+    data={
+      Object {
+        "fields": Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ],
+        "message": "Update task",
+        "onSubmit": [MockFunction],
+        "submitText": "Update",
+        "title": "Task Update Process",
+        "trigger": "Update",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={Object {}}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={false}
+    trigger={null}
+    visible={false}
+  />
+  <FormModal
+    data={
+      Object {
+        "fields": Array [],
+        "message": "Are you sure you want to delete the task?",
+        "onSubmit": [MockFunction],
+        "submitText": "Delete",
+        "title": "Task Delete Process",
+        "trigger": "Delete",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={Object {}}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={false}
+    trigger={null}
+    visible={false}
+  />
+</div>
+`;
+
+exports[`CRUDTable renders as expected with forms, query builder, and pagination 1`] = `
+<div>
+  <FormModal
+    data={
+      Object {
+        "fields": Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ],
+        "message": "Create a new task!",
+        "onSubmit": [MockFunction],
+        "submitText": "Create",
+        "title": "Task Creation",
+        "trigger": "Create Task",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={null}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={true}
+    trigger="Create Task"
+    visible={false}
+  />
+  <Caption>
+    Tasks
+  </Caption>
+  <QueryBuilder
+    fields={
+      Array [
+        Object {
+          "hideFromTable": false,
+          "hideInCreateForm": true,
+          "hideInUpdateForm": false,
+          "label": "Id",
+          "name": "id",
+          "queryable": true,
+          "readOnly": true,
+          "sortable": true,
+          "tableValueResolver": null,
+          "type": "text",
+          "value": "id",
+        },
+        Object {
+          "hideFromTable": false,
+          "hideInCreateForm": false,
+          "hideInUpdateForm": false,
+          "label": "Title",
+          "name": "title",
+          "placeholder": "Title",
+          "queryable": true,
+          "sortable": true,
+          "tableValueResolver": null,
+          "type": "text",
+          "value": "title",
+        },
+        Object {
+          "hideFromTable": false,
+          "hideInCreateForm": false,
+          "hideInUpdateForm": false,
+          "label": "Description",
+          "name": "description",
+          "queryable": true,
+          "render": [Function],
+          "sortable": true,
+          "tableValueResolver": null,
+          "type": "text",
+          "value": "description",
+        },
+      ]
+    }
+    onRuleAdded={[Function]}
+    onRuleRemoved={[Function]}
+    queryRules={Array []}
+  />
+  <Table>
+    <Header
+      actionsLabel="Actions"
+      fields={
+        Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ]
+      }
+      onClick={[Function]}
+      sort={
+        Object {
+          "direction": "descending",
+          "field": "id",
+        }
+      }
+    />
+    <Body
+      actionsLabel="Actions"
+      deleteTrigger="Delete"
+      fields={
+        Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ]
+      }
+      items={
+        Array [
+          Object {
+            "description": "Create an example of how to use the component",
+            "id": 1,
+            "title": "Create an example",
+          },
+          Object {
+            "description": "Improve the component!",
+            "id": 2,
+            "title": "Improve",
+          },
+        ]
+      }
+      onDeleteClick={[Function]}
+      onUpdateClick={[Function]}
+      updateTrigger="Update"
+    />
+  </Table>
+  <Pagination
+    activePage={1}
+    fields={Array []}
+    itemsPerPage={2}
+    onPageChange={[Function]}
+    totalOfItems={2}
+  />
+  <FormModal
+    data={
+      Object {
+        "fields": Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ],
+        "message": "Update task",
+        "onSubmit": [MockFunction],
+        "submitText": "Update",
+        "title": "Task Update Process",
+        "trigger": "Update",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={Object {}}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={false}
+    trigger={null}
+    visible={false}
+  />
+  <FormModal
+    data={
+      Object {
+        "fields": Array [],
+        "message": "Are you sure you want to delete the task?",
+        "onSubmit": [MockFunction],
+        "submitText": "Delete",
+        "title": "Task Delete Process",
+        "trigger": "Delete",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={Object {}}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={false}
+    trigger={null}
+    visible={false}
+  />
+</div>
+`;
+
+exports[`CRUDTable renders as expected without forms, query builder, and pagination 1`] = `
+<div>
+  <FormModal
+    data={
+      Object {
+        "fields": Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ],
+        "message": "Create a new task!",
+        "onSubmit": [MockFunction],
+        "submitText": "Create",
+        "title": "Task Creation",
+        "trigger": "Create Task",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={null}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={true}
+    trigger="Create Task"
+    visible={false}
+  />
+  <Caption>
+    Tasks
+  </Caption>
+  <Table>
+    <Header
+      actionsLabel="Actions"
+      fields={
+        Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ]
+      }
+      onClick={[Function]}
+      sort={
+        Object {
+          "direction": "descending",
+          "field": "id",
+        }
+      }
+    />
+    <Body
+      actionsLabel="Actions"
+      deleteTrigger="Delete"
+      fields={
+        Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ]
+      }
+      items={
+        Array [
+          Object {
+            "description": "Create an example of how to use the component",
+            "id": 1,
+            "title": "Create an example",
+          },
+          Object {
+            "description": "Improve the component!",
+            "id": 2,
+            "title": "Improve",
+          },
+        ]
+      }
+      onDeleteClick={[Function]}
+      onUpdateClick={[Function]}
+      updateTrigger="Update"
+    />
+  </Table>
+  <FormModal
+    data={
+      Object {
+        "fields": Array [
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": true,
+            "hideInUpdateForm": false,
+            "label": "Id",
+            "name": "id",
+            "queryable": true,
+            "readOnly": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Title",
+            "name": "title",
+            "placeholder": "Title",
+            "queryable": true,
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+          Object {
+            "hideFromTable": false,
+            "hideInCreateForm": false,
+            "hideInUpdateForm": false,
+            "label": "Description",
+            "name": "description",
+            "queryable": true,
+            "render": [Function],
+            "sortable": true,
+            "tableValueResolver": null,
+            "type": "text",
+          },
+        ],
+        "message": "Update task",
+        "onSubmit": [MockFunction],
+        "submitText": "Update",
+        "title": "Task Update Process",
+        "trigger": "Update",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={Object {}}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={false}
+    trigger={null}
+    visible={false}
+  />
+  <FormModal
+    data={
+      Object {
+        "fields": Array [],
+        "message": "Are you sure you want to delete the task?",
+        "onSubmit": [MockFunction],
+        "submitText": "Delete",
+        "title": "Task Delete Process",
+        "trigger": "Delete",
+        "validate": [MockFunction],
+      }
+    }
+    initialValues={Object {}}
+    onSubmit={[Function]}
+    onVisibilityChange={[Function]}
+    shouldReset={false}
+    trigger={null}
+    visible={false}
+  />
+</div>
+`;

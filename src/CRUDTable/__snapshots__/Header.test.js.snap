@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders as expected with the given props (descending sort) 1`] = `
+<Header>
+  <Row>
+    <HeaderCell
+      onClick={[Function]}
+    >
+      Name
+       
+      <DownArrow />
+    </HeaderCell>
+    <HeaderCell
+      onClick={[Function]}
+    >
+      Age
+       
+    </HeaderCell>
+    <HeaderCell>
+      Act
+    </HeaderCell>
+  </Row>
+</Header>
+`;
+
+exports[`Header renders as expected with the given props 1`] = `
+<Header>
+  <Row>
+    <HeaderCell
+      onClick={[Function]}
+    >
+      Name
+       
+      <UpArrow />
+    </HeaderCell>
+    <HeaderCell
+      onClick={[Function]}
+    >
+      Age
+       
+    </HeaderCell>
+    <HeaderCell>
+      Act
+    </HeaderCell>
+  </Row>
+</Header>
+`;

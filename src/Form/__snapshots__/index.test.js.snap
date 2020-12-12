@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form renders as expected with the given props 1`] = `
+<div>
+  <Formik
+    enableReinitialize={true}
+    initialValues={
+      Object {
+        "name": "John",
+      }
+    }
+    onSubmit={[MockFunction]}
+    render={[Function]}
+    validate={[Function]}
+  />
+</div>
+`;

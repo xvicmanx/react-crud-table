@@ -15,9 +15,13 @@ var _bcc = (0, _bemReactComponentCreator["default"])('crud-modal-wrapper'),
 
 var Container = block('div');
 exports.Container = Container;
+Container.displayName = 'Wrapper';
 Container.BG = element('div', 'background');
+Container.BG.displayName = 'Background';
 Container.Modal = element('div', 'modal');
+Container.Modal.displayName = 'Modal';
 Container.Title = element('h3', 'title');
+Container.Title.displayName = 'Title';
 var _default = {
   Container: Container
 };

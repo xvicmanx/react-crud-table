@@ -1,66 +1,82 @@
-import React from "react";
-import { Table } from "./wrappers";
+// @flow
+
+import * as React from 'react';
+
+import { getTableFieldValue } from './helpers';
+import { Table } from './wrappers';
 import Button from '../Button';
-import { queryValue } from './helpers';
+import { NO_OP } from '../helpers';
 
+export type Props = {
+  actionsLabel: number | string | React.Element<any> | Array<any>,
+  updateTrigger: number | string | React.Element<any> | Array<any>,
+  deleteTrigger: number | string | React.Element<any> | Array<any>,
+  fields: Array<Object>,
+  items: Array<Object>,
+  onDeleteClick: Function,
+  onUpdateClick: Function,
+};
 
-const getValue = (field, item) => {
-  if (typeof field.tableValueResolver === 'string') {
-    return queryValue(item, field.tableValueResolver);
-  }
+const Body = (props: Props): React$Element<any> => {
+  const {
+    fields,
+    items,
+    onDeleteClick,
+    onUpdateClick,
+    actionsLabel,
+    updateTrigger,
+    deleteTrigger,
+  } = props;
 
-  if (typeof field.tableValueResolver === 'function') {
-    return field.tableValueResolver(item);
-  }
+  return (
+    <Table.Body>
+      {items.map((item) => (
+        <Table.Row key={item.id}>
+          {fields.map((field) => (
+            <Table.Cell key={field.name}>
+              <Table.CellLabel>{field.label}</Table.CellLabel>
+              {getTableFieldValue(field, item)}
+            </Table.Cell>
+          ))}
+          {(updateTrigger || deleteTrigger) && (
+            <Table.Cell>
+              <Table.CellLabel>{actionsLabel}</Table.CellLabel>
+              {updateTrigger && (
+                <Button
+                  modifiers="primary"
+                  onClick={() => {
+                    onUpdateClick(item);
+                  }}
+                >
+                  {updateTrigger}
+                </Button>
+              )}{' '}
+              {deleteTrigger && (
+                <Button
+                  modifiers="negative"
+                  onClick={() => {
+                    onDeleteClick(item);
+                  }}
+                >
+                  {deleteTrigger}
+                </Button>
+              )}
+            </Table.Cell>
+          )}
+        </Table.Row>
+      ))}
+    </Table.Body>
+  );
+};
 
-  return item[field.name];
-}
-
-const Body = ({
-  fields,
-  items,
-  forms,
-  onDeleteClick,
-  onUpdateClick,
-  actionsLabel
-}) => (
-  <Table.Body>
-    {items.map(item => (
-      <Table.Row>
-        {fields.map(field => (
-          <Table.Cell>
-            <Table.CellLabel>{field.label}</Table.CellLabel>
-            {getValue(field, item)}
-          </Table.Cell>
-        ))}
-        {(forms.delete || forms.update) && (
-          <Table.Cell>
-            <Table.CellLabel>{actionsLabel}</Table.CellLabel>
-            {forms.update && (
-              <Button
-                modifiers="primary"
-                onClick={() => {
-                  onUpdateClick(item)
-                }}
-              >
-                {forms.update.trigger}
-              </Button>
-            )}&nbsp;
-            {forms.delete && (
-              <Button
-               modifiers="negative"
-                onClick={() => {
-                  onDeleteClick(item)
-                }}
-              >
-                {forms.delete.trigger}
-              </Button>
-            )}
-          </Table.Cell>
-        )}
-      </Table.Row>
-    ))}
-  </Table.Body>
-);
+Body.defaultProps = {
+  fields: ([]: Array<Object>),
+  items: ([]: Array<Object>),
+  actionsLabel: '',
+  onDeleteClick: NO_OP,
+  onUpdateClick: NO_OP,
+  updateTrigger: null,
+  deleteTrigger: null,
+};
 
 export default Body;

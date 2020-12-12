@@ -1,39 +1,43 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { defaultRuleRender } from './helpers';
 import Button from '../Button';
+import { NO_OP } from '../helpers';
 
+export type Props = {
+  queryRules: Array<Object>,
+  onRuleRemoved: Function,
+  renderRule: Function,
+};
 
-const Rules = ({
-  queries,
-  onRuleRemoved,
-  renderRule,
-}) => (
-  (queries.length > 0) && (
+const Rules = (props: Props): React$Element<any> => {
+  const { queryRules, onRuleRemoved, renderRule } = props;
+
+  return (
     <div>
-      {queries.map(rule => {
-        const renderer = renderRule || defaultRuleRender;
-        return (
-          <div>
-            {renderer(rule)}&nbsp;&nbsp;
-            <Button
-              onClick={() => { onRuleRemoved(rule); }}
-              modifiers='negative,circular'
-            >
-              X
-            </Button>
-          </div>
-        );
-      })}
+      {queryRules.map((rule) => (
+        <div key={`${rule.field}:${rule.condition}`}>
+          {renderRule(rule)}
+          {'  '}
+          <Button
+            onClick={() => {
+              onRuleRemoved(rule);
+            }}
+            modifiers="negative,circular"
+          >
+            X
+          </Button>
+        </div>
+      ))}
       <br />
     </div>
-  )
-);
+  );
+};
 
-Rules.propTypes = {
-  queries: PropTypes.instanceOf(Array).isRequired,
-  onRuleRemoved: PropTypes.func.isRequired,
-  renderRule: PropTypes.func.isRequired,
+Rules.defaultProps = {
+  renderRule: defaultRuleRender,
+  queryRules: ([]: Array<Object>),
+  onRuleRemoved: NO_OP,
 };
 
 export default Rules;

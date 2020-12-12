@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form renders as expected with the given props 1`] = `
+<FormikForm>
+  <Message>
+    Hello world
+  </Message>
+  <ErrorMessage>
+    There is an error
+  </ErrorMessage>
+  <ErrorMessage>
+    General error
+  </ErrorMessage>
+  <FieldContainer>
+    <Label
+      htmlFor="name"
+    >
+      Label
+    </Label>
+    <Field
+      name="name"
+      placeholder="Write name"
+      readOnly={false}
+      render={[Function]}
+      type="text"
+    />
+    <FieldError>
+      Invalid name
+    </FieldError>
+  </FieldContainer>
+  <ErrorMessage>
+    General error
+  </ErrorMessage>
+  <Button
+    className="Cool"
+    modifiers="positive"
+    type="submit"
+  >
+    Submit
+  </Button>
+</FormikForm>
+`;

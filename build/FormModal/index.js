@@ -7,13 +7,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var React = _interopRequireWildcard(require("react"));
 
 var _Modal = _interopRequireDefault(require("../Modal"));
 
 var _Form = _interopRequireDefault(require("../Form"));
 
+var _helpers = require("../helpers");
+
+var _helpers2 = require("./helpers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -35,10 +43,6 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var isPromise = function isPromise(target) {
-  return Boolean(target && typeof target.then === 'function');
-};
-
 var FormModal = /*#__PURE__*/function (_React$Component) {
   _inherits(FormModal, _React$Component);
 
@@ -50,8 +54,6 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, FormModal);
 
     _this = _super.call(this, props);
-    _this.controller = null;
-    _this.setController = _this.setController.bind(_assertThisInitialized(_this));
     _this.state = {
       key: 0
     };
@@ -59,12 +61,6 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(FormModal, [{
-    key: "setController",
-    value: function setController(controller) {
-      this.controller = controller;
-      this.props.onInit(controller);
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -73,56 +69,47 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
           data = _this$props.data,
           trigger = _this$props.trigger,
           initialValues = _this$props.initialValues,
-          shouldReset = _this$props.shouldReset;
-      return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
+          shouldReset = _this$props.shouldReset,
+          onSubmit = _this$props.onSubmit,
+          visible = _this$props.visible,
+          onVisibilityChange = _this$props.onVisibilityChange;
+      var key = this.state.key;
+      return /*#__PURE__*/React.createElement(_Modal["default"], {
         trigger: trigger,
-        onInit: this.setController,
         title: data.title,
-        onDisplay: function onDisplay() {
+        visible: visible,
+        onShow: function onShow() {
+          onVisibilityChange(true);
+
           _this2.setState({
             key: new Date().getTime()
           });
+        },
+        onHide: function onHide() {
+          onVisibilityChange(false);
         }
-      }, /*#__PURE__*/_react["default"].createElement(_Form["default"], {
-        key: this.state.key,
+      }, /*#__PURE__*/React.createElement(_Form["default"], {
+        key: key,
         data: data,
         initialValues: initialValues,
-        onSubmit: function onSubmit(values, _ref) {
-          var setError = _ref.setError,
-              resetForm = _ref.resetForm,
-              setSubmitting = _ref.setSubmitting;
-          var reset = Object.keys(values).reduce(function (result, prop) {
-            result[prop] = '';
-            return result;
-          }, {});
-
-          var result = _this2.props.onSubmit(values);
-
-          if (isPromise(result)) {
-            result.then(function () {
-              if (shouldReset) {
-                resetForm(reset);
-              }
-
-              setSubmitting(false);
-
-              _this2.controller.hide();
-            })["catch"](function (err) {
-              setError(err ? err.message : 'Unexpected error');
-              setSubmitting(false);
-            });
-          }
-        }
+        onSubmit: (0, _helpers2.onSubmitHandler)(onSubmit, shouldReset, function () {
+          return onVisibilityChange(false);
+        })
       }));
     }
   }]);
 
   return FormModal;
-}(_react["default"].Component);
+}(React.Component); // $FlowFixMe
+
 
 FormModal.defaultProps = {
-  onInit: function onInit() {},
-  shouldReset: false
+  onVisibilityChange: _helpers.NO_OP,
+  onSubmit: _helpers.NO_OP,
+  shouldReset: false,
+  trigger: null,
+  initialValues: null,
+  visible: false
 };
 var _default = FormModal;
 exports["default"] = _default;

@@ -1,9 +1,6 @@
-import React from "react";
-import PropTypes from 'prop-types';
-import { Table } from "./wrappers";
-import Header from "./Header";
-import Body from "./Body";
-import PaginationCpt from '../Pagination';
+// @flow
+import * as React from 'react';
+
 import {
   SORT_DIRECTIONS,
   ID_FIELD,
@@ -16,37 +13,64 @@ import {
 } from './constants';
 import {
   toggleDirection,
-  FILTER_BY_TYPE,
   extractFields,
   extractPagination,
-  getProps,
   extractForms,
-  extractQueryFields
-} from "./helpers";
+  extractQueryFields,
+  queryValue,
+  getPaginationProps,
+} from './helpers';
+import { Table } from './wrappers';
+import Header from './Header';
+import Body from './Body';
+import PaginationCpt from '../Pagination';
 import FormModal from '../FormModal';
 import QueryBuilder from '../QueryBuilder';
+import { NO_OP } from '../helpers';
 
+type Props = {
+  onChange?: Function,
+  actionsLabel?: number | string | React.Element<any> | Array<any>,
+  showQueryBuilder?: boolean,
+  items?: Object,
+  caption?: number | string | React.Element<any> | Array<any>,
+  fetchItems?: Function,
+  children: number | string | React.Element<any> | Array<any>,
+};
 
-class CRUDTable extends React.Component {
-  constructor(props) {
+type State = {
+  queryRules: Array<Object>,
+  updateItem: ?Object,
+  deleteItem: ?Object,
+  createModalVisible: boolean,
+  deleteModalVisible: boolean,
+  updateModalVisible: boolean,
+  items: Array<Object>,
+  sort: Object,
+  pagination: Object,
+  totalOfItems: number,
+};
+
+class CRUDTable extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.updateModalController = null;
-    this.deleteModalController = null;
+
     this.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
     this.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
     this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
     this.handleHeaderClick = this.handleHeaderClick.bind(this);
-    this.handlePaginationChange = this.handlePaginationChange.bind(this);
-    this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleRuleAdded = this.handleRuleAdded.bind(this);
+    this.handleRuleRemoved = this.handleRuleRemoved.bind(this);
 
-    const items = React.Children.toArray(props.children);
-    this.fields = extractFields(items);
-    this.forms = extractForms(items, this.fields);
-    this.pagination = extractPagination(items);
-    this.queryFields = extractQueryFields(items);
+    const configItems = React.Children.toArray(props.children);
+    this.fields = extractFields(configItems);
+    this.forms = extractForms(configItems, this.fields);
+    this.pagination = extractPagination(configItems);
+    this.queryFields = extractQueryFields(configItems);
 
     this.state = {
-      items: props.items || [],
+      items: props.items,
       sort: {
         field: ID_FIELD,
         direction: SORT_DIRECTIONS.DESCENDING,
@@ -54,51 +78,34 @@ class CRUDTable extends React.Component {
       queryRules: [],
       updateItem: {},
       deleteItem: {},
+      createModalVisible: false,
+      deleteModalVisible: false,
+      updateModalVisible: false,
       pagination: {
         ...this.pagination,
-        activePage: this.pagination.activePage || 1,
+        activePage:
+          this.pagination.activePage || this.pagination.defaultActivePage || 1,
+        totalOfItems: this.pagination.totalOfItems || 0,
+        itemsPerPage: this.pagination.itemsPerPage || 10,
       },
       totalOfItems: this.pagination.totalOfItems || 0,
     };
   }
 
-  getPaginationProps(props) {
-    const items = React.Children.toArray(props.children);
-    return extractPagination(items);
-  }
+  props: Props;
 
   componentDidMount() {
     this.update(undefined, false);
   }
 
-  update(data, reportChange = true) {
-    const payload = this.getPayload(data);
-    if (this.props.fetchItems) {
-      this.props
-      .fetchItems(payload)
-      .then(items => {
-        this.setState({ items });
-      });
-    }
-
-    if (this.pagination.fetchTotalOfItems) {
-      this.pagination.fetchTotalOfItems(payload)
-      .then(totalOfItems => {
-        this.setState({ totalOfItems });
-      });
-    }
-
-    if (reportChange) {
-      this.props.onChange(payload);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { items } = this.props;
     const newState = {};
 
-    if (nextProps.items !== this.props.items) {
+    if (nextProps.items !== items) {
       newState.items = nextProps.items;
-      const paginationProps = this.getPaginationProps(nextProps);
+      const paginationProps = getPaginationProps(nextProps);
       newState.totalOfItems = paginationProps.totalOfItems || 0;
     }
 
@@ -106,68 +113,111 @@ class CRUDTable extends React.Component {
       this.setState(newState);
     }
   }
-  
 
   handleHeaderClick(field, direction) {
-    const sort = {
+    const { sort } = this.state;
+    const newSort = {
       field,
-      direction: toggleDirection(
-        direction,
-        field === this.state.sort.field
-      ),
+      direction: toggleDirection(direction, field === sort.field),
     };
-    this.setState({ sort });
-    this.update({ sort });
+    this.setState({ sort: newSort });
+    this.update({ sort: newSort });
   }
 
-  getPayload(extension = {}) {
-    return Object.assign(
-      {
-        queryRules: this.state.queryRules,
-        pagination: this.state.pagination,
-        sort: this.state.sort,
-      },
-      extension
-    );
-  }
-
-  handlePaginationChange(pagination) {
+  handlePageChange(activePage) {
+    const pagination = {
+      ...this.state.pagination,
+      activePage,
+    };
     this.setState({ pagination });
     this.update({ pagination });
   }
 
-  handleQueryChange(queryRules) {
-    this.setState({ queryRules });
-    this.update({ queryRules });
-  }
-
   handleOnCreateSubmission(values) {
-    return this.forms.create.onSubmit(values)
-      .then((result) => {
-        this.update();
-        return result;
-      });
+    return this.forms.create.onSubmit(values).then((result) => {
+      this.update();
+      return result;
+    });
   }
 
   handleOnUpdateSubmission(values) {
-    return this.forms.update.onSubmit(values)
-      .then((result) => {
-        this.update();
-        return result;
-      });
+    return this.forms.update.onSubmit(values).then((result) => {
+      this.update();
+      return result;
+    });
   }
 
   handleOnDeleteSubmission(values) {
-    return this.forms.delete.onSubmit(values)
-      .then((result) => {
-        this.update();
-        return result;
+    return this.forms.delete.onSubmit(values).then((result) => {
+      this.update();
+      return result;
+    });
+  }
+
+  handleRuleAdded(rule) {
+    const { queryRules } = this.state;
+    const newQueryRules = [...queryRules, rule];
+    this.setState({ queryRules: newQueryRules });
+    this.update({ queryRules: newQueryRules });
+  }
+
+  handleRuleRemoved(rule) {
+    const { queryRules } = this.state;
+    const newQueryRules = queryRules.filter(
+      (x) => x.field !== rule.field || x.condition !== rule.condition
+    );
+    this.setState({ queryRules: newQueryRules });
+    this.update({ queryRules: newQueryRules });
+  }
+
+  getPayload(extension = {}) {
+    const { queryRules, pagination, sort } = this.state;
+    return {
+      queryRules,
+      pagination,
+      sort,
+      ...extension,
+    };
+  }
+
+  update(data, reportChange = true) {
+    const { fetchItems, onChange } = this.props;
+    const payload = this.getPayload(data);
+
+    if (fetchItems) {
+      fetchItems(payload).then((items) => {
+        this.setState({ items });
       });
+    }
+
+    if (this.pagination.fetchTotalOfItems) {
+      this.pagination.fetchTotalOfItems(payload).then((totalOfItems) => {
+        this.setState({ totalOfItems });
+      });
+    }
+
+    if (reportChange) {
+      onChange(payload);
+    }
   }
 
   render() {
-    const { items, sort, pagination, totalOfItems } = this.state;
-    const tabularFields = this.fields.filter(f => !f.hideFromTable);
+    const {
+      items,
+      sort,
+      pagination,
+      totalOfItems,
+      deleteItem,
+      updateItem,
+      queryRules,
+      createModalVisible,
+      deleteModalVisible,
+      updateModalVisible,
+    } = this.state;
+    const { caption, showQueryBuilder, actionsLabel } = this.props;
+    const tabularFields = this.fields.filter((f) => !f.hideFromTable);
+    const updateTrigger = queryValue(this.forms, 'update.trigger');
+    const deleteTrigger = queryValue(this.forms, 'delete.trigger');
     return (
       <div>
         {this.forms.create && (
@@ -176,15 +226,23 @@ class CRUDTable extends React.Component {
             data={this.forms.create}
             onSubmit={this.handleOnCreateSubmission}
             shouldReset
+            visible={createModalVisible}
+            onVisibilityChange={(visible) => {
+              this.setState({
+                createModalVisible: visible,
+              });
+            }}
           />
         )}
 
-        <Table.Caption>{this.props.caption}</Table.Caption>
-        
-        {this.props.showQueryBuilder && (
+        <Table.Caption>{caption}</Table.Caption>
+
+        {showQueryBuilder && (
           <QueryBuilder
+            queryRules={queryRules}
             fields={this.queryFields}
-            onChange={this.handleQueryChange}
+            onRuleAdded={this.handleRuleAdded}
+            onRuleRemoved={this.handleRuleRemoved}
           />
         )}
 
@@ -193,53 +251,62 @@ class CRUDTable extends React.Component {
             fields={tabularFields}
             sort={sort}
             onClick={this.handleHeaderClick}
-            forms={this.forms}
-            actionsLabel={this.props.actionsLabel}
+            actionsLabel={updateTrigger || deleteTrigger ? actionsLabel : ''}
           />
           <Body
             fields={tabularFields}
             items={items}
-            forms={this.forms}
-            actionsLabel={this.props.actionsLabel}
-            onDeleteClick={(deleteItem) => {
-              this.setState({ deleteItem });
-              this.deleteModalController.show();
+            updateTrigger={updateTrigger}
+            deleteTrigger={deleteTrigger}
+            actionsLabel={actionsLabel}
+            onDeleteClick={(item) => {
+              this.setState({
+                deleteItem: item,
+                deleteModalVisible: true,
+              });
             }}
-            onUpdateClick={(updateItem) => {
-              this.setState({ updateItem });
-              this.updateModalController.show();
+            onUpdateClick={(item) => {
+              this.setState({
+                updateItem: item,
+                updateModalVisible: true,
+              });
             }}
           />
         </Table>
 
-        {!!pagination &&
-          totalOfItems > 0 &&
-          (
-            <PaginationCpt
-              {...pagination}
-              totalOfItems={totalOfItems}
-              onChange={this.handlePaginationChange}
-            />
+        {!!pagination && totalOfItems > 0 && (
+          <PaginationCpt
+            {...pagination}
+            totalOfItems={totalOfItems}
+            onPageChange={this.handlePageChange}
+          />
         )}
-        
+
         {this.forms.update && (
           <FormModal
-            initialValues={this.state.updateItem}
+            initialValues={updateItem}
             data={this.forms.update}
             onSubmit={this.handleOnUpdateSubmission}
-            onInit={(controller) => {
-              this.updateModalController = controller;
+            visible={updateModalVisible}
+            onVisibilityChange={(visible) => {
+              this.setState({
+                updateModalVisible: visible,
+              });
             }}
           />
         )}
-  
+
         {this.forms.delete && (
           <FormModal
-            initialValues={this.state.deleteItem}
+            initialValues={deleteItem}
             data={this.forms.delete}
             onSubmit={this.handleOnDeleteSubmission}
-            onInit={(controller) => {
-              this.deleteModalController = controller;
+            visible={deleteModalVisible}
+            trigger={null}
+            onVisibilityChange={(visible) => {
+              this.setState({
+                deleteModalVisible: visible,
+              });
             }}
           />
         )}
@@ -249,36 +316,45 @@ class CRUDTable extends React.Component {
 }
 
 CRUDTable.defaultProps = {
-  onChange: () => {},
+  onChange: NO_OP,
   actionsLabel: 'Actions',
   showQueryBuilder: false,
+  items: [],
+  caption: null,
+  fetchItems: null,
 };
 
-export const Fields = () => <div />;
+export const Fields = (): React$Element<any> => <div />;
 Fields.displayName = FIELDS_COMPONENT_TYPE;
 
-export const Field = ({
-  name,
-  label,
-  tableValueResolver,
-  hideInCreateForm,
-  hideInUpdateForm,
-  hideFromTable,
-  queryable,
-  type,
-}) => <div />;
-Field.displayName = FIELD_COMPONENT_TYPE;
-Field.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  tableValueResolver: PropTypes.any,
-  hideInCreateForm: PropTypes.bool,
-  hideInUpdateForm: PropTypes.bool,
-  hideFromTable: PropTypes.bool,
-  queryable: PropTypes.bool,
-  sortable: PropTypes.bool,
+export type FieldProps = {
+  name: string,
+  label: string,
+  type?: string,
+  tableValueResolver?: Function | string,
+  hideInCreateForm?: boolean,
+  hideInUpdateForm?: boolean,
+  hideFromTable?: boolean,
+  queryable?: boolean,
+  sortable?: boolean,
 };
+
+export const Field = (props: FieldProps): React$Element<any> => {
+  const {
+    name,
+    label,
+    tableValueResolver,
+    hideInCreateForm,
+    hideInUpdateForm,
+    hideFromTable,
+    queryable,
+    type,
+    sortable,
+  } = props;
+
+  return <div />;
+};
+Field.displayName = FIELD_COMPONENT_TYPE;
 Field.defaultProps = {
   queryable: true,
   sortable: true,
@@ -286,18 +362,19 @@ Field.defaultProps = {
   hideInCreateForm: false,
   hideInUpdateForm: false,
   hideFromTable: false,
+  tableValueResolver: null,
 };
 
-export const CreateForm = () => <div />;
+export const CreateForm = (): React$Element<any> => <div />;
 CreateForm.displayName = CREATE_FORM_COMPONENT_TYPE;
 
-export const UpdateForm = () => <div />;
+export const UpdateForm = (): React$Element<any> => <div />;
 UpdateForm.displayName = UPDATE_FORM_COMPONENT_TYPE;
 
-export const DeleteForm = () => <div />;
+export const DeleteForm = (): React$Element<any> => <div />;
 DeleteForm.displayName = DELETE_FORM_COMPONENT_TYPE;
 
-export const Pagination = () => <div />;
+export const Pagination = (): React$Element<any> => <div />;
 Pagination.displayName = PAGINATION_COMPONENT_TYPE;
 
 export default CRUDTable;

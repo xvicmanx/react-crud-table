@@ -1,59 +1,49 @@
 import React from 'react';
 import DateTime from 'react-datetime';
+import { NO_OP } from '../helpers';
 import Label from '../Label';
 import { CONDITIONS_LABEL, CONDITIONS } from './constants';
 
-
 let styles;
 
-const Input = props => <input {...props} />;
+const Input = (props) => <input {...props} />;
 
 export const isRuleComplete = (rule) => {
   const { condition, value, field } = rule;
-  return condition != "" &&
-    value !== '' && field !== '';
+  return condition !== '' && value !== '' && field !== '';
 };
 
-export const isBoolean = type => type === 'boolean';
+export const isBoolean = (type) => type === 'boolean';
 
-export const mapFieldsToOptions = fields => fields.map((x) => {
-  return {
+export const mapFieldsToOptions = (fields) =>
+  fields.map((x) => ({
     text: x.label,
     value: x.value,
     key: x.value,
-  };
-});
+  }));
 
-
-export const defaultRuleRender = rule => {
+export const defaultRuleRender = (rule) => {
   if (isBoolean(rule.type)) {
     return (
       <span>
-        <Label style={styles.label}>
-          {rule.condition}
-        </Label>&nbsp;
-        <Label style={styles.label}>
-          {rule.label}
-        </Label>
+        <Label style={styles.label}>{rule.condition}</Label>
+        &nbsp;
+        <Label style={styles.label}>{rule.label}</Label>
       </span>
     );
   }
   return (
     <span>
-      <Label style={styles.label}>
-        {rule.label}
-      </Label>&nbsp;
-      <Label style={styles.label}>
-        {CONDITIONS_LABEL[rule.condition]}
-      </Label>&nbsp;
-      <Label style={styles.label}>
-        {rule.value}
-      </Label>
+      <Label style={styles.label}>{rule.label}</Label>
+      &nbsp;
+      <Label style={styles.label}>{CONDITIONS_LABEL[rule.condition]}</Label>
+      &nbsp;
+      <Label style={styles.label}>{rule.value}</Label>
     </span>
   );
 };
 
-export const conditionsForType = type => {
+export const conditionsForType = (type) => {
   let result;
   switch (type) {
     case 'number':
@@ -68,7 +58,7 @@ export const conditionsForType = type => {
         CONDITIONS.IS_NOT_LESS_THAN,
         CONDITIONS.IS_NOT_GREATER_THAN,
         CONDITIONS.IS_NOT_LESS_OR_EQUALS_THAN,
-        CONDITIONS.IS_NOT_GREATER_OR_EQUALS_THAN
+        CONDITIONS.IS_NOT_GREATER_OR_EQUALS_THAN,
       ];
       break;
     case 'boolean':
@@ -88,7 +78,7 @@ export const conditionsForType = type => {
       break;
   }
 
-  return result.map(r => ({
+  return result.map((r) => ({
     value: r,
     text: CONDITIONS_LABEL[r],
     key: r,
@@ -96,7 +86,7 @@ export const conditionsForType = type => {
 };
 
 export const getDefaultConditionForType = (type) => {
-  switch(type) {
+  switch (type) {
     case 'number':
       return CONDITIONS.EQUALS_TO;
     case 'date':
@@ -116,25 +106,33 @@ export const inputForType = (type, props) => {
           {...props}
           type="checkbox"
           onClick={(evt) => {
-            evt.target.value = evt.target.checked;
-            props.onChange(evt);
+            props.onChange({
+              ...evt,
+              currentTarget: {
+                ...evt.currentTarget,
+                value: evt.currentTarget.checked,
+              },
+            });
           }}
-          onChange={() => {}}
+          onChange={NO_OP}
         />
       );
     case 'date':
-      return <DateTime
-        {...props}
-        className="ui input"
-        dateFormat="YYYY-MM-DD"
-        timeFormat="hh:mm A"
-        onChange={(data) => {
-          props.onChange({
-            target: {
-              value: data.format('YYYY-MM-DD hh:mm A')
-            }
-          })
-      }} />
+      return (
+        <DateTime
+          {...props}
+          className="ui input"
+          dateFormat="YYYY-MM-DD"
+          timeFormat="hh:mm A"
+          onChange={(data) => {
+            props.onChange({
+              currentTarget: {
+                value: data.format('YYYY-MM-DD hh:mm A'),
+              },
+            });
+          }}
+        />
+      );
     default:
       return <Input type="text" {...props} />;
   }
@@ -143,7 +141,7 @@ export const inputForType = (type, props) => {
 styles = {
   label: {
     marginBottom: '5px',
-  }
+  },
 };
 
 export default {

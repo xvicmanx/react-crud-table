@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Body renders as expected with the given props 1`] = `
+<Body>
+  <Row>
+    <Cell>
+      <CellLabel>
+        Id
+      </CellLabel>
+      1
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Name
+      </CellLabel>
+      John
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Age
+      </CellLabel>
+      45 years
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Description
+      </CellLabel>
+      I love my family
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Act
+      </CellLabel>
+      <Button
+        modifiers="primary"
+        onClick={[Function]}
+      >
+        Update
+      </Button>
+       
+      <Button
+        modifiers="negative"
+        onClick={[Function]}
+      >
+        Delete
+      </Button>
+    </Cell>
+  </Row>
+  <Row>
+    <Cell>
+      <CellLabel>
+        Id
+      </CellLabel>
+      2
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Name
+      </CellLabel>
+      Mary
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Age
+      </CellLabel>
+      35 years
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Description
+      </CellLabel>
+      Nature is beatiful
+    </Cell>
+    <Cell>
+      <CellLabel>
+        Act
+      </CellLabel>
+      <Button
+        modifiers="primary"
+        onClick={[Function]}
+      >
+        Update
+      </Button>
+       
+      <Button
+        modifiers="negative"
+        onClick={[Function]}
+      >
+        Delete
+      </Button>
+    </Cell>
+  </Row>
+</Body>
+`;

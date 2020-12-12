@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal renders as expected with the given props 1`] = `
+<div>
+  <Button
+    modifiers="positive"
+    onClick={[MockFunction]}
+  >
+    Open
+  </Button>
+  <Wrapper
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+  >
+    <Background
+      onClick={[MockFunction]}
+    />
+    <Modal>
+      <Title>
+        Test title
+      </Title>
+      Test
+    </Modal>
+  </Wrapper>
+</div>
+`;

@@ -15,8 +15,10 @@ var _bcc = (0, _bemReactComponentCreator["default"])('crud-table-query-builder')
 
 var Container = block('div');
 exports.Container = Container;
+Container.displayName = 'Container';
 var RuleBuilder = element('div', 'search-rule-builder');
 exports.RuleBuilder = RuleBuilder;
+RuleBuilder.displayName = 'RuleBuilder';
 var _default = {
   Container: Container,
   RuleBuilder: RuleBuilder

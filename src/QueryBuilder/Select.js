@@ -1,63 +1,31 @@
+// @flow
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
-class Select extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: props.value };
-    this.handleChange = this.handleChange.bind(this);
-  }
-  
+type Option = {
+  key: string | number,
+  value: string | number,
+  text: string,
+};
+type Props = {
+  value: ?string | ?number,
+  options: Array<Option>,
+  placeholder: string,
+  onChange: Function,
+};
 
-  handleChange(evt) {
-    this.props.onChange(
-      evt,
-      {
-        value: evt.target.value,
-      }
-    );
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this.setState({ value: nextProps.value });
-    }
-  }
-
-  render() {
-    return (
-      <select
-        onChange={this.handleChange}
-      >
-       <option
-        value=""
-        selected={!this.state.value}
-      >
-        {this.props.placeholder}
-      </option>
-      {this.props.options.map(option => (
-        <option
-          key={option.key}
-          value={option.value}
-        >
+const Select = (props: Props): React$Element<'select'> => {
+  const { placeholder, options, value, onChange } = props;
+  return (
+    <select onChange={onChange} value={value}>
+      <option value="">{placeholder}</option>
+      {options.map((option) => (
+        <option key={option.key} value={option.value}>
           {option.text}
-         </option>
+        </option>
       ))}
-      </select>
-    );
-  }
-}
-
-Select.propTypes = {
-  value: PropTypes.any,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.any,
-      value: PropTypes.any,
-      text: PropTypes.any,
-    })
-  ).isRequired,
-  onChange: PropTypes.func.isRequired,
+    </select>
+  );
 };
 
 export default Select;

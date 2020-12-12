@@ -1,72 +1,51 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import { Container } from './wrappers';
 import Button from '../Button';
+import { NO_OP } from '../helpers';
 
-const getDisplay = (visible) => {
-  return visible ? 'block' : 'none';
+const getDisplay = (visible) => (visible ? 'block' : 'none');
+
+export type Props = {
+  title?: string,
+  onHide?: Function,
+  onShow?: Function,
+  children?: number | string | React.Element<any> | Array<any>,
+  trigger?: number | null | string | React.Element<any> | Array<any>,
+  visible?: boolean,
 };
 
-class Modal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.state = { visible: false };
-  }
-
-  componentDidMount() {
-    this.props.onInit({
-      show: this.showModal,
-      hide: this.hideModal
-    });
-  }
-
-  showModal() {
-    if (this.props.onDisplay) {
-      this.props.onDisplay();
-    }
-
-    this.setState({ visible: true });
-  }
-
-  hideModal() {
-    this.setState({ visible: false });
-  }
-
-  render() {
-    const display = getDisplay(this.state.visible);
-    return (
-      <div>
-        {this.props.trigger && (
-          <Button
-            modifiers="positive"
-            onClick={this.showModal}
-          >
-            {this.props.trigger}
-          </Button>
-        )}
-        <Container style={{ display }}>
-          <Container.BG
-            onClick={this.hideModal}
-          />
-          <Container.Modal>
-            {this.props.title && (
-              <Container.Title>
-                {this.props.title}
-              </Container.Title>
-            )}
-            {this.props.children}
-          </Container.Modal>
-        </Container>
-      </div>
-    );
-  }
-}
+const Modal = (props: Props): React$Element<any> => {
+  const { children, trigger, title, visible, onHide, onShow } = props;
+  const style = {
+    display: getDisplay(visible),
+  };
+  return (
+    <div>
+      {trigger && (
+        <Button modifiers="positive" onClick={onShow}>
+          {trigger}
+        </Button>
+      )}
+      <Container style={style}>
+        <Container.BG onClick={onHide} />
+        <Container.Modal>
+          {title && <Container.Title>{title}</Container.Title>}
+          {children}
+        </Container.Modal>
+      </Container>
+    </div>
+  );
+};
 
 Modal.defaultProps = {
-  onInit: () => {},
-  onDisplay: () => {},
+  onHide: NO_OP,
+  onShow: NO_OP,
   title: '',
+  children: null,
+  trigger: null,
+  visible: false,
 };
 
 export default Modal;
