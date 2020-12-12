@@ -1,23 +1,27 @@
 // @flow
-import React from 'react';
+
+import * as React from 'react';
+
 import Modal from '../Modal';
 import Form from '../Form';
 import { NO_OP } from '../helpers';
-
-const isPromise = (target) =>
-  Boolean(target && typeof target.then === 'function');
+import { onSubmitHandler } from './helpers';
 
 type Props = {
-  visible?: boolean,
-  onVisibilityChange?: Function,
-  onSubmit?: Function,
-  shouldReset?: boolean,
-  trigger?: number | string | React.Element | Array<any>,
-  data?: Object,
+  visible: boolean,
+  onVisibilityChange: Function,
+  onSubmit: Function,
+  shouldReset: boolean,
+  trigger: number | string | React.Element<any> | Array<any>,
+  data: Object,
   initialValues?: Object,
 };
 
-class FormModal extends React.Component {
+type State = {
+  key: number,
+};
+
+class FormModal extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { key: 0 };
@@ -25,7 +29,7 @@ class FormModal extends React.Component {
 
   props: Props;
 
-  render() {
+  render(): React$Element<any> {
     const {
       data,
       trigger,
@@ -55,33 +59,9 @@ class FormModal extends React.Component {
           key={key}
           data={data}
           initialValues={initialValues}
-          onSubmit={(values, { setError, resetForm, setSubmitting }) => {
-            const reset = Object.keys(values).reduce(
-              (result, prop) => ({
-                ...result,
-                [prop]: '',
-              }),
-              {}
-            );
-
-            const result = onSubmit(values);
-
-            if (isPromise(result)) {
-              result
-                .then(() => {
-                  if (shouldReset) {
-                    resetForm(reset);
-                  }
-
-                  setSubmitting(false);
-                  onVisibilityChange(false);
-                })
-                .catch((err) => {
-                  setError(err ? err.message : 'Unexpected error');
-                  setSubmitting(false);
-                });
-            }
-          }}
+          onSubmit={onSubmitHandler(onSubmit, shouldReset, () =>
+            onVisibilityChange(false)
+          )}
         />
       </Modal>
     );
@@ -93,7 +73,6 @@ FormModal.defaultProps = {
   onSubmit: NO_OP,
   shouldReset: false,
   trigger: null,
-  data: {},
   initialValues: null,
   visible: false,
 };

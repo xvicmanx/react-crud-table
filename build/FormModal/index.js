@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var React = _interopRequireWildcard(require("react"));
 
 var _Modal = _interopRequireDefault(require("../Modal"));
 
@@ -15,13 +15,13 @@ var _Form = _interopRequireDefault(require("../Form"));
 
 var _helpers = require("../helpers");
 
+var _helpers2 = require("./helpers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -42,10 +42,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var isPromise = function isPromise(target) {
-  return Boolean(target && typeof target.then === 'function');
-};
 
 var FormModal = /*#__PURE__*/function (_React$Component) {
   _inherits(FormModal, _React$Component);
@@ -74,11 +70,11 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
           trigger = _this$props.trigger,
           initialValues = _this$props.initialValues,
           shouldReset = _this$props.shouldReset,
-          _onSubmit = _this$props.onSubmit,
+          onSubmit = _this$props.onSubmit,
           visible = _this$props.visible,
           onVisibilityChange = _this$props.onVisibilityChange;
       var key = this.state.key;
-      return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
+      return /*#__PURE__*/React.createElement(_Modal["default"], {
         trigger: trigger,
         title: data.title,
         visible: visible,
@@ -92,47 +88,25 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
         onHide: function onHide() {
           onVisibilityChange(false);
         }
-      }, /*#__PURE__*/_react["default"].createElement(_Form["default"], {
+      }, /*#__PURE__*/React.createElement(_Form["default"], {
         key: key,
         data: data,
         initialValues: initialValues,
-        onSubmit: function onSubmit(values, _ref) {
-          var setError = _ref.setError,
-              resetForm = _ref.resetForm,
-              setSubmitting = _ref.setSubmitting;
-          var reset = Object.keys(values).reduce(function (result, prop) {
-            return _objectSpread(_objectSpread({}, result), {}, _defineProperty({}, prop, ''));
-          }, {});
-
-          var result = _onSubmit(values);
-
-          if (isPromise(result)) {
-            result.then(function () {
-              if (shouldReset) {
-                resetForm(reset);
-              }
-
-              setSubmitting(false);
-              onVisibilityChange(false);
-            })["catch"](function (err) {
-              setError(err ? err.message : 'Unexpected error');
-              setSubmitting(false);
-            });
-          }
-        }
+        onSubmit: (0, _helpers2.onSubmitHandler)(onSubmit, shouldReset, function () {
+          return onVisibilityChange(false);
+        })
       }));
     }
   }]);
 
   return FormModal;
-}(_react["default"].Component);
+}(React.Component);
 
 FormModal.defaultProps = {
   onVisibilityChange: _helpers.NO_OP,
   onSubmit: _helpers.NO_OP,
   shouldReset: false,
   trigger: null,
-  data: {},
   initialValues: null,
   visible: false
 };

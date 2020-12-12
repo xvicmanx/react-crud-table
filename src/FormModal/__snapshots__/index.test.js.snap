@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormFormModal renders as expected with the given props 1`] = `
+<Modal
+  onHide={[Function]}
+  onShow={[Function]}
+  title="Test title"
+  trigger="Open"
+  visible={true}
+>
+  <BasicForm
+    data={
+      Object {
+        "fields": Array [],
+        "title": "Test title",
+      }
+    }
+    initialValues={
+      Object {
+        "name": "John",
+      }
+    }
+    onSubmit={[Function]}
+  />
+</Modal>
+`;
