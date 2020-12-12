@@ -7,11 +7,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _wrappers = require("./wrappers");
 
 var _Button = _interopRequireDefault(require("../Button"));
+
+var _helpers = require("../helpers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -39,17 +39,9 @@ var Modal = function Modal(props) {
   }), /*#__PURE__*/_react["default"].createElement(_wrappers.Container.Modal, null, title && /*#__PURE__*/_react["default"].createElement(_wrappers.Container.Title, null, title), children)));
 };
 
-Modal.propTypes = {
-  title: _propTypes["default"].string,
-  onHide: _propTypes["default"].func,
-  onShow: _propTypes["default"].func,
-  children: _propTypes["default"].node,
-  trigger: _propTypes["default"].node,
-  visible: _propTypes["default"].bool
-};
 Modal.defaultProps = {
-  onHide: function onHide() {},
-  onShow: function onShow() {},
+  onHide: _helpers.NO_OP,
+  onShow: _helpers.NO_OP,
   title: '',
   children: null,
   trigger: null,

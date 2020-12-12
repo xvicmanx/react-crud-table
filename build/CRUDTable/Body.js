@@ -7,24 +7,24 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _helpers = require("./helpers");
 
 var _wrappers = require("./wrappers");
 
 var _Button = _interopRequireDefault(require("../Button"));
 
+var _helpers2 = require("../helpers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var Body = function Body(_ref) {
-  var fields = _ref.fields,
-      items = _ref.items,
-      onDeleteClick = _ref.onDeleteClick,
-      onUpdateClick = _ref.onUpdateClick,
-      actionsLabel = _ref.actionsLabel,
-      updateTrigger = _ref.updateTrigger,
-      deleteTrigger = _ref.deleteTrigger;
+var Body = function Body(props) {
+  var fields = props.fields,
+      items = props.items,
+      onDeleteClick = props.onDeleteClick,
+      onUpdateClick = props.onUpdateClick,
+      actionsLabel = props.actionsLabel,
+      updateTrigger = props.updateTrigger,
+      deleteTrigger = props.deleteTrigger;
   return /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Body, null, items.map(function (item) {
     return /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Row, {
       key: item.id
@@ -46,21 +46,12 @@ var Body = function Body(_ref) {
   }));
 };
 
-Body.propTypes = {
-  actionsLabel: _propTypes["default"].node,
-  updateTrigger: _propTypes["default"].node,
-  deleteTrigger: _propTypes["default"].node,
-  fields: _propTypes["default"].instanceOf(Array),
-  items: _propTypes["default"].instanceOf(Array),
-  onDeleteClick: _propTypes["default"].func,
-  onUpdateClick: _propTypes["default"].func
-};
 Body.defaultProps = {
   fields: [],
   items: [],
   actionsLabel: '',
-  onDeleteClick: function onDeleteClick() {},
-  onUpdateClick: function onUpdateClick() {},
+  onDeleteClick: _helpers2.NO_OP,
+  onUpdateClick: _helpers2.NO_OP,
   updateTrigger: null,
   deleteTrigger: null
 };

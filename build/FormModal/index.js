@@ -9,11 +9,11 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _Modal = _interopRequireDefault(require("../Modal"));
 
 var _Form = _interopRequireDefault(require("../Form"));
+
+var _helpers = require("../helpers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -127,18 +127,9 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
   return FormModal;
 }(_react["default"].Component);
 
-FormModal.propTypes = {
-  visible: _propTypes["default"].bool,
-  onVisibilityChange: _propTypes["default"].func,
-  onSubmit: _propTypes["default"].func,
-  shouldReset: _propTypes["default"].bool,
-  trigger: _propTypes["default"].node,
-  data: _propTypes["default"].instanceOf(Object),
-  initialValues: _propTypes["default"].instanceOf(Object)
-};
 FormModal.defaultProps = {
-  onVisibilityChange: function onVisibilityChange() {},
-  onSubmit: function onSubmit() {},
+  onVisibilityChange: _helpers.NO_OP,
+  onSubmit: _helpers.NO_OP,
   shouldReset: false,
   trigger: null,
   data: {},

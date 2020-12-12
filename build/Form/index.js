@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _formik = require("formik");
 
 var _wrappers = require("./wrappers");
@@ -34,19 +32,19 @@ var generalValidationError = function generalValidationError(_ref) {
   return showErrorMessage && /*#__PURE__*/_react["default"].createElement(_wrappers.Form.ErrorMessage, null, message || 'There are some errors');
 };
 
-var BasicForm = function BasicForm(_ref2) {
-  var data = _ref2.data,
-      onSubmit = _ref2.onSubmit,
-      initialValues = _ref2.initialValues;
+var BasicForm = function BasicForm(props) {
+  var data = props.data,
+      onSubmit = props.onSubmit,
+      initialValues = props.initialValues;
   return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_formik.Formik, {
     enableReinitialize: true,
     initialValues: initialValues,
     validate: data.validate || DEFAULT_VALIDATE,
     onSubmit: onSubmit,
-    render: function render(_ref3) {
-      var errors = _ref3.errors,
-          touched = _ref3.touched,
-          error = _ref3.error;
+    render: function render(_ref2) {
+      var errors = _ref2.errors,
+          touched = _ref2.touched,
+          error = _ref2.error;
       return /*#__PURE__*/_react["default"].createElement(_wrappers.Form, null, data.message && /*#__PURE__*/_react["default"].createElement(_wrappers.Form.Message, null, data.message), error && /*#__PURE__*/_react["default"].createElement(_wrappers.Form.ErrorMessage, null, error), generalValidationError({
         touched: touched,
         errors: errors,
@@ -75,11 +73,6 @@ var BasicForm = function BasicForm(_ref2) {
   }));
 };
 
-BasicForm.propTypes = {
-  onSubmit: _propTypes["default"].func.isRequired,
-  data: _propTypes["default"].instanceOf(Object),
-  initialValues: _propTypes["default"].instanceOf(Object)
-};
 BasicForm.defaultProps = {
   initialValues: {},
   data: {

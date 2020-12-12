@@ -7,19 +7,19 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _wrappers = require("./wrappers");
 
 var _helpers = require("./helpers");
 
+var _helpers2 = require("../helpers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var Header = function Header(_ref) {
-  var fields = _ref.fields,
-      sort = _ref.sort,
-      _onClick = _ref.onClick,
-      actionsLabel = _ref.actionsLabel;
+var Header = function Header(props) {
+  var fields = props.fields,
+      sort = props.sort,
+      _onClick = props.onClick,
+      actionsLabel = props.actionsLabel;
   return /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Header, null, /*#__PURE__*/_react["default"].createElement(_wrappers.Table.Row, null, fields.map(function (field) {
     return /*#__PURE__*/_react["default"].createElement(_wrappers.Table.HeaderCell, {
       key: field.name,
@@ -32,15 +32,9 @@ var Header = function Header(_ref) {
   }), actionsLabel && /*#__PURE__*/_react["default"].createElement(_wrappers.Table.HeaderCell, null, actionsLabel)));
 };
 
-Header.propTypes = {
-  onClick: _propTypes["default"].func,
-  actionsLabel: _propTypes["default"].node,
-  fields: _propTypes["default"].instanceOf(Array),
-  sort: _propTypes["default"].instanceOf(Array).isRequired
-};
 Header.defaultProps = {
   fields: [],
-  onClick: function onClick() {},
+  onClick: _helpers2.NO_OP,
   actionsLabel: ''
 };
 var _default = Header;

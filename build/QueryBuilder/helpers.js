@@ -9,6 +9,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactDatetime = _interopRequireDefault(require("react-datetime"));
 
+var _helpers = require("../helpers");
+
 var _Label = _interopRequireDefault(require("../Label"));
 
 var _constants = require("./constants");
@@ -137,7 +139,7 @@ var inputForType = function inputForType(type, props) {
             })
           }));
         },
-        onChange: function onChange() {}
+        onChange: _helpers.NO_OP
       }));
 
     case 'date':

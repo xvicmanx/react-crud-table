@@ -9,8 +9,6 @@ exports["default"] = exports.Pagination = exports.DeleteForm = exports.UpdateFor
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _constants = require("./constants");
 
 var _helpers = require("./helpers");
@@ -26,6 +24,8 @@ var _Pagination = _interopRequireDefault(require("../Pagination"));
 var _FormModal = _interopRequireDefault(require("../FormModal"));
 
 var _QueryBuilder = _interopRequireDefault(require("../QueryBuilder"));
+
+var _helpers2 = require("../helpers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -363,21 +363,12 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
 }(_react["default"].Component);
 
 CRUDTable.defaultProps = {
-  onChange: function onChange() {},
+  onChange: _helpers2.NO_OP,
   actionsLabel: 'Actions',
   showQueryBuilder: false,
   items: [],
   caption: null,
   fetchItems: null
-};
-CRUDTable.propTypes = {
-  onChange: _propTypes["default"].func,
-  actionsLabel: _propTypes["default"].node,
-  showQueryBuilder: _propTypes["default"].bool,
-  items: _propTypes["default"].instanceOf(Object),
-  caption: _propTypes["default"].node,
-  fetchItems: _propTypes["default"].func,
-  children: _propTypes["default"].oneOf([_propTypes["default"].node, _propTypes["default"].arrayOf(_propTypes["default"].node)]).isRequired
 };
 
 var Fields = function Fields() {
@@ -387,32 +378,21 @@ var Fields = function Fields() {
 exports.Fields = Fields;
 Fields.displayName = _constants.FIELDS_COMPONENT_TYPE;
 
-var Field = function Field(_ref) {
-  var name = _ref.name,
-      label = _ref.label,
-      tableValueResolver = _ref.tableValueResolver,
-      hideInCreateForm = _ref.hideInCreateForm,
-      hideInUpdateForm = _ref.hideInUpdateForm,
-      hideFromTable = _ref.hideFromTable,
-      queryable = _ref.queryable,
-      type = _ref.type,
-      sortable = _ref.sortable;
+var Field = function Field(props) {
+  var name = props.name,
+      label = props.label,
+      tableValueResolver = props.tableValueResolver,
+      hideInCreateForm = props.hideInCreateForm,
+      hideInUpdateForm = props.hideInUpdateForm,
+      hideFromTable = props.hideFromTable,
+      queryable = props.queryable,
+      type = props.type,
+      sortable = props.sortable;
   return /*#__PURE__*/_react["default"].createElement("div", null);
 };
 
 exports.Field = Field;
 Field.displayName = _constants.FIELD_COMPONENT_TYPE;
-Field.propTypes = {
-  name: _propTypes["default"].string.isRequired,
-  label: _propTypes["default"].string.isRequired,
-  type: _propTypes["default"].string,
-  tableValueResolver: _propTypes["default"].oneOf([_propTypes["default"].func, _propTypes["default"].string]),
-  hideInCreateForm: _propTypes["default"].bool,
-  hideInUpdateForm: _propTypes["default"].bool,
-  hideFromTable: _propTypes["default"].bool,
-  queryable: _propTypes["default"].bool,
-  sortable: _propTypes["default"].bool
-};
 Field.defaultProps = {
   queryable: true,
   sortable: true,

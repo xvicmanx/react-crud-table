@@ -9,11 +9,7 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _wrappers = require("./wrappers");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
@@ -66,11 +62,5 @@ var Pagination = function Pagination(props) {
   }, "\xBB"));
 };
 
-Pagination.propTypes = {
-  activePage: _propTypes["default"].number.isRequired,
-  itemsPerPage: _propTypes["default"].number.isRequired,
-  totalOfItems: _propTypes["default"].number.isRequired,
-  onPageChange: _propTypes["default"].func.isRequired
-};
 var _default = Pagination;
 exports["default"] = _default;
