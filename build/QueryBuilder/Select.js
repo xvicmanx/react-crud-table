@@ -19,10 +19,10 @@ var Select = function Select(props) {
       value = props.value,
       onChange = props.onChange;
   return /*#__PURE__*/_react["default"].createElement("select", {
-    onChange: onChange
+    onChange: onChange,
+    value: value
   }, /*#__PURE__*/_react["default"].createElement("option", {
-    value: "",
-    selected: !value
+    value: ""
   }, placeholder), options.map(function (option) {
     return /*#__PURE__*/_react["default"].createElement("option", {
       key: option.key,

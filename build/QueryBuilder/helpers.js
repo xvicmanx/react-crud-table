@@ -134,8 +134,8 @@ var inputForType = function inputForType(type, props) {
         type: "checkbox",
         onClick: function onClick(evt) {
           props.onChange(_objectSpread(_objectSpread({}, evt), {}, {
-            target: _objectSpread(_objectSpread({}, evt.target), {}, {
-              value: evt.target.checked
+            currentTarget: _objectSpread(_objectSpread({}, evt.currentTarget), {}, {
+              value: evt.currentTarget.checked
             })
           }));
         },
@@ -149,7 +149,7 @@ var inputForType = function inputForType(type, props) {
         timeFormat: "hh:mm A",
         onChange: function onChange(data) {
           props.onChange({
-            target: {
+            currentTarget: {
               value: data.format('YYYY-MM-DD hh:mm A')
             }
           });

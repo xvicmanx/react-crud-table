@@ -12,7 +12,7 @@ type Props = {
   onVisibilityChange: Function,
   onSubmit: Function,
   shouldReset: boolean,
-  trigger: number | string | React.Element<any> | Array<any>,
+  trigger: number | string | null | React.Element<any> | Array<any>,
   data: Object,
   initialValues?: Object,
 };
@@ -68,6 +68,7 @@ class FormModal extends React.Component<Props, State> {
   }
 }
 
+// $FlowFixMe
 FormModal.defaultProps = {
   onVisibilityChange: NO_OP,
   onSubmit: NO_OP,

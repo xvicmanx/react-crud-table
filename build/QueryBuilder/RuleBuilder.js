@@ -80,11 +80,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
         collection: this.getCollection(value)
       });
 
-      var defaultCondition = this.getDefaultCondition(value);
-
-      if (defaultCondition) {
-        update.condition = defaultCondition;
-      }
+      update.condition = this.getDefaultCondition(value);
 
       if ((0, _helpers.isBoolean)(update.type)) {
         update.condition = _constants.CONDITIONS.IS;
@@ -150,10 +146,11 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
         value: value,
         onChange: function onChange(evt) {
           _this2.setState({
-            value: evt.target.value
+            value: evt.currentTarget.value
           });
         }
       });
+      console.log(condition);
       return /*#__PURE__*/_react["default"].createElement(_wrappers.RuleBuilder, null, /*#__PURE__*/_react["default"].createElement(_Select["default"], {
         placeholder: fieldsSelectPlaceholder,
         options: (0, _helpers.mapFieldsToOptions)(fields),
@@ -165,7 +162,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
         value: condition,
         onChange: function onChange(evt, data) {
           _this2.setState({
-            condition: evt.target.value
+            condition: evt.currentTarget.value
           });
         }
       }), "\xA0\xA0"), input, "\xA0\xA0", /*#__PURE__*/_react["default"].createElement(_Button["default"], {

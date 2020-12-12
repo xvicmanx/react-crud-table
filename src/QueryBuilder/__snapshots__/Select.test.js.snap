@@ -3,9 +3,9 @@
 exports[`Select renders as expected with the given props 1`] = `
 <select
   onChange={[MockFunction]}
+  value={1}
 >
   <option
-    selected={false}
     value=""
   >
     Select please

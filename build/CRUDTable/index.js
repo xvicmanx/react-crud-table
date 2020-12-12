@@ -105,6 +105,9 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       queryRules: [],
       updateItem: {},
       deleteItem: {},
+      createModalVisible: false,
+      deleteModalVisible: false,
+      updateModalVisible: false,
       pagination: _objectSpread(_objectSpread({}, _this.pagination), {}, {
         activePage: _this.pagination.activePage || _this.pagination.defaultActivePage || 1,
         totalOfItems: _this.pagination.totalOfItems || 0,
@@ -352,6 +355,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         data: this.forms["delete"],
         onSubmit: this.handleOnDeleteSubmission,
         visible: deleteModalVisible,
+        trigger: null,
         onVisibilityChange: function onVisibilityChange(visible) {
           _this6.setState({
             deleteModalVisible: visible

@@ -38,7 +38,18 @@ type Props = {
   children: number | string | React.Element<any> | Array<any>,
 };
 
-type State = {};
+type State = {
+  queryRules: Array<Object>,
+  updateItem: ?Object,
+  deleteItem: ?Object,
+  createModalVisible: boolean,
+  deleteModalVisible: boolean,
+  updateModalVisible: boolean,
+  items: Array<Object>,
+  sort: Object,
+  pagination: Object,
+  totalOfItems: number,
+};
 
 class CRUDTable extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -67,6 +78,9 @@ class CRUDTable extends React.Component<Props, State> {
       queryRules: [],
       updateItem: {},
       deleteItem: {},
+      createModalVisible: false,
+      deleteModalVisible: false,
+      updateModalVisible: false,
       pagination: {
         ...this.pagination,
         activePage:
@@ -288,6 +302,7 @@ class CRUDTable extends React.Component<Props, State> {
             data={this.forms.delete}
             onSubmit={this.handleOnDeleteSubmission}
             visible={deleteModalVisible}
+            trigger={null}
             onVisibilityChange={(visible) => {
               this.setState({
                 deleteModalVisible: visible,
@@ -309,7 +324,7 @@ CRUDTable.defaultProps = {
   fetchItems: null,
 };
 
-export const Fields = () => <div />;
+export const Fields = (): React$Element<any> => <div />;
 Fields.displayName = FIELDS_COMPONENT_TYPE;
 
 export type FieldProps = {
@@ -324,25 +339,16 @@ export type FieldProps = {
   sortable?: boolean,
 };
 
-export const Field = (props: FieldProps) => {
+export const Field = (props: FieldProps): React$Element<any> => {
   const {
-    // eslint-disable-next-line no-unused-vars
     name,
-    // eslint-disable-next-line no-unused-vars
     label,
-    // eslint-disable-next-line no-unused-vars
     tableValueResolver,
-    // eslint-disable-next-line no-unused-vars
     hideInCreateForm,
-    // eslint-disable-next-line no-unused-vars
     hideInUpdateForm,
-    // eslint-disable-next-line no-unused-vars
     hideFromTable,
-    // eslint-disable-next-line no-unused-vars
     queryable,
-    // eslint-disable-next-line no-unused-vars
     type,
-    // eslint-disable-next-line no-unused-vars
     sortable,
   } = props;
 
@@ -359,16 +365,16 @@ Field.defaultProps = {
   tableValueResolver: null,
 };
 
-export const CreateForm = () => <div />;
+export const CreateForm = (): React$Element<any> => <div />;
 CreateForm.displayName = CREATE_FORM_COMPONENT_TYPE;
 
-export const UpdateForm = () => <div />;
+export const UpdateForm = (): React$Element<any> => <div />;
 UpdateForm.displayName = UPDATE_FORM_COMPONENT_TYPE;
 
-export const DeleteForm = () => <div />;
+export const DeleteForm = (): React$Element<any> => <div />;
 DeleteForm.displayName = DELETE_FORM_COMPONENT_TYPE;
 
-export const Pagination = () => <div />;
+export const Pagination = (): React$Element<any> => <div />;
 Pagination.displayName = PAGINATION_COMPONENT_TYPE;
 
 export default CRUDTable;

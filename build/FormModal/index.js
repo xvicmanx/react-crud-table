@@ -100,7 +100,8 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return FormModal;
-}(React.Component);
+}(React.Component); // $FlowFixMe
+
 
 FormModal.defaultProps = {
   onVisibilityChange: _helpers.NO_OP,

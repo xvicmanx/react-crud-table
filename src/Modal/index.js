@@ -12,7 +12,7 @@ export type Props = {
   onHide?: Function,
   onShow?: Function,
   children?: number | string | React.Element<any> | Array<any>,
-  trigger?: number | string | React.Element<any> | Array<any>,
+  trigger?: number | null | string | React.Element<any> | Array<any>,
   visible?: boolean,
 };
 

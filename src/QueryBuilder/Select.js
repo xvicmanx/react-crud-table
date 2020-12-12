@@ -17,10 +17,8 @@ type Props = {
 const Select = (props: Props): React$Element<'select'> => {
   const { placeholder, options, value, onChange } = props;
   return (
-    <select onChange={onChange}>
-      <option value="" selected={!value}>
-        {placeholder}
-      </option>
+    <select onChange={onChange} value={value}>
+      <option value="">{placeholder}</option>
       {options.map((option) => (
         <option key={option.key} value={option.value}>
           {option.text}

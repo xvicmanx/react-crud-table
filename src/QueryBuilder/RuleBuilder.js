@@ -59,11 +59,7 @@ class RuleBuilder extends React.Component<Props, State> {
       collection: this.getCollection(value),
     };
 
-    const defaultCondition = this.getDefaultCondition(value);
-
-    if (defaultCondition) {
-      update.condition = defaultCondition;
-    }
+    update.condition = this.getDefaultCondition(value);
 
     if (isBoolean(update.type)) {
       update.condition = CONDITIONS.IS;
@@ -121,9 +117,11 @@ class RuleBuilder extends React.Component<Props, State> {
     const input = inputForType(type, {
       value,
       onChange: (evt) => {
-        this.setState({ value: evt.target.value });
+        this.setState({ value: evt.currentTarget.value });
       },
     });
+
+    console.log(condition);
 
     return (
       <Container>
@@ -141,7 +139,7 @@ class RuleBuilder extends React.Component<Props, State> {
               options={conditionsForType(type)}
               value={condition}
               onChange={(evt, data) => {
-                this.setState({ condition: evt.target.value });
+                this.setState({ condition: evt.currentTarget.value });
               }}
             />
             &nbsp;&nbsp;

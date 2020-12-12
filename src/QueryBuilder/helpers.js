@@ -108,9 +108,9 @@ export const inputForType = (type, props) => {
           onClick={(evt) => {
             props.onChange({
               ...evt,
-              target: {
-                ...evt.target,
-                value: evt.target.checked,
+              currentTarget: {
+                ...evt.currentTarget,
+                value: evt.currentTarget.checked,
               },
             });
           }}
@@ -126,7 +126,7 @@ export const inputForType = (type, props) => {
           timeFormat="hh:mm A"
           onChange={(data) => {
             props.onChange({
-              target: {
+              currentTarget: {
                 value: data.format('YYYY-MM-DD hh:mm A'),
               },
             });

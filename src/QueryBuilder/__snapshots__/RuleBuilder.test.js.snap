@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RuleBuilder renders as expected with the given props 1`] = `
+<RuleBuilder>
+  <Select
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "key": "name",
+          "text": undefined,
+          "value": "name",
+        },
+        Object {
+          "key": "active",
+          "text": undefined,
+          "value": "active",
+        },
+        Object {
+          "key": "age",
+          "text": undefined,
+          "value": "age",
+        },
+        Object {
+          "key": "date",
+          "text": undefined,
+          "value": "date",
+        },
+      ]
+    }
+    placeholder="Select f"
+    value=""
+  />
+    
+  <span>
+    <Select
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "key": "CONTAINS",
+            "text": "Contains",
+            "value": "CONTAINS",
+          },
+          Object {
+            "key": "EQUALS_TO",
+            "text": "Equals to",
+            "value": "EQUALS_TO",
+          },
+          Object {
+            "key": "BEGINS_WITH",
+            "text": "Begins with",
+            "value": "BEGINS_WITH",
+          },
+          Object {
+            "key": "ENDS_WITH",
+            "text": "Ends with",
+            "value": "ENDS_WITH",
+          },
+          Object {
+            "key": "IS_NOT_EQUALS_TO",
+            "text": "Is not equals to",
+            "value": "IS_NOT_EQUALS_TO",
+          },
+          Object {
+            "key": "DOES_NOT_BEGIN_WITH",
+            "text": " Does not begin with",
+            "value": "DOES_NOT_BEGIN_WITH",
+          },
+          Object {
+            "key": "DOES_NOT_END_WITH",
+            "text": " Does not end with",
+            "value": "DOES_NOT_END_WITH",
+          },
+          Object {
+            "key": "DOES_NOT_CONTAIN",
+            "text": " Does not contain",
+            "value": "DOES_NOT_CONTAIN",
+          },
+        ]
+      }
+      placeholder="Select cond"
+      value=""
+    />
+      
+  </span>
+  <Input
+    onChange={[Function]}
+    type="text"
+    value=""
+  />
+    
+  <Button
+    modifiers="positive,add"
+    onClick={[Function]}
+  >
+    +
+  </Button>
+</RuleBuilder>
+`;
