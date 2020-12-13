@@ -8,7 +8,7 @@ A table that includes all the CRUD operations.
 [![GitHub issues](https://img.shields.io/github/issues/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/pull/)
 
-![tests](https://github.com/xvicmanx/react-crud-table/workflows/tests/badge.svg)
+![Tests](https://github.com/xvicmanx/react-crud-table/workflows/Tests/badge.svg)
 ![Branches Tests Coverage](badges/badge-branches.svg)
 ![Functions Tests Coverage](badges/badge-functions.svg)
 ![Lines Tests Coverage](badges/badge-lines.svg)
