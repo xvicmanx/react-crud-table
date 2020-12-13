@@ -7,10 +7,10 @@ A table that includes all the CRUD operations.
 [![GitHub issues](https://img.shields.io/github/issues/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/pull/)
 
-![Branches Tests Coverage](web/badges/badge-branches.svg)
-![Functions Tests Coverage](web/badges/badge-functions.svg)
-![Lines Tests Coverage](web/badges/badge-lines.svg)
-![Statements Tests Coverage](web/badges/badge-statements.svg)
+![Branches Tests Coverage](badges/badge-branches.svg)
+![Functions Tests Coverage](badges/badge-functions.svg)
+![Lines Tests Coverage](badges/badge-lines.svg)
+![Statements Tests Coverage](badges/badge-statements.svg)
 
 ## Table of Contents
 
@@ -503,7 +503,7 @@ ReactDOM.render(<Example />, document.getElementById("root"));
 ## Development
 
 * [Running tests](#running-tests)
-* [Running tests coverage](#running-tests-coverage)
+* [Run  ning tests coverage](#running-tests-coverage)
 * [Running lints](#running-lints)
 * [Running types checks](#running-types-checks)
 * [Building app](#building-app)
