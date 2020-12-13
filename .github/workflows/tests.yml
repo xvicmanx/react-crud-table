@@ -22,6 +22,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: cd web && npm install
-    - run: cd web && npm run lint
-    - run: cd web && npm test
+    - run: npm install
+    - run: npm run lint
+    - run: npm test
