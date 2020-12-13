@@ -3,7 +3,49 @@ A table that includes all the CRUD operations.
 
 ![CRUD_LOGO](CRUD_Toon_SMALL.png)
 
-## Basic Example
+[![GitHub license](https://img.shields.io/github/license/xvicmanx/react-crud-table.svg)](https://github.com/xvicmanx/activities-app/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/issues/)
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/pull/)
+
+## Table of Contents
+
+* [Introduction](#introduction)
+* [Features](#features)
+* [Setup](#setup)
+* [Examples](#examples)
+* [Components Properties](#components-properties)
+* [Development](#development)
+* [Contributing](#contributing)
+* [License](#license)
+* [Comments](#comments)
+
+
+## Introduction
+  A table built in react that includes all the CRUD (Create, Read, Update, Delete) operations.
+
+## Features
+
+* CRUD operations
+* Pagination
+* Query rules builder to filter items.
+* Sort items by a given property when clicking the column header.
+
+## Setup
+
+```shell 
+$ npm install react-crud-table --save
+```
+
+Include the css in [CRUD Table style](https://raw.githubusercontent.com/xvicmanx/react-crud-table/master/src/index.css) in your project.
+
+## Examples
+
+There is no better way to learn than from examples. We've created some examples of the basic usage of the component.
+
+* [Basic Example](#basic-example)
+* [Pagination Example](#pagination-example)
+
+### Basic Example
 This example shows the basics CRUD (Create, Read, Update, and Delete) and sorting operations.
 
 [In Code Sandbox](https://codesandbox.io/s/6v8qm0jm43)
@@ -197,7 +239,7 @@ ReactDOM.render(
 ![Basic Example](screenshot-simple.png)
 
 
-## Pagination Example
+### Pagination Example
 This simple example illustrates how to use the pagination component.
 [In Code Sandbox](https://codesandbox.io/s/jlr86lvv8v)
 
@@ -314,6 +356,11 @@ ReactDOM.render(<Example />, document.getElementById("root"));
 
 ## Components Properties
 
+* [CRUDTable Component](#crudtable-component)
+* [Fields Component](#fields-component)
+* [Forms components](#forms-components)
+* [Pagination Component](#pagination-component)
+
 ### CRUDTable Component
   The CRUDTable Component is the parent component. All the others component should be children of it.
 
@@ -406,7 +453,7 @@ ReactDOM.render(<Example />, document.getElementById("root"));
 
 
   
-
+<a name="forms-components"></a>
 ### CreateForm, UpdateForm, and DeleteForm Components
   These components are used to configure the forms to create, update and delete the items. Not including one of this forms means that you dont want support for the corresponding operation of the form and therefore will be hidden.
 
@@ -447,7 +494,54 @@ ReactDOM.render(<Example />, document.getElementById("root"));
 
   #### `fetchTotalOfItems`: function
   Loads the total number of items in asynchronous way. This function should return a function that resolves in a number which is the total of items.
-  
+ 
+## Development
+
+* [Running tests](#running-tests)
+* [Running tests coverage](#running-tests-coverage)
+* [Running lints](#running-lints)
+* [Running types checks](#running-types-checks)
+* [Building app](#building-app)
+
+```sh
+git clone git@github.com:xvicmanx/react-crud-table.git
+```
+
+### Running tests
+
+```sh
+npm test
+```
+
+### Running tests coverage
+
+```sh
+npm test:coverage
+```
+
+### Running lints
+
+```sh
+npm run lint
+```
+
+### Running types checks
+
+```sh
+npm run types:check
+```
+
+### Building app
+
+```sh
+npm run build
+```
+
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md)
+
+## License
+React Crud Table is open source software licensed as [MIT](LICENSE.md)
 
 ## Comments
 Feel free to make any suggestion to improve this component.
