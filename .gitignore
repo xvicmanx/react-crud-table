@@ -3,3 +3,4 @@ node_modules/
 build/__tests__/
 .DS_Store
 coverage
+build/**/*.test.js

@@ -49,9 +49,6 @@
       ],
       "@babel/preset-react",
       "@babel/preset-flow"
-    ],
-    "ignore": [
-      "**/*.test.js"
     ]
   },
   "repository": {
