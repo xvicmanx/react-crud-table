@@ -551,3 +551,12 @@ React Crud Table is open source software licensed as [MIT](LICENSE.md)
 ## Comments
 Feel free to make any suggestion to improve this component.
 
+## Built With
+
+- [react](https://ghub.io/react): React is a JavaScript library for building user interfaces.
+- [formik](https://ghub.io/formik): Forms in React, without tears
+- [bem-react-component-creator](https://ghub.io/bem-react-component-creator): Helpers to create BEM like React components
+- [react-datetime](https://ghub.io/react-datetime): A lightweight but complete datetime picker React.js component
+- [moment](https://ghub.io/moment): Parse, validate, manipulate, and display dates
+
+
