@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   SORT_DIRECTIONS,
+  ID_FIELD,
   FIELDS_COMPONENT_TYPE,
   FIELD_COMPONENT_TYPE,
   CREATE_FORM_COMPONENT_TYPE,
@@ -107,6 +108,27 @@ export const getPaginationProps = (props) => {
   const items = React.Children.toArray(props.children);
   return extractPagination(items);
 };
+
+export const getDefaultState = (items, pagination) => ({
+  items,
+  sort: {
+    field: ID_FIELD,
+    direction: SORT_DIRECTIONS.DESCENDING,
+  },
+  queryRules: [],
+  updateItem: {},
+  deleteItem: {},
+  createModalVisible: false,
+  deleteModalVisible: false,
+  updateModalVisible: false,
+  pagination: {
+    ...pagination,
+    activePage: pagination.activePage || pagination.defaultActivePage || 1,
+    totalOfItems: pagination.totalOfItems || 0,
+    itemsPerPage: pagination.itemsPerPage || 10,
+  },
+  totalOfItems: pagination.totalOfItems || 0,
+});
 
 export default {
   chevron,

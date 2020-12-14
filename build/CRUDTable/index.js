@@ -27,6 +27,8 @@ var _QueryBuilder = _interopRequireDefault(require("../QueryBuilder"));
 
 var _helpers2 = require("../helpers");
 
+var _actions = require("./actions");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -34,18 +36,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -84,37 +74,22 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, CRUDTable);
 
     _this = _super.call(this, props);
-    _this.handleOnCreateSubmission = _this.handleOnCreateSubmission.bind(_assertThisInitialized(_this));
-    _this.handleOnDeleteSubmission = _this.handleOnDeleteSubmission.bind(_assertThisInitialized(_this));
-    _this.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_assertThisInitialized(_this));
-    _this.handleHeaderClick = _this.handleHeaderClick.bind(_assertThisInitialized(_this));
-    _this.handlePageChange = _this.handlePageChange.bind(_assertThisInitialized(_this));
-    _this.handleRuleAdded = _this.handleRuleAdded.bind(_assertThisInitialized(_this));
-    _this.handleRuleRemoved = _this.handleRuleRemoved.bind(_assertThisInitialized(_this));
+
+    var target = _assertThisInitialized(_this);
+
+    target.handleOnCreateSubmission = _this.handleOnCreateSubmission.bind(_assertThisInitialized(_this));
+    target.handleOnDeleteSubmission = _this.handleOnDeleteSubmission.bind(_assertThisInitialized(_this));
+    target.handleOnUpdateSubmission = _this.handleOnUpdateSubmission.bind(_assertThisInitialized(_this));
+    target.handleSortChange = _this.handleSortChange.bind(_assertThisInitialized(_this));
+    target.handlePageChange = _this.handlePageChange.bind(_assertThisInitialized(_this));
+    target.handleRuleAdded = _this.handleRuleAdded.bind(_assertThisInitialized(_this));
+    target.handleRuleRemoved = _this.handleRuleRemoved.bind(_assertThisInitialized(_this));
     var configItems = React.Children.toArray(props.children);
     _this.fields = (0, _helpers.extractFields)(configItems);
     _this.forms = (0, _helpers.extractForms)(configItems, _this.fields);
     _this.pagination = (0, _helpers.extractPagination)(configItems);
     _this.queryFields = (0, _helpers.extractQueryFields)(configItems);
-    _this.state = {
-      items: props.items,
-      sort: {
-        field: _constants.ID_FIELD,
-        direction: _constants.SORT_DIRECTIONS.DESCENDING
-      },
-      queryRules: [],
-      updateItem: {},
-      deleteItem: {},
-      createModalVisible: false,
-      deleteModalVisible: false,
-      updateModalVisible: false,
-      pagination: _objectSpread(_objectSpread({}, _this.pagination), {}, {
-        activePage: _this.pagination.activePage || _this.pagination.defaultActivePage || 1,
-        totalOfItems: _this.pagination.totalOfItems || 0,
-        itemsPerPage: _this.pagination.itemsPerPage || 10
-      }),
-      totalOfItems: _this.pagination.totalOfItems || 0
-    };
+    _this.state = (0, _helpers.getDefaultState)(props.items, _this.pagination);
     return _this;
   }
 
@@ -141,62 +116,52 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
-    key: "handleHeaderClick",
-    value: function handleHeaderClick(field, direction) {
-      var sort = this.state.sort;
-      var newSort = {
-        field: field,
-        direction: (0, _helpers.toggleDirection)(direction, field === sort.field)
-      };
-      this.setState({
-        sort: newSort
-      });
-      this.update({
-        sort: newSort
+    key: "handleSortChange",
+    value: function handleSortChange(field, direction) {
+      var _this2 = this;
+
+      this.setState((0, _actions.changeSort)(field, direction), function () {
+        var sort = _this2.state.sort;
+
+        _this2.update({
+          sort: sort
+        });
       });
     }
   }, {
     key: "handlePageChange",
     value: function handlePageChange(activePage) {
-      var pagination = _objectSpread(_objectSpread({}, this.state.pagination), {}, {
-        activePage: activePage
-      });
+      var _this3 = this;
 
-      this.setState({
-        pagination: pagination
-      });
-      this.update({
-        pagination: pagination
+      this.setState((0, _actions.changePage)(activePage), function () {
+        var pagination = _this3.state.pagination;
+
+        _this3.update({
+          pagination: pagination
+        });
       });
     }
   }, {
     key: "handleOnCreateSubmission",
     value: function handleOnCreateSubmission(values) {
-      var _this2 = this;
-
-      return this.forms.create.onSubmit(values).then(function (result) {
-        _this2.update();
-
-        return result;
-      });
+      return this.formSubmission(this.forms.create, values);
     }
   }, {
     key: "handleOnUpdateSubmission",
     value: function handleOnUpdateSubmission(values) {
-      var _this3 = this;
-
-      return this.forms.update.onSubmit(values).then(function (result) {
-        _this3.update();
-
-        return result;
-      });
+      return this.formSubmission(this.forms.update, values);
     }
   }, {
     key: "handleOnDeleteSubmission",
     value: function handleOnDeleteSubmission(values) {
+      return this.formSubmission(this.forms["delete"], values);
+    }
+  }, {
+    key: "formSubmission",
+    value: function formSubmission(form, values) {
       var _this4 = this;
 
-      return this.forms["delete"].onSubmit(values).then(function (result) {
+      return form.onSubmit(values).then(function (result) {
         _this4.update();
 
         return result;
@@ -205,27 +170,27 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleRuleAdded",
     value: function handleRuleAdded(rule) {
-      var queryRules = this.state.queryRules;
-      var newQueryRules = [].concat(_toConsumableArray(queryRules), [rule]);
-      this.setState({
-        queryRules: newQueryRules
-      });
-      this.update({
-        queryRules: newQueryRules
+      var _this5 = this;
+
+      this.setState((0, _actions.addRule)(rule), function () {
+        var queryRules = _this5.state.queryRules;
+
+        _this5.update({
+          queryRules: queryRules
+        });
       });
     }
   }, {
     key: "handleRuleRemoved",
     value: function handleRuleRemoved(rule) {
-      var queryRules = this.state.queryRules;
-      var newQueryRules = queryRules.filter(function (x) {
-        return x.field !== rule.field || x.condition !== rule.condition;
-      });
-      this.setState({
-        queryRules: newQueryRules
-      });
-      this.update({
-        queryRules: newQueryRules
+      var _this6 = this;
+
+      this.setState((0, _actions.removeRule)(rule), function () {
+        var queryRules = _this6.state.queryRules;
+
+        _this6.update({
+          queryRules: queryRules
+        });
       });
     }
   }, {
@@ -244,9 +209,10 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "update",
-    value: function update(data) {
-      var _this5 = this;
+    value: function update() {
+      var _this7 = this;
 
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
       var reportChange = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var _this$props = this.props,
           fetchItems = _this$props.fetchItems,
@@ -255,7 +221,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
 
       if (fetchItems) {
         fetchItems(payload).then(function (items) {
-          _this5.setState({
+          _this7.setState({
             items: items
           });
         });
@@ -263,7 +229,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
 
       if (this.pagination.fetchTotalOfItems) {
         this.pagination.fetchTotalOfItems(payload).then(function (totalOfItems) {
-          _this5.setState({
+          _this7.setState({
             totalOfItems: totalOfItems
           });
         });
@@ -276,7 +242,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this8 = this;
 
       var _this$state2 = this.state,
           items = _this$state2.items,
@@ -305,7 +271,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         shouldReset: true,
         visible: createModalVisible,
         onVisibilityChange: function onVisibilityChange(visible) {
-          _this6.setState({
+          _this8.setState({
             createModalVisible: visible
           });
         }
@@ -317,7 +283,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/React.createElement(_wrappers.Table, null, /*#__PURE__*/React.createElement(_Header["default"], {
         fields: tabularFields,
         sort: sort,
-        onClick: this.handleHeaderClick,
+        onClick: this.handleSortChange,
         actionsLabel: updateTrigger || deleteTrigger ? actionsLabel : ''
       }), /*#__PURE__*/React.createElement(_Body["default"], {
         fields: tabularFields,
@@ -326,13 +292,13 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         deleteTrigger: deleteTrigger,
         actionsLabel: actionsLabel,
         onDeleteClick: function onDeleteClick(item) {
-          _this6.setState({
+          _this8.setState({
             deleteItem: item,
             deleteModalVisible: true
           });
         },
         onUpdateClick: function onUpdateClick(item) {
-          _this6.setState({
+          _this8.setState({
             updateItem: item,
             updateModalVisible: true
           });
@@ -346,7 +312,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         onSubmit: this.handleOnUpdateSubmission,
         visible: updateModalVisible,
         onVisibilityChange: function onVisibilityChange(visible) {
-          _this6.setState({
+          _this8.setState({
             updateModalVisible: visible
           });
         }
@@ -357,7 +323,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
         visible: deleteModalVisible,
         trigger: null,
         onVisibilityChange: function onVisibilityChange(visible) {
-          _this6.setState({
+          _this8.setState({
             deleteModalVisible: visible
           });
         }
@@ -366,7 +332,8 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return CRUDTable;
-}(React.Component);
+}(React.Component); // $FlowFixMe
+
 
 CRUDTable.defaultProps = {
   onChange: _helpers2.NO_OP,

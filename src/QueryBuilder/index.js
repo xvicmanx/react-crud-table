@@ -8,8 +8,7 @@ import { Container } from './wrappers';
 type Props = {
   queryRules: Array<Object>,
   fields: Array<Object>,
-  onChange: Function,
-  renderRule: Function,
+  renderRule?: Function,
   onRuleAdded: Function,
   onRuleRemoved: Function,
 };

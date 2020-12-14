@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.getPaginationProps = exports.getTableFieldValue = exports.extractForms = exports.extractQueryFields = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = void 0;
+exports["default"] = exports.getDefaultState = exports.getPaginationProps = exports.getTableFieldValue = exports.extractForms = exports.extractQueryFields = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -147,6 +147,30 @@ var getPaginationProps = function getPaginationProps(props) {
 };
 
 exports.getPaginationProps = getPaginationProps;
+
+var getDefaultState = function getDefaultState(items, pagination) {
+  return {
+    items: items,
+    sort: {
+      field: _constants.ID_FIELD,
+      direction: _constants.SORT_DIRECTIONS.DESCENDING
+    },
+    queryRules: [],
+    updateItem: {},
+    deleteItem: {},
+    createModalVisible: false,
+    deleteModalVisible: false,
+    updateModalVisible: false,
+    pagination: _objectSpread(_objectSpread({}, pagination), {}, {
+      activePage: pagination.activePage || pagination.defaultActivePage || 1,
+      totalOfItems: pagination.totalOfItems || 0,
+      itemsPerPage: pagination.itemsPerPage || 10
+    }),
+    totalOfItems: pagination.totalOfItems || 0
+  };
+};
+
+exports.getDefaultState = getDefaultState;
 var _default = {
   chevron: chevron,
   toggleDirection: toggleDirection,

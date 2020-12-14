@@ -4,7 +4,11 @@ import { NO_OP } from '../helpers';
 import Label from '../Label';
 import { CONDITIONS_LABEL, CONDITIONS } from './constants';
 
-let styles;
+const styles = {
+  label: {
+    marginBottom: '5px',
+  },
+};
 
 const Input = (props) => <input {...props} />;
 
@@ -136,12 +140,6 @@ export const inputForType = (type, props) => {
     default:
       return <Input type="text" {...props} />;
   }
-};
-
-styles = {
-  label: {
-    marginBottom: '5px',
-  },
 };
 
 export default {

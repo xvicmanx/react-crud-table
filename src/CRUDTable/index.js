@@ -19,6 +19,7 @@ import {
   extractQueryFields,
   queryValue,
   getPaginationProps,
+  getDefaultState,
 } from './helpers';
 import { Table } from './wrappers';
 import Header from './Header';
@@ -27,6 +28,7 @@ import PaginationCpt from '../Pagination';
 import FormModal from '../FormModal';
 import QueryBuilder from '../QueryBuilder';
 import { NO_OP } from '../helpers';
+import { addRule, changePage, changeSort, removeRule } from './actions';
 
 type Props = {
   onChange?: Function,
@@ -45,51 +47,36 @@ type State = {
   createModalVisible: boolean,
   deleteModalVisible: boolean,
   updateModalVisible: boolean,
-  items: Array<Object>,
+  items?: Array<Object>,
   sort: Object,
   pagination: Object,
   totalOfItems: number,
 };
 
 class CRUDTable extends React.Component<Props, State> {
+  forms: Object;
+  queryFields: Array<Object>;
+  pagination: Object;
+  fields: Array<Object>;
+
   constructor(props: Props) {
     super(props);
 
-    this.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
-    this.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
-    this.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
-    this.handleHeaderClick = this.handleHeaderClick.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-    this.handleRuleAdded = this.handleRuleAdded.bind(this);
-    this.handleRuleRemoved = this.handleRuleRemoved.bind(this);
+    const target: any = this;
+    target.handleOnCreateSubmission = this.handleOnCreateSubmission.bind(this);
+    target.handleOnDeleteSubmission = this.handleOnDeleteSubmission.bind(this);
+    target.handleOnUpdateSubmission = this.handleOnUpdateSubmission.bind(this);
+    target.handleSortChange = this.handleSortChange.bind(this);
+    target.handlePageChange = this.handlePageChange.bind(this);
+    target.handleRuleAdded = this.handleRuleAdded.bind(this);
+    target.handleRuleRemoved = this.handleRuleRemoved.bind(this);
 
     const configItems = React.Children.toArray(props.children);
     this.fields = extractFields(configItems);
     this.forms = extractForms(configItems, this.fields);
     this.pagination = extractPagination(configItems);
     this.queryFields = extractQueryFields(configItems);
-
-    this.state = {
-      items: props.items,
-      sort: {
-        field: ID_FIELD,
-        direction: SORT_DIRECTIONS.DESCENDING,
-      },
-      queryRules: [],
-      updateItem: {},
-      deleteItem: {},
-      createModalVisible: false,
-      deleteModalVisible: false,
-      updateModalVisible: false,
-      pagination: {
-        ...this.pagination,
-        activePage:
-          this.pagination.activePage || this.pagination.defaultActivePage || 1,
-        totalOfItems: this.pagination.totalOfItems || 0,
-        itemsPerPage: this.pagination.itemsPerPage || 10,
-      },
-      totalOfItems: this.pagination.totalOfItems || 0,
-    };
+    this.state = getDefaultState(props.items, this.pagination);
   }
 
   props: Props;
@@ -99,7 +86,7 @@ class CRUDTable extends React.Component<Props, State> {
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { items } = this.props;
     const newState = {};
 
@@ -114,63 +101,54 @@ class CRUDTable extends React.Component<Props, State> {
     }
   }
 
-  handleHeaderClick(field, direction) {
-    const { sort } = this.state;
-    const newSort = {
-      field,
-      direction: toggleDirection(direction, field === sort.field),
-    };
-    this.setState({ sort: newSort });
-    this.update({ sort: newSort });
+  handleSortChange(field: string, direction: string) {
+    this.setState(changeSort(field, direction), () => {
+      const { sort } = this.state;
+      this.update({ sort });
+    });
   }
 
-  handlePageChange(activePage) {
-    const pagination = {
-      ...this.state.pagination,
-      activePage,
-    };
-    this.setState({ pagination });
-    this.update({ pagination });
+  handlePageChange(activePage: number) {
+    this.setState(changePage(activePage), () => {
+      const { pagination } = this.state;
+      this.update({ pagination });
+    });
   }
 
-  handleOnCreateSubmission(values) {
-    return this.forms.create.onSubmit(values).then((result) => {
+  handleOnCreateSubmission(values: Object): any {
+    return this.formSubmission(this.forms.create, values);
+  }
+
+  handleOnUpdateSubmission(values: Object): any {
+    return this.formSubmission(this.forms.update, values);
+  }
+
+  handleOnDeleteSubmission(values: Object): any {
+    return this.formSubmission(this.forms.delete, values);
+  }
+
+  formSubmission(form: Object, values: Object): any {
+    return form.onSubmit(values).then((result) => {
       this.update();
       return result;
     });
   }
 
-  handleOnUpdateSubmission(values) {
-    return this.forms.update.onSubmit(values).then((result) => {
-      this.update();
-      return result;
+  handleRuleAdded(rule: Object) {
+    this.setState(addRule(rule), () => {
+      const { queryRules } = this.state;
+      this.update({ queryRules });
     });
   }
 
-  handleOnDeleteSubmission(values) {
-    return this.forms.delete.onSubmit(values).then((result) => {
-      this.update();
-      return result;
+  handleRuleRemoved(rule: Object) {
+    this.setState(removeRule(rule), () => {
+      const { queryRules } = this.state;
+      this.update({ queryRules });
     });
   }
 
-  handleRuleAdded(rule) {
-    const { queryRules } = this.state;
-    const newQueryRules = [...queryRules, rule];
-    this.setState({ queryRules: newQueryRules });
-    this.update({ queryRules: newQueryRules });
-  }
-
-  handleRuleRemoved(rule) {
-    const { queryRules } = this.state;
-    const newQueryRules = queryRules.filter(
-      (x) => x.field !== rule.field || x.condition !== rule.condition
-    );
-    this.setState({ queryRules: newQueryRules });
-    this.update({ queryRules: newQueryRules });
-  }
-
-  getPayload(extension = {}) {
+  getPayload(extension: Object = {}): Object {
     const { queryRules, pagination, sort } = this.state;
     return {
       queryRules,
@@ -180,7 +158,7 @@ class CRUDTable extends React.Component<Props, State> {
     };
   }
 
-  update(data, reportChange = true) {
+  update(data: Object = undefined, reportChange: Object = true) {
     const { fetchItems, onChange } = this.props;
     const payload = this.getPayload(data);
 
@@ -201,7 +179,7 @@ class CRUDTable extends React.Component<Props, State> {
     }
   }
 
-  render() {
+  render(): React$Element<any> {
     const {
       items,
       sort,
@@ -250,7 +228,7 @@ class CRUDTable extends React.Component<Props, State> {
           <Header
             fields={tabularFields}
             sort={sort}
-            onClick={this.handleHeaderClick}
+            onClick={this.handleSortChange}
             actionsLabel={updateTrigger || deleteTrigger ? actionsLabel : ''}
           />
           <Body
@@ -315,6 +293,7 @@ class CRUDTable extends React.Component<Props, State> {
   }
 }
 
+// $FlowFixMe
 CRUDTable.defaultProps = {
   onChange: NO_OP,
   actionsLabel: 'Actions',
