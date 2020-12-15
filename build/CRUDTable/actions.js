@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.removeRule = exports.addRule = exports.changePage = exports.changeSort = void 0;
 
-var _helpers = require("./helpers");
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -31,7 +29,7 @@ var changeSort = function changeSort(field, direction) {
     return {
       sort: {
         field: field,
-        direction: (0, _helpers.toggleDirection)(direction, field === sort.field)
+        direction: direction
       }
     };
   };

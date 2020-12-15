@@ -283,7 +283,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/React.createElement(_wrappers.Table, null, /*#__PURE__*/React.createElement(_Header["default"], {
         fields: tabularFields,
         sort: sort,
-        onClick: this.handleSortChange,
+        onChange: this.handleSortChange,
         actionsLabel: updateTrigger || deleteTrigger ? actionsLabel : ''
       }), /*#__PURE__*/React.createElement(_Body["default"], {
         fields: tabularFields,

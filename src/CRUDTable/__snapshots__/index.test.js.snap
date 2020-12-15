@@ -92,7 +92,7 @@ exports[`CRUDTable renders as expected when passing promise fetchers 1`] = `
           },
         ]
       }
-      onClick={[Function]}
+      onChange={[Function]}
       sort={
         Object {
           "direction": "descending",
@@ -367,7 +367,7 @@ exports[`CRUDTable renders as expected with forms, query builder, and pagination
           },
         ]
       }
-      onClick={[Function]}
+      onChange={[Function]}
       sort={
         Object {
           "direction": "descending",
@@ -614,7 +614,7 @@ exports[`CRUDTable renders as expected without forms, query builder, and paginat
           },
         ]
       }
-      onClick={[Function]}
+      onChange={[Function]}
       sort={
         Object {
           "direction": "descending",

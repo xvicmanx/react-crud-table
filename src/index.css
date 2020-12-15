@@ -1,3 +1,4 @@
+/* CRUD TABLE START */
 .crud-modal-wrapper {
   position: absolute;
   top: 0;
@@ -21,29 +22,26 @@
   border-radius: 5px;
   z-index: 1001;
   position: relative;
-  padding: 1rem;
-  margin: 3rem auto 0 auto;
-  top: 1rem;
+  margin: 2rem auto 0 auto;
+  top: 0rem;
   display: inline-block;
+  min-width: 80%;
 }
 
 .crud-modal-wrapper__title {
   border-bottom: 1px solid #eaeaea;
-  padding-bottom: .8rem;
   font-size: 1.3rem;
+  padding: .8rem;
+  color: #444;
 }
   
 .crud-modal-form {
   padding: 1rem;
 }
 
-.crud-modal-form__field-container {
-  text-align: left;
-}
-
 .crud-modal-form__field-error {
   color: #fff;
-  background-color: #e81b1b;
+  background-color: #c13a3a;
   border-radius: 3px;
   padding: .3rem .8rem;
   text-align: left;
@@ -62,17 +60,18 @@
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 6px solid #e81b1b;
+  border-bottom: 6px solid #c13a3a;
 }
 
 .crud-modal-form__message {
   padding: 0 0 1.2rem 0;
   font-size: 1.1rem;
   text-align: left;
+  color: #555;
 }
 
 .crud-modal-form__error-message {
-  background-color: #e81b1b;
+  background-color: #c13a3a;
   color: #fff;
   padding: .8rem;
   border-radius: 3px;
@@ -82,18 +81,22 @@
 .crud-modal-form button {
   margin-top: .5rem;
   min-width: 250px;
+  width: 50%;
+  height: 45px;
+  font-size: 1rem;
 }
 
 .crud-modal-form input,
 .crud-modal-form select,
 .crud-modal-form textarea {
   border-radius: 5px;
-  height: 30px;
+  height: 40px;
   border: 1px solid #ccc;
   min-width: 250px;
   margin-bottom: 1rem;
   margin-top: .5rem;
   padding-left: .6rem;
+  width: 100%;
 }
 
 .crud-modal-form textarea {
@@ -102,21 +105,23 @@
 }
 
 .crud-modal-form__label {
-  color: #000;
+  color: #555;
   display: block;
   text-align: left;
   font-weight: 600;
 }
 
 .crud-button {
-  background-color: #000;
+  background-color: #555;
   min-height: 1rem;
   color: #fff;
   border-radius: 3px;
   padding: .6rem 1rem;
   border: none;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
+  margin: 0.2rem 0;
+  min-width: 100px;
 }
 
 .crud-button--circular {
@@ -124,33 +129,35 @@
   padding: 0;
   width: 2rem;
   line-height: 2rem;
+  min-width: fit-content;
 }
 
 .crud-button--primary {
-  background-color: #2185d0;
+  background-color: #388ee2;
 }
 
 .crud-button--primary:hover {
-  background-color: #1a6fb1;
+  background-color: #2477c8;
   transition: all 1s;
 }
 
 
 .crud-button--positive {
-  background-color: #21d05b;
+  background-color: #40c846;
+  margin: 0.8rem 0;
 }
 
 .crud-button--positive:hover {
-  background-color: #1da54a;
+  background-color: #33a538;
   transition: all 1s;
 }
 
 .crud-button--negative {
-  background-color: #f51010;
+  background-color: #ce2a2a;
 }
 
 .crud-button--negative:hover {
-  background-color: #b80f0f;
+  background-color: #9f2020;
   transition: all 1s;
 }
 
@@ -160,8 +167,23 @@
   border: 1px solid rgba(52, 145, 238, 0.15);
   border-collapse: collapse;  
   box-shadow: 2px 2px 5px 0 #c7c7c7;
+  font-size: 0.9rem;
 }
-.crud-table__row {}
+
+.crud-table__select {
+  border-radius: 5px;
+  height: 30px;
+  border: 1px solid #ccc;
+  min-width: 150px;
+  margin-bottom: 1rem;
+  margin-top: .5rem;
+  padding-left: .6rem;
+}
+
+.crud-table__row {
+  background: #fff;
+}
+
 .crud-table__header-cell {
   cursor: pointer;
   background: rgba(153, 158, 162, 0.05);
@@ -171,7 +193,9 @@
   border-bottom: 1px solid rgba(34, 36, 38, .1);
 }
 
-.crud-table__header {}
+.crud-table__row--sorter {
+  display: none;
+}
 
 .crud-table__body {
   background-color: #fff;
@@ -197,8 +221,6 @@
   text-align: center;
   font-weight: 600;
 }
-
-
 
 .crud-table-pagination {
   display: block;
@@ -274,7 +296,7 @@
   padding: .48rem 1rem;
   border-radius: .2rem;
   background-color: #f9fafb;
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   margin-right: .5rem;
   margin-bottom: .7rem;
 }
@@ -287,6 +309,14 @@
     margin-top: 1rem;
     border-radius: 3px;
     overflow: hidden;
+    box-shadow: none;
+    border: none;
+  }
+
+  .crud-table-query-builder {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: 0px 5px 10px 0 #c7c7c7;
   }
 
   .crud-table__row,
@@ -303,9 +333,21 @@
     border-bottom: 1px solid #e6e6e6;
   }
 
-  .crud-table__header,
-  .crud-table__header-cell {
+  .crud-table__row--fields {
     display: none;
+  }
+
+  .crud-table__row--sorter {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .crud-table__row--sorter .crud-table__select {
+    width: 100%;
+  }
+
+  .crud-table__row--sorter .crud-table__header-cell {
+    background-color: #fff;
   }
 
   .crud-table__cell {
@@ -318,11 +360,16 @@
   }
 
   .crud-table__row {
-    border-bottom: 1px solid #e6e6e6;
+    border: 1px solid #74787c26;
+    box-shadow: 2px 2px 5px 0 #c7c7c752;
   }
 
   .crud-table__row:not(:last-child) {
     margin-bottom: 2rem;
+  }
+
+  .crud-table__body {
+    background: #f9f9f9;
   }
 
   .crud-table__cell-label {
@@ -343,6 +390,7 @@
     width: 3rem;
     padding: 0;
     font-size: 1.6rem;
+    min-width: 50px;
   }
 
   .crud-table-query-builder select,
@@ -350,6 +398,10 @@
     width: 100%;
     margin-bottom: 0;
   }
+}
+
+.crud-modal-form__field-container {
+  text-align: left;
 }
 
 
@@ -567,3 +619,5 @@ td.rdtYear:hover {
   font-size: 1.2em;
   margin-top: 37px;
 }
+
+/* CRUD TABLE END */

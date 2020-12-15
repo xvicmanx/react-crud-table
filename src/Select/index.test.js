@@ -2,7 +2,7 @@ import React from 'react';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import { create } from 'react-test-renderer';
 
-import Select from './Select';
+import Select from '.';
 
 const renderer = new ShallowRenderer();
 

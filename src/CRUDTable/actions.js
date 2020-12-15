@@ -1,7 +1,5 @@
 // @flow
 
-import { toggleDirection } from './helpers';
-
 export const changeSort = (field: string, direction: string): Object => (
   state: Object,
   props: Object
@@ -10,7 +8,7 @@ export const changeSort = (field: string, direction: string): Object => (
   return {
     sort: {
       field,
-      direction: toggleDirection(direction, field === sort.field),
+      direction,
     },
   };
 };

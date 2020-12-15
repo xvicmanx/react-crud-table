@@ -9,17 +9,17 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _constants = require("./constants");
-
-var _helpers = require("./helpers");
-
 var _Button = _interopRequireDefault(require("../Button"));
 
-var _Select = _interopRequireDefault(require("./Select"));
+var _Select = _interopRequireDefault(require("../Select"));
+
+var _helpers = require("../CRUDTable/helpers");
+
+var _helpers2 = require("./helpers");
+
+var _constants = require("./constants");
 
 var _wrappers = require("./wrappers");
-
-var _helpers2 = require("../CRUDTable/helpers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -82,7 +82,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
 
       update.condition = this.getDefaultCondition(value);
 
-      if ((0, _helpers.isBoolean)(update.type)) {
+      if ((0, _helpers2.isBoolean)(update.type)) {
         update.condition = _constants.CONDITIONS.IS;
         update.value = false;
       }
@@ -92,23 +92,23 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "getLabel",
     value: function getLabel(field) {
-      return (0, _helpers2.queryValue)(this.find(field), 'label', '');
+      return (0, _helpers.queryValue)(this.find(field), 'label', '');
     }
   }, {
     key: "getDefaultCondition",
     value: function getDefaultCondition(field) {
-      var defaultconditionForType = (0, _helpers.getDefaultConditionForType)(this.getType(field));
-      return (0, _helpers2.queryValue)(this.find(field), 'defaultCondition', defaultconditionForType);
+      var defaultconditionForType = (0, _helpers2.getDefaultConditionForType)(this.getType(field));
+      return (0, _helpers.queryValue)(this.find(field), 'defaultCondition', defaultconditionForType);
     }
   }, {
     key: "getCollection",
     value: function getCollection(field) {
-      return (0, _helpers2.queryValue)(this.find(field), 'collection', '');
+      return (0, _helpers.queryValue)(this.find(field), 'collection', '');
     }
   }, {
     key: "getType",
     value: function getType(field) {
-      return (0, _helpers2.queryValue)(this.find(field), 'type', '');
+      return (0, _helpers.queryValue)(this.find(field), 'type', '');
     }
   }, {
     key: "find",
@@ -123,7 +123,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
     value: function save() {
       var onSave = this.props.onSave;
 
-      if ((0, _helpers.isRuleComplete)(this.state)) {
+      if ((0, _helpers2.isRuleComplete)(this.state)) {
         onSave(this.state);
         this.setState(_constants.DEFAULT_STATE);
       }
@@ -142,7 +142,7 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
           value = _this$state.value,
           condition = _this$state.condition;
       var type = this.getType(field);
-      var input = (0, _helpers.inputForType)(type, {
+      var input = (0, _helpers2.inputForType)(type, {
         value: value,
         onChange: function onChange(evt) {
           _this2.setState({
@@ -152,12 +152,12 @@ var RuleBuilder = /*#__PURE__*/function (_React$Component) {
       });
       return /*#__PURE__*/_react["default"].createElement(_wrappers.RuleBuilder, null, /*#__PURE__*/_react["default"].createElement(_Select["default"], {
         placeholder: fieldsSelectPlaceholder,
-        options: (0, _helpers.mapFieldsToOptions)(fields),
+        options: (0, _helpers2.mapFieldsToOptions)(fields),
         value: field,
         onChange: this.handleFieldSelectChange
-      }), "\xA0\xA0", !(0, _helpers.isBoolean)(type) && /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(_Select["default"], {
+      }), "\xA0\xA0", !(0, _helpers2.isBoolean)(type) && /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(_Select["default"], {
         placeholder: conditionsSelectPlaceholder,
-        options: (0, _helpers.conditionsForType)(type),
+        options: (0, _helpers2.conditionsForType)(type),
         value: condition,
         onChange: function onChange(evt, data) {
           _this2.setState({
