@@ -17,7 +17,7 @@ type Props = {
 const Select = (props: Props): React$Element<'select'> => {
   const { placeholder, options, value, onChange } = props;
   return (
-    <select onChange={onChange} value={value}>
+    <select className="crud-table__select" onChange={onChange} value={value}>
       <option value="">{placeholder}</option>
       {options.map((option) => (
         <option key={option.key} value={option.value}>

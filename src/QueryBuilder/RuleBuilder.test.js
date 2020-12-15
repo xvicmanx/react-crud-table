@@ -4,7 +4,7 @@ import { create } from 'react-test-renderer';
 
 import DateTime from 'react-datetime';
 import Button from '../Button';
-import Select from './Select';
+import Select from '../Select';
 import RuleBuilder from './RuleBuilder';
 
 const renderer = new ShallowRenderer();

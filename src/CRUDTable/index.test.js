@@ -210,7 +210,7 @@ describe('CRUDTable', () => {
     it('handles sort changes', () => {
       const button = result.root.findByType(Header);
 
-      button.props.onClick('name', 'descending');
+      button.props.onChange('name', 'descending');
 
       expect(onChange).toHaveBeenCalledTimes(1);
       expect(onChange).toHaveBeenCalledWith({

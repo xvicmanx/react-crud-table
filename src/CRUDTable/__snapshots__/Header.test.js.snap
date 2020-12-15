@@ -2,7 +2,9 @@
 
 exports[`Header renders as expected with the given props (descending sort) 1`] = `
 <Header>
-  <Row>
+  <Row
+    modifiers="fields"
+  >
     <HeaderCell
       onClick={[Function]}
     >
@@ -20,12 +22,58 @@ exports[`Header renders as expected with the given props (descending sort) 1`] =
       Act
     </HeaderCell>
   </Row>
+  <Row
+    modifiers="sorter"
+  >
+    <HeaderCell
+      colSpan={3}
+    >
+      Sort by: 
+      <br />
+      <Select
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "key": "name",
+              "text": "Name",
+              "value": "name",
+            },
+          ]
+        }
+        placeholder="Select field"
+        value="name"
+      />
+       
+      <Select
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "key": "DESCENDING",
+              "text": "descending",
+              "value": "descending",
+            },
+            Object {
+              "key": "ASCENDING",
+              "text": "ascending",
+              "value": "ascending",
+            },
+          ]
+        }
+        placeholder="Select direction"
+        value="descending"
+      />
+    </HeaderCell>
+  </Row>
 </Header>
 `;
 
 exports[`Header renders as expected with the given props 1`] = `
 <Header>
-  <Row>
+  <Row
+    modifiers="fields"
+  >
     <HeaderCell
       onClick={[Function]}
     >
@@ -41,6 +89,50 @@ exports[`Header renders as expected with the given props 1`] = `
     </HeaderCell>
     <HeaderCell>
       Act
+    </HeaderCell>
+  </Row>
+  <Row
+    modifiers="sorter"
+  >
+    <HeaderCell
+      colSpan={3}
+    >
+      Sort by: 
+      <br />
+      <Select
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "key": "name",
+              "text": "Name",
+              "value": "name",
+            },
+          ]
+        }
+        placeholder="Select field"
+        value="name"
+      />
+       
+      <Select
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "key": "DESCENDING",
+              "text": "descending",
+              "value": "descending",
+            },
+            Object {
+              "key": "ASCENDING",
+              "text": "ascending",
+              "value": "ascending",
+            },
+          ]
+        }
+        placeholder="Select direction"
+        value="ascending"
+      />
     </HeaderCell>
   </Row>
 </Header>

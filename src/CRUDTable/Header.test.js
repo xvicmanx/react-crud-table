@@ -14,7 +14,7 @@ describe('Header', () => {
     props = {
       trigger: 'Open',
       title: 'Test title',
-      onClick: jest.fn(),
+      onChange: jest.fn(),
       actionsLabel: 'Act',
       fields: [
         {
@@ -46,7 +46,7 @@ describe('Header', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('notifies when opened', () => {
+  it('notifies when click on cells', () => {
     const result = create(<Header {...props} />);
 
     const cells = result.root.findAllByType(Table.HeaderCell);
@@ -54,7 +54,7 @@ describe('Header', () => {
     cells[0].props.onClick();
     cells[1].props.onClick();
 
-    expect(props.onClick).toHaveBeenCalledTimes(1);
-    expect(props.onClick).toHaveBeenCalledWith('name', 'ascending');
+    expect(props.onChange).toHaveBeenCalledTimes(1);
+    expect(props.onChange).toHaveBeenCalledWith('name', 'descending');
   });
 });

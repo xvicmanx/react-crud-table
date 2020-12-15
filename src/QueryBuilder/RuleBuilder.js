@@ -1,7 +1,10 @@
 // @flow
 
 import React from 'react';
-import { CONDITIONS, DEFAULT_STATE } from './constants';
+
+import Button from '../Button';
+import Select from '../Select';
+import { queryValue } from '../CRUDTable/helpers';
 import {
   conditionsForType,
   getDefaultConditionForType,
@@ -10,11 +13,8 @@ import {
   isBoolean,
   isRuleComplete,
 } from './helpers';
-import Button from '../Button';
-import Select from './Select';
+import { CONDITIONS, DEFAULT_STATE } from './constants';
 import { RuleBuilder as Container } from './wrappers';
-
-import { queryValue } from '../CRUDTable/helpers';
 
 type Field = {
   value: any,

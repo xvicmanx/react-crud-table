@@ -2,6 +2,7 @@
 
 exports[`Select renders as expected with the given props 1`] = `
 <select
+  className="crud-table__select"
   onChange={[MockFunction]}
   value={1}
 >

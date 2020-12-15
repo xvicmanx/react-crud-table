@@ -228,7 +228,7 @@ class CRUDTable extends React.Component<Props, State> {
           <Header
             fields={tabularFields}
             sort={sort}
-            onClick={this.handleSortChange}
+            onChange={this.handleSortChange}
             actionsLabel={updateTrigger || deleteTrigger ? actionsLabel : ''}
           />
           <Body
