@@ -3,7 +3,7 @@ A table that includes all the CRUD operations.
 
 ![CRUD_LOGO](CRUD_Toon_SMALL.png)
 
-[![npm](https://img.shields.io/npm/dt/react-crud-table)]()
+[![npm](https://img.shields.io/npm/dt/react-crud-table)](https://www.npmjs.com/package/react-crud-table)
 [![GitHub license](https://img.shields.io/github/license/xvicmanx/react-crud-table.svg)](https://github.com/xvicmanx/react-crud-table/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/issues/)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/xvicmanx/react-crud-table.svg)](https://GitHub.com/xvicmanx/react-crud-table/pull/)
