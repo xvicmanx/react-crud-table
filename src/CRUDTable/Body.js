@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { getTableFieldValue } from './helpers';
+import { getTableFieldValue, scrollToTop } from './helpers';
 import { Table } from './wrappers';
 import Button from '../Button';
 import { NO_OP } from '../helpers';
@@ -46,6 +46,7 @@ const Body = (props: Props): React$Element<any> => {
                   modifiers="primary"
                   onClick={() => {
                     onUpdateClick(item);
+                    scrollToTop();
                   }}
                 >
                   {updateTrigger}
@@ -56,6 +57,7 @@ const Body = (props: Props): React$Element<any> => {
                   modifiers="negative"
                   onClick={() => {
                     onDeleteClick(item);
+                    scrollToTop();
                   }}
                 >
                   {deleteTrigger}

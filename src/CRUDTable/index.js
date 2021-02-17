@@ -213,7 +213,7 @@ class CRUDTable extends React.Component<Props, State> {
           />
         )}
 
-        <Table.Caption>{caption}</Table.Caption>
+        {caption && <Table.Caption>{caption}</Table.Caption>}
 
         {showQueryBuilder && (
           <QueryBuilder

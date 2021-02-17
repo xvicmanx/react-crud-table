@@ -275,7 +275,7 @@ var CRUDTable = /*#__PURE__*/function (_React$Component) {
             createModalVisible: visible
           });
         }
-      }), /*#__PURE__*/React.createElement(_wrappers.Table.Caption, null, caption), showQueryBuilder && /*#__PURE__*/React.createElement(_QueryBuilder["default"], {
+      }), caption && /*#__PURE__*/React.createElement(_wrappers.Table.Caption, null, caption), showQueryBuilder && /*#__PURE__*/React.createElement(_QueryBuilder["default"], {
         queryRules: queryRules,
         fields: this.queryFields,
         onRuleAdded: this.handleRuleAdded,

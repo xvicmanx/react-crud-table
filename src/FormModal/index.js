@@ -6,6 +6,7 @@ import Modal from '../Modal';
 import Form from '../Form';
 import { NO_OP } from '../helpers';
 import { onSubmitHandler } from './helpers';
+import { scrollToTop } from '../CRUDTable/helpers';
 
 type Props = {
   visible: boolean,
@@ -46,6 +47,7 @@ class FormModal extends React.Component<Props, State> {
         title={data.title}
         visible={visible}
         onShow={() => {
+          scrollToTop();
           onVisibilityChange(true);
           this.setState({
             key: new Date().getTime(),

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.RuleBuilder = exports.Container = void 0;
+exports["default"] = exports.SearchRules = exports.RuleBuilder = exports.Container = void 0;
 
 var _bemReactComponentCreator = _interopRequireDefault(require("bem-react-component-creator"));
 
@@ -19,8 +19,12 @@ Container.displayName = 'Container';
 var RuleBuilder = element('div', 'search-rule-builder');
 exports.RuleBuilder = RuleBuilder;
 RuleBuilder.displayName = 'RuleBuilder';
+var SearchRules = element('div', 'search-rules');
+exports.SearchRules = SearchRules;
+SearchRules.displayName = 'SearchRules';
 var _default = {
   Container: Container,
-  RuleBuilder: RuleBuilder
+  RuleBuilder: RuleBuilder,
+  SearchRules: SearchRules
 };
 exports["default"] = _default;

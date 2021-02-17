@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.getDefaultState = exports.getPaginationProps = exports.getTableFieldValue = exports.extractForms = exports.extractQueryFields = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = void 0;
+exports["default"] = exports.scrollToTop = exports.getDefaultState = exports.getPaginationProps = exports.getTableFieldValue = exports.extractForms = exports.extractQueryFields = exports.extractPagination = exports.extractFields = exports.getProps = exports.FILTER_BY_TYPE = exports.queryValue = exports.toggleDirection = exports.chevron = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
@@ -171,6 +171,17 @@ var getDefaultState = function getDefaultState(items, pagination) {
 };
 
 exports.getDefaultState = getDefaultState;
+
+var scrollToTop = function scrollToTop() {
+  if (typeof window !== 'undefined' && window.scrollTo) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+};
+
+exports.scrollToTop = scrollToTop;
 var _default = {
   chevron: chevron,
   toggleDirection: toggleDirection,

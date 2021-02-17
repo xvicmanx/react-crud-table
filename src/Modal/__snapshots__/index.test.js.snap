@@ -19,6 +19,12 @@ exports[`Modal renders as expected with the given props 1`] = `
       onClick={[MockFunction]}
     />
     <Modal>
+      <Button
+        modifiers="circular,close"
+        onClick={[MockFunction]}
+      >
+        X
+      </Button>
       <Title>
         Test title
       </Title>

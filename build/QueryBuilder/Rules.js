@@ -13,13 +13,15 @@ var _Button = _interopRequireDefault(require("../Button"));
 
 var _helpers2 = require("../helpers");
 
+var _wrappers = require("./wrappers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var Rules = function Rules(props) {
   var queryRules = props.queryRules,
       onRuleRemoved = props.onRuleRemoved,
       renderRule = props.renderRule;
-  return /*#__PURE__*/_react["default"].createElement("div", null, queryRules.map(function (rule) {
+  return /*#__PURE__*/_react["default"].createElement(_wrappers.SearchRules, null, queryRules.map(function (rule) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       key: "".concat(rule.field, ":").concat(rule.condition)
     }, renderRule(rule), '  ', /*#__PURE__*/_react["default"].createElement(_Button["default"], {
@@ -28,7 +30,7 @@ var Rules = function Rules(props) {
       },
       modifiers: "negative,circular"
     }, "X"));
-  }), /*#__PURE__*/_react["default"].createElement("br", null));
+  }));
 };
 
 Rules.defaultProps = {

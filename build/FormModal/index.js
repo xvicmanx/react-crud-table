@@ -17,6 +17,8 @@ var _helpers = require("../helpers");
 
 var _helpers2 = require("./helpers");
 
+var _helpers3 = require("../CRUDTable/helpers");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
@@ -79,6 +81,7 @@ var FormModal = /*#__PURE__*/function (_React$Component) {
         title: data.title,
         visible: visible,
         onShow: function onShow() {
+          (0, _helpers3.scrollToTop)();
           onVisibilityChange(true);
 
           _this2.setState({

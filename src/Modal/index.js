@@ -31,6 +31,9 @@ const Modal = (props: Props): React$Element<any> => {
       <Container style={style}>
         <Container.BG onClick={onHide} />
         <Container.Modal>
+          <Button modifiers="circular,close" onClick={onHide}>
+            X
+          </Button>
           {title && <Container.Title>{title}</Container.Title>}
           {children}
         </Container.Modal>

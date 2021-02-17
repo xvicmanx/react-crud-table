@@ -10,4 +10,8 @@ export const RuleBuilder = element('div', 'search-rule-builder');
 
 RuleBuilder.displayName = 'RuleBuilder';
 
-export default { Container, RuleBuilder };
+export const SearchRules = element('div', 'search-rules');
+
+SearchRules.displayName = 'SearchRules';
+
+export default { Container, RuleBuilder, SearchRules };

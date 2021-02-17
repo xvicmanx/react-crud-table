@@ -29,7 +29,9 @@ describe('Modal', () => {
   it('notifies when opened', () => {
     const result = create(<Modal {...props} />);
 
-    result.root.findByType(Button).props.onClick();
+    const buttons = result.root.findAllByType(Button);
+
+    buttons[0].props.onClick();
 
     expect(props.onShow).toHaveBeenCalledTimes(1);
   });

@@ -130,6 +130,12 @@ export const getDefaultState = (items, pagination) => ({
   totalOfItems: pagination.totalOfItems || 0,
 });
 
+export const scrollToTop = () => {
+  if (typeof window !== 'undefined' && window.scrollTo) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+};
+
 export default {
   chevron,
   toggleDirection,

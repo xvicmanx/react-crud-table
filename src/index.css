@@ -124,6 +124,13 @@
   min-width: 100px;
 }
 
+button.crud-button--close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-weight: bold;
+}
+
 .crud-button--circular {
   border-radius: 50%;
   padding: 0;

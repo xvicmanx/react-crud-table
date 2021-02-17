@@ -1,13 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Rules renders as expected when no props are passed 1`] = `
-<div>
-  <br />
-</div>
-`;
+exports[`Rules renders as expected when no props are passed 1`] = `<SearchRules />`;
 
 exports[`Rules renders as expected with the given props 1`] = `
-<div>
+<SearchRules>
   <div>
     name ... EQUALS_TO
       
@@ -18,6 +14,5 @@ exports[`Rules renders as expected with the given props 1`] = `
       X
     </Button>
   </div>
-  <br />
-</div>
+</SearchRules>
 `;

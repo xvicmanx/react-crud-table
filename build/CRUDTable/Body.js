@@ -42,11 +42,13 @@ var Body = function Body(props) {
       modifiers: "primary",
       onClick: function onClick() {
         onUpdateClick(item);
+        (0, _helpers.scrollToTop)();
       }
     }, updateTrigger), ' ', deleteTrigger && /*#__PURE__*/React.createElement(_Button["default"], {
       modifiers: "negative",
       onClick: function onClick() {
         onDeleteClick(item);
+        (0, _helpers.scrollToTop)();
       }
     }, deleteTrigger)));
   }));

@@ -3,6 +3,7 @@ import React from 'react';
 import { defaultRuleRender } from './helpers';
 import Button from '../Button';
 import { NO_OP } from '../helpers';
+import { SearchRules } from './wrappers';
 
 export type Props = {
   queryRules: Array<Object>,
@@ -14,7 +15,7 @@ const Rules = (props: Props): React$Element<any> => {
   const { queryRules, onRuleRemoved, renderRule } = props;
 
   return (
-    <div>
+    <SearchRules>
       {queryRules.map((rule) => (
         <div key={`${rule.field}:${rule.condition}`}>
           {renderRule(rule)}
@@ -29,8 +30,7 @@ const Rules = (props: Props): React$Element<any> => {
           </Button>
         </div>
       ))}
-      <br />
-    </div>
+    </SearchRules>
   );
 };
 

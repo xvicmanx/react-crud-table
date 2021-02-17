@@ -42,7 +42,10 @@ var Modal = function Modal(props) {
     style: style
   }, /*#__PURE__*/React.createElement(_wrappers.Container.BG, {
     onClick: onHide
-  }), /*#__PURE__*/React.createElement(_wrappers.Container.Modal, null, title && /*#__PURE__*/React.createElement(_wrappers.Container.Title, null, title), children)));
+  }), /*#__PURE__*/React.createElement(_wrappers.Container.Modal, null, /*#__PURE__*/React.createElement(_Button["default"], {
+    modifiers: "circular,close",
+    onClick: onHide
+  }, "X"), title && /*#__PURE__*/React.createElement(_wrappers.Container.Title, null, title), children)));
 };
 
 Modal.defaultProps = {
