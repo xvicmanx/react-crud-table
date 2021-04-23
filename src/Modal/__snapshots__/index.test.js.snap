@@ -3,7 +3,7 @@
 exports[`Modal renders as expected with the given props 1`] = `
 <div>
   <Button
-    modifiers="positive"
+    modifiers="positive,modal-trigger"
     onClick={[MockFunction]}
   >
     Open
