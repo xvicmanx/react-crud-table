@@ -24,7 +24,7 @@ const Modal = (props: Props): React$Element<any> => {
   return (
     <div>
       {trigger && (
-        <Button modifiers="positive" onClick={onShow}>
+        <Button modifiers="positive,modal-trigger" onClick={onShow}>
           {trigger}
         </Button>
       )}

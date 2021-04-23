@@ -36,7 +36,7 @@ var Modal = function Modal(props) {
     display: getDisplay(visible)
   };
   return /*#__PURE__*/React.createElement("div", null, trigger && /*#__PURE__*/React.createElement(_Button["default"], {
-    modifiers: "positive",
+    modifiers: "positive,modal-trigger",
     onClick: onShow
   }, trigger), /*#__PURE__*/React.createElement(_wrappers.Container, {
     style: style
